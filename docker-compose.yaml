@@ -1,0 +1,53 @@
+services:
+  laravel-app:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    container_name: laravel-app
+    volumes:
+      - .:/var/www/html
+      - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    networks:
+      - laravel
+#    depends_on:
+#      - mysql
+    environment:
+      PHP_IDE_CONFIG: 'serverName=laravel-app'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+
+  nginx:
+    image: nginx:alpine
+    container_name: laravel_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - laravel
+    depends_on:
+      - laravel-app
+
+#  mysql:
+#    image: mysql:8.0
+#    container_name: laravel_mysql
+#    restart: unless-stopped
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_DATABASE: laravel-db
+#      MYSQL_USER: laravel-user
+#      MYSQL_PASSWORD: pass
+#    volumes:
+#      - mysql_data:/var/lib/mysql
+#    ports:
+#      - "3377:3306"
+#    networks:
+#      - laravel
+
+networks:
+  laravel:
+    driver: bridge
+
+#volumes:
+#  mysql_data:
