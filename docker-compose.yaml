@@ -11,8 +11,6 @@ services:
       - laravel
 #    depends_on:
 #      - mysql
-    environment:
-      PHP_IDE_CONFIG: 'serverName=laravel-app'
     extra_hosts:
       - 'host.docker.internal:host-gateway'
 
