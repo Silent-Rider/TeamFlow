@@ -16,4 +16,6 @@ Route::view('/first', 'first');
 Route::view('/second', 'second', ['name' => request('name')]);
 Route::view('/third', 'third', ['names' => $names]);
 
+Route::view('/view', 'pages.hello');
+
 
