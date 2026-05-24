@@ -23,7 +23,6 @@
             }
 
             *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
             html { scroll-behavior: smooth; }
 
             body {
@@ -59,7 +58,6 @@
                 align-items: center;
                 gap: 0.5rem;
             }
-
             .nav-logo span { color: var(--clr-accent); }
 
             .nav-links a {
@@ -166,7 +164,6 @@
                 margin: 0 auto 1.5rem;
                 animation: fadeUp 0.7s 0.1s ease both;
             }
-
             .hero-title .accent { color: var(--clr-accent); font-style: italic; }
 
             .hero-sub {
@@ -225,7 +222,6 @@
                 to   { opacity: 1; transform: translateY(0); }
             }
 
-            /* ─── FEATURES ─── */
             .features {
                 padding: 6rem 2rem;
                 max-width: 1100px;
@@ -323,7 +319,6 @@
                 line-height: 1.7;
             }
 
-            /* ─── FOOTER ─── */
             footer {
                 border-top: 1px solid var(--clr-border);
                 padding: 2rem 2.5rem;
@@ -336,17 +331,8 @@
                 gap: 1rem;
             }
 
-            .footer-logo {
-                font-family: 'Playfair Display', serif;
-                font-weight: 700;
-                color: var(--clr-text);
-                text-decoration: none;
-                font-size: 1rem;
-            }
-
             .footer-logo span { color: var(--clr-accent); }
 
-            /* ─── RESPONSIVE ─── */
             @media (max-width: 640px) {
                 .nav { padding: 1rem 1.25rem; }
                 footer { justify-content: center; text-align: center; }
@@ -369,73 +355,56 @@
 
             <div class="hero-badge">
                 <span class="hero-badge-dot"></span>
-                Добро пожаловать
+                {{ __('welcome.badge') }}
             </div>
 
             <h1 class="hero-title">
-                Ваш проект.<br>
-                <span class="accent">Гибче.</span> Быстрее.
+                {{ __('welcome.hero_title_1') }}<br>
+                <span class="accent">{{ __('welcome.hero_title_2') }}</span>
+                {{ __('welcome.hero_title_3') }}
             </h1>
 
-            <p class="hero-sub">
-                Современная платформа для управления задачами, командной работы
-                и отслеживания прогресса — всё в одном месте.
-            </p>
+            <p class="hero-sub">{{ __('welcome.hero_sub') }}</p>
 
             <div class="hero-cta">
                 @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="btn-primary">Начать бесплатно →</a>
+                    <a href="{{ route('register') }}" class="btn-primary">{{ __('welcome.btn_register') }}</a>
                 @endif
-                <a href="{{ route('login') }}" class="btn-secondary">Войти в аккаунт</a>
+                <a href="{{ route('login') }}" class="btn-secondary">{{ __('welcome.btn_login') }}</a>
             </div>
         </section>
 
         <section class="features">
-            <p class="section-label">Почему TeamFlow?</p>
-            <h2 class="section-title">Всё необходимое для управления проектами</h2>
+            <p class="section-label">{{ __('welcome.features_label') }}</p>
+            <h2 class="section-title">{{ __('welcome.features_title') }}</h2>
 
             <div class="cards-grid">
                 <div class="card">
                     <div class="card-icon">🚀</div>
-                    <div class="card-title">Быстрый старт</div>
-                    <p class="card-text">
-                        Забудьте о долгих внедрениях. Создайте проект,
-                        пригласите команду и начните работу за 5 минут. Никаких сложных инструкций.
-                    </p>
+                    <div class="card-title">{{ __('welcome.card1_title') }}</div>
+                    <p class="card-text">{{ __('welcome.card1_text') }}</p>
                 </div>
                 <div class="card">
                     <div class="card-icon">👥️</div>
-                    <div class="card-title">Полный контроль</div>
-                    <p class="card-text">
-                        Гибкая система ролей и прав доступа. Вы всегда знаете,
-                        кто над чем работает, и видите статус каждой задачи в реальном времени.
-                    </p>
+                    <div class="card-title">{{ __('welcome.card2_title') }}</div>
+                    <p class="card-text">{{ __('welcome.card2_text') }}</p>
                 </div>
                 <div class="card">
                     <div class="card-icon">🎨</div>
-                    <div class="card-title">Удобный интерфейс</div>
-                    <p class="card-text">
-                        Чистый дизайн, интуитивная навигация. Тёмная тема
-                        для комфортной работы в любое время суток.
-                    </p>
+                    <div class="card-title">{{ __('welcome.card3_title') }}</div>
+                    <p class="card-text">{{ __('welcome.card3_text') }}</p>
                 </div>
             </div>
         </section>
 
         <section class="cta-section">
-            <h2 class="cta-title">Готов начать?</h2>
-            <p class="cta-sub">
-                Создайте аккаунт за минуту и получите доступ
-                ко всем возможностям платформы.
-            </p>
+            <h2 class="cta-title">{{ __('welcome.cta_title') }}</h2>
+            <p class="cta-sub">{{ __('welcome.cta_sub') }}</p>
             @guest
                 @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="btn-primary">Зарегистрироваться →</a>
+                    <a href="{{ route('register') }}" class="btn-primary">{{ __('welcome.btn_signup') }}</a>
                 @endif
             @endguest
-            @auth
-                <a href="{{ url('/dashboard') }}" class="btn-primary">Перейти в Dashboard →</a>
-            @endauth
         </section>
 
         <footer>
@@ -443,7 +412,7 @@
                 <img src="{{ asset('images/teamflow_logo.svg') }}" alt="logo" width="28" height="28">
                 {{ config('app.name', 'MyApp') }}<span>.</span>
             </a>
-            <span>{{ date('Y') }} · Все права защищены</span>
+            <span>{{ date('Y') }} · {{ __('welcome.footer_rights') }}</span>
         </footer>
 
     </body>
