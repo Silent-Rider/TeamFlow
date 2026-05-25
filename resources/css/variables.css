@@ -1,0 +1,28 @@
+:root {
+    --clr-bg:       #0d0d0f;
+    --clr-surface:  #16161a;
+    --clr-accent:   #c8f04a;
+    --clr-accent2:  #f07a2a;
+    --clr-text:     #f0ede8;
+    --clr-muted:    #6b6b72;
+    --clr-border:   #262630;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--clr-bg);
+    color: var(--clr-text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
