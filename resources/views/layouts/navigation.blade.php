@@ -5,16 +5,10 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <img src="{{ asset('images/teamflow_logo.svg') }}" alt="logo" width="32" height="32">
+                    <a href="{{ route('dashboard') }}" class="nav-logo nav-logo--large">
+                        <img src="{{ asset('images/teamflow_logo.svg') }}" alt="logo" width="45" height="45">
+                        {{ config('app.name', 'MyApp') }}<span>.</span>
                     </a>
-                </div>
-
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
                 </div>
             </div>
 
@@ -35,7 +29,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('profile.profile') }}
+                            {{ __('navigation.profile_link') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -43,9 +37,9 @@
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                             onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('navigation.log_out_button') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -68,7 +62,7 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('navigation.dashboard_link') }}
             </x-responsive-nav-link>
         </div>
 
@@ -81,7 +75,7 @@
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('profile.profile') }}
+                    {{ __('navigation.profile_link') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
@@ -89,9 +83,9 @@
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                                           onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('navigation.log_out_button') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
