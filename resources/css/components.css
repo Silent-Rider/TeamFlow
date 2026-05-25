@@ -25,6 +25,10 @@
     gap: 0.5rem;
 }
 
+.nav-logo--large {
+    font-size: 1.8rem;
+}
+
 .nav-logo span {
     color: var(--clr-accent);
 }

@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -17,8 +18,8 @@
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
             <div>
-                <a href="/" class="nav-logo">
-                    <img src="{{ asset('images/teamflow_logo.svg') }}" alt="logo" width="28" height="28">
+                <a href="/" class="nav-logo nav-logo--large">
+                    <img src="{{ asset('images/teamflow_logo.svg') }}" alt="logo" width="45" height="45">
                     {{ config('app.name', 'MyApp') }}<span>.</span>
                 </a>
             </div>
