@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'dashboard_title'   => 'Дашборд',
+    'tasks_title'   => 'Задачи',
     'logged_in_message' => 'Вы вошли в систему!',
 ];

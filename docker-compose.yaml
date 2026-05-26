@@ -37,7 +37,7 @@ services:
       POSTGRES_USER: laravel-user
       POSTGRES_PASSWORD: pass
     volumes:
-      - postgres_data:/var/lib/postgres
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - '3377:5432'
     networks:

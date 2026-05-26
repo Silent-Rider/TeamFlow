@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'dashboard_title'   => 'Dashboard',
+    'tasks_title'   => 'Tasks',
     'logged_in_message' => "You're logged in!"
 ];

@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}" class="nav-logo sm:nav-logo--large">
+                    <a href="{{ route('tasks') }}" class="nav-logo sm:nav-logo--large">
                         <img src="{{ asset('images/teamflow_logo.svg') }}" alt="logo" width="45" height="45">
                         {{ config('app.name', 'MyApp') }}<span>.</span>
                     </a>
@@ -62,8 +62,8 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             {{--
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('navigation.dashboard_link') }}
+            <x-responsive-nav-link :href="route('tasks')" :active="request()->routeIs('tasks')">
+                {{ __('navigation.tasks_link') }}
             </x-responsive-nav-link>
             --}}
         </div>

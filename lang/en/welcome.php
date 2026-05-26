@@ -8,7 +8,7 @@ return [
     'hero_sub'      => 'A modern platform for task management, team collaboration and progress tracking — all in one place.',
     'btn_register'  => 'Get started free →',
     'btn_login'     => 'Sign in',
-    'btn_dashboard' => 'Go to Dashboard →',
+    'btn_tasks' => 'Go to Tasks →',
 
     'features_label' => 'Why TeamFlow?',
     'features_title' => 'Everything you need to manage projects',
