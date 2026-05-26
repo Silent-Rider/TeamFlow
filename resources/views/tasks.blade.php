@@ -10,27 +10,27 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
 
-                    <div class="flex items-center justify-between mb-6">
+                    <div class="flex flex-col sm:flex-row items-center sm:justify-between gap-3 mb-6">
                         <div>
-                            <p class="text-base text-gray-500 dark:text-gray-400">
+                            <p class="text-base text-center sm:text-left text-gray-500 dark:text-gray-400">
                                 {{ $tasks->where('is_done', true)->count() }} из {{ $tasks->count() }} выполнено
                             </p>
                             <div class="mt-1 h-1 w-48 bg-gray-200 dark:bg-gray-700 rounded">
                                 <div class="h-1 bg-green-500 rounded" style="width: {{ $tasks->count() ? round($tasks->where('is_done', true)->count() / $tasks->count() * 100) : 0 }}%"></div>
                             </div>
                         </div>
-                        <div class="flex gap-2">
+                        <div class="flex flex-wrap sm:flex-nowrap gap-2 justify-end">
                             @php $filter = request('filter', 'all'); @endphp
                             <a href="{{ route('tasks') }}"
-                               class="text-base px-3 py-1 border rounded-md {{ $filter === 'all' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">
+                               class="text-base px-3 py-1 border rounded-md text-center {{ $filter === 'all' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">
                                 Все
                             </a>
                             <a href="{{ route('tasks', ['filter' => 'active']) }}"
-                               class="text-base px-3 py-1 border rounded-md {{ $filter === 'active' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">
+                               class="text-base px-3 py-1 border rounded-md text-center {{ $filter === 'active' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">
                                 Активные
                             </a>
                             <a href="{{ route('tasks', ['filter' => 'done']) }}"
-                               class="text-base px-3 py-1 border rounded-md {{ $filter === 'done' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">
+                               class="text-base px-3 py-1 border rounded-md text-center {{ $filter === 'done' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">
                                 Выполнено
                             </a>
                         </div>
@@ -53,25 +53,34 @@
                                     </button>
                                 </form>
 
-                                <span class="flex-1 text-lg {{ $task->is_done ? 'line-through text-gray-400' : 'text-gray-900 dark:text-gray-100' }}">
-                                    {{ $task->title }}
-                                </span>
-
-                                <span class="text-base text-gray-400">{{ $task->due_date?->format('d M') }}</span>
-
-                                @if($task->priority)
-                                    <span class="text-sm px-2 py-0.5 rounded font-medium
-                                        {{ $task->priority === 'high'   ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : '' }}
-                                        {{ $task->priority === 'medium' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : '' }}
-                                        {{ $task->priority === 'low'    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : '' }}">
-                                        {{ match($task->priority) {
-                                            'high'   => 'Высокий',
-                                            'medium' => 'Средний',
-                                            'low'    => 'Низкий',
-                                            default  => $task->priority
-                                        } }}
+                                <div class="flex-1 min-w-0">
+                                    <span class="block text-lg {{ $task->is_done ? 'line-through text-gray-400' : 'text-gray-900 dark:text-gray-100' }}">
+                                        {{ $task->title }}
                                     </span>
-                                @endif
+                                    <div class="flex items-center gap-2 mt-0.5 sm:hidden">
+                                        <span class="text-sm text-gray-400">{{ $task->due_date?->format('d M') }}</span>
+                                        @if($task->priority)
+                                            <span class="text-xs px-2 py-0.5 rounded font-medium
+                                                {{ $task->priority === 'high'   ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : '' }}
+                                                {{ $task->priority === 'medium' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : '' }}
+                                                {{ $task->priority === 'low'    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : '' }}">
+                                                {{ match($task->priority) { 'high' => 'Высокий', 'medium' => 'Средний', 'low' => 'Низкий', default => $task->priority } }}
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="hidden sm:flex items-center gap-3 flex-shrink-0">
+                                    <span class="text-base text-gray-400">{{ $task->due_date?->format('d M') }}</span>
+                                    @if($task->priority)
+                                        <span class="text-sm px-2 py-0.5 rounded font-medium
+                                            {{ $task->priority === 'high'   ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : '' }}
+                                            {{ $task->priority === 'medium' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : '' }}
+                                            {{ $task->priority === 'low'    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : '' }}">
+                                            {{ match($task->priority) { 'high' => 'Высокий', 'medium' => 'Средний', 'low' => 'Низкий', default => $task->priority } }}
+                                        </span>
+                                    @endif
+                                </div>
                             </li>
                         @empty
                             <li class="py-8 text-center text-lg text-gray-400">{{ __('tasks.no_tasks') }}</li>
