@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('tasks', absolute: false));
+        return redirect()->intended(route('tasks', absolute: false))->with('logged_in_message', true);
     }
 
     /**
