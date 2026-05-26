@@ -5,12 +5,8 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}" class="hidden sm:block nav-logo nav-logo--large">
+                    <a href="{{ route('dashboard') }}" class="nav-logo sm:nav-logo--large">
                         <img src="{{ asset('images/teamflow_logo.svg') }}" alt="logo" width="45" height="45">
-                        {{ config('app.name', 'MyApp') }}<span>.</span>
-                    </a>
-                    <a href="{{ route('dashboard') }}" class="sm:hidden nav-logo">
-                        <img src="{{ asset('images/teamflow_logo.svg') }}" alt="logo" width="32" height="32">
                         {{ config('app.name', 'MyApp') }}<span>.</span>
                     </a>
                 </div>
