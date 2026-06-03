@@ -19,8 +19,7 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id'  => User::factory(),
-            'title'    => fake()->randomElement([
+            'name'    => fake()->randomElement([
                 'Настроить окружение Docker',
                 'Создать миграции БД',
                 'Разработать API авторизации',
