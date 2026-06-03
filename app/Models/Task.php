@@ -25,7 +25,7 @@ class Task extends Model
 {
     use HasFactory;
 
-    public function author(): BelongsTo
+    public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
