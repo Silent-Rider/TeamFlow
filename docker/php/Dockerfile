@@ -38,6 +38,14 @@ RUN touch /var/log/xdebug.log && \
 
 #COPY conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
+ARG UID
+ARG GID
+
+RUN groupadd -g ${GID} appuser && \
+    useradd -u ${UID} -g appuser -m appuser
+
+USER appuser
+
 WORKDIR /var/www/html
 
 CMD ["php-fpm"]
