@@ -11,7 +11,7 @@ class TaskController extends Controller
 {
     public function index(Request $request): View
     {
-        $query = Task::where('user_id', auth()->id())->orderBy('due_date');
+        $query = Task::where('assignee_id', auth()->id())->orderBy('due_date');
 
         if ($request->filter === 'active') {
             $query->where('is_done', false);
@@ -26,7 +26,7 @@ class TaskController extends Controller
 
     public function toggle(Task $task): RedirectResponse
     {
-        abort_if($task->user_id !== auth()->id(), 403);
+        abort_if($task->assignee_id !== auth()->id(), 403);
 
         $task->update(['is_done' => !$task->is_done]);
 

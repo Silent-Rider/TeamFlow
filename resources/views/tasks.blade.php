@@ -55,7 +55,7 @@
 
                                 <div class="flex-1 min-w-0">
                                     <span class="block text-lg {{ $task->is_done ? 'line-through text-gray-400' : 'text-gray-900 dark:text-gray-100' }}">
-                                        {{ $task->title }}
+                                        {{ $task->name }}
                                     </span>
                                     <div class="flex items-center gap-2 mt-0.5 sm:hidden">
                                         <span class="text-sm text-gray-400">{{ $task->due_date?->format('d M') }}</span>
