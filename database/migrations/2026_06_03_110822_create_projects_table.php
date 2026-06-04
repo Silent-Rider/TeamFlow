@@ -13,14 +13,16 @@ return new class extends Migration {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('creator_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
 
         Schema::create('project_user', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('project_id')->constrained()->cascadeOnDelete();
-            $table->enum('role', ['owner', 'member'])->default('member');
+            $table->string('role')->default('member');
+            $table->timestamp('created_at')->useCurrent();
+            $table->primary(['user_id', 'project_id']);
         });
 
         Schema::table('tasks', function (Blueprint $table) {

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->boolean('is_done')->default(false);
             $table->date('due_date')->nullable();
             $table->timestamps();
-            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('creator_id')->nullable()->constrained('users')->nullOnDelete();
         });
     }
 

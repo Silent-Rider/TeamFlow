@@ -18,16 +18,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $project_id
  * @property string|null $description
- * @property int|null $created_by
+ * @property int|null $creator_id
  */
-#[Fillable(['created_by', 'project_id', 'assignee_id', 'name', 'description', 'priority', 'is_done', 'due_date'])]
+#[Fillable(['creator_id', 'project_id', 'assignee_id', 'name', 'description', 'priority', 'is_done', 'due_date'])]
 class Task extends Model
 {
     use HasFactory;
 
     public function creator(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class);
     }
 
     public function project(): BelongsTo

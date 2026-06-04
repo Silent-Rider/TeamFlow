@@ -9,16 +9,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property int $id
  * @property string $name
- * @property int|null $created_by
+ * @property int|null $creator_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $description
  */
-#[Fillable(['created_by', 'name', 'description'])]
+#[Fillable(['creator_id', 'name', 'description'])]
 class Project extends Model
 {
     public function creator(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class, 'creator_id');
     }
 }
