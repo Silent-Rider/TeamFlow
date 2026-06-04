@@ -18,14 +18,13 @@ return new class extends Migration {
         });
 
         Schema::create('project_user', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('project_id')->constrained()->cascadeOnDelete();
             $table->enum('role', ['owner', 'member'])->default('member');
         });
 
         Schema::table('tasks', function (Blueprint $table) {
             $table->foreignId('project_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->renameColumn('user_id', 'assignee_id');
         });
     }
 
@@ -37,7 +36,6 @@ return new class extends Migration {
         Schema::table('tasks', function (Blueprint $table) {
             $table->dropForeign(['project_id']);
             $table->dropColumn('project_id');
-            $table->renameColumn('assignee_id', 'user_id');
         });
         Schema::dropIfExists('project_user');
         Schema::dropIfExists('projects');
