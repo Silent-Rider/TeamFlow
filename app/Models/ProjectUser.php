@@ -5,12 +5,13 @@ namespace App\Models;
 use App\Enums\ProjectRole;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $user_id
  * @property int $project_id
  * @property string $role
- * @property \Illuminate\Support\Carbon $created_at
+ * @property Carbon $created_at
  */
 #[Fillable(['user_id', 'project_id', 'role'])]
 class ProjectUser extends Pivot

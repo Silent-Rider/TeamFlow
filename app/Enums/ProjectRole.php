@@ -4,6 +4,6 @@ namespace App\Enums;
 
 enum ProjectRole: string
 {
-    case Owner = 'owner';
-    case Member = 'member';
+    case OWNER = 'owner';
+    case MEMBER = 'member';
 }

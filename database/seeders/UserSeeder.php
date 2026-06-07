@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
+    /** @noinspection PhpPossiblePolymorphicInvocationInspection */
     public function run(): void
     {
         User::factory()->create([
@@ -18,5 +19,8 @@ class UserSeeder extends Seeder
             'name' => 'Silent Rider',
             'email' => 'silent.30.rider.10@gmail.com',
         ]);
+
+        User::factory()->count(10)->create();
+        User::factory()->unverified()->create();
     }
 }
