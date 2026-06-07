@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Project;
 use App\Models\Task;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class TaskSeeder extends Seeder
@@ -11,10 +11,17 @@ class TaskSeeder extends Seeder
     /** @noinspection PhpPossiblePolymorphicInvocationInspection */
     public function run(): void
     {
-        $assignee = User::find(2);
-        Task::factory()->count(7)->pending()->create(['assignee_id' => $assignee->id]);
-        Task::factory()->count(3)->done()->create(['assignee_id' => $assignee->id]);
-
-
+        $projects = Project::all();
+        foreach ($projects as $project) {
+            $users = $project->users()->get();
+            foreach ($users as $user) {
+                Task::factory()->count(3)->create([
+                    'creator_id' => $project->creator_id,
+                    'project_id' => $project->id,
+                    'assignee_id' => $user->id,
+                    'created_at' => fake()->dateTimeBetween($project->created_at),
+                ]);
+            }
+        }
     }
 }

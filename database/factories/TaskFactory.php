@@ -55,18 +55,4 @@ class TaskFactory extends Factory
             'description' => fake()->sentence(15),
         ];
     }
-
-    public function done(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'is_done' => true,
-        ]);
-    }
-
-    public function pending(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'is_done' => false,
-        ]);
-    }
 }
