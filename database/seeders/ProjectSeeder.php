@@ -12,7 +12,7 @@ class ProjectSeeder extends Seeder
 {
     public function run(): void
     {
-        $users = User::whereNotIn('id', [3, 4])->get();
+        $users = User::all();
         if ($users->isEmpty()) {
             return;
         }

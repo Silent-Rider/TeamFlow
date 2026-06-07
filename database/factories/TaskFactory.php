@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class TaskFactory extends Factory
 {
-    protected static ?int $index;
+    protected static ?int $index = null;
     private static array $taskNames = [
         'Настроить окружение Docker',
         'Создать миграции БД',
