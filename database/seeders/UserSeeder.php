@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
         ]);
 
         User::factory()->create([
-            'name' => 'SilentRider',
+            'name' => 'Silent Rider',
             'email' => 'silent.30.rider.10@gmail.com',
         ]);
     }
