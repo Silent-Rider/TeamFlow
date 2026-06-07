@@ -2,14 +2,23 @@
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('tasks') }}" class="nav-logo sm:nav-logo--large">
-                        <img src="{{ asset('images/teamflow_logo.svg') }}" alt="logo" width="45" height="45">
-                        {{ config('app.name', 'MyApp') }}<span>.</span>
-                    </a>
-                </div>
+            <div class="shrink-0 flex items-center">
+                <a href="{{ route('tasks') }}" class="nav-logo sm:nav-logo--large">
+                    <img src="{{ asset('images/teamflow_logo.svg') }}" alt="logo" width="45" height="45">
+                    {{ config('app.name', 'MyApp') }}<span>.</span>
+                </a>
+            </div>
+
+            <div class="hidden sm:flex items-center gap-14">
+                <x-nav-link :href="route('tasks')" :active="request()->routeIs('tasks')">
+                    {{ __('navigation.tasks_link') }}
+                </x-nav-link>
+                <x-nav-link :href="route('projects')" :active="request()->routeIs('projects')">
+                    {{ __('navigation.projects_link') }}
+                </x-nav-link>
+                <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
+                    {{ __('navigation.users_link') }}
+                </x-nav-link>
             </div>
 
             <!-- Settings Dropdown -->
@@ -31,6 +40,24 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('navigation.profile_link') }}
                         </x-dropdown-link>
+
+                        <div class="px-4 py-2 flex items-center justify-between">
+                            <span class="text-sm text-gray-700 dark:text-gray-300">Тёмная тема</span>
+                            <button
+                                x-data="{ on: document.documentElement.classList.contains('dark') }"
+                                x-on:click.stop="
+                                    on = !on;
+                                    document.documentElement.classList.toggle('dark', on);
+                                    localStorage.theme = on ? 'dark' : 'light'
+                                "
+                                :class="on ? 'bg-blue-500' : 'bg-gray-300'"
+                                class="relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none">
+                                <span
+                                    :class="on ? 'translate-x-6' : 'translate-x-1'"
+                                    class="absolute top-1 left-0 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200">
+                                </span>
+                            </button>
+                        </div>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -60,14 +87,6 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            {{--
-            <x-responsive-nav-link :href="route('tasks')" :active="request()->routeIs('tasks')">
-                {{ __('navigation.tasks_link') }}
-            </x-responsive-nav-link>
-            --}}
-        </div>
-
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
@@ -79,6 +98,24 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('navigation.profile_link') }}
                 </x-responsive-nav-link>
+
+                <div class="px-4 py-2 flex items-center justify-between">
+                    <span class="text-base font-medium text-gray-600 dark:text-gray-400">Тёмная тема</span>
+                    <button
+                        x-data="{ on: document.documentElement.classList.contains('dark') }"
+                        x-on:click.stop="
+                                    on = !on;
+                                    document.documentElement.classList.toggle('dark', on);
+                                    localStorage.theme = on ? 'dark' : 'light'
+                                "
+                        :class="on ? 'bg-blue-500' : 'bg-gray-300'"
+                        class="relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none">
+                        <span
+                            :class="on ? 'translate-x-6' : 'translate-x-1'"
+                            class="absolute top-1 left-0 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200">
+                        </span>
+                    </button>
+                </div>
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
@@ -93,4 +130,36 @@
             </div>
         </div>
     </div>
+
+    <div class="fixed bottom-0 left-0 right-0 z-50 flex sm:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+
+        <a href="{{ route('tasks') }}"
+           class="flex flex-col items-center justify-center flex-1 py-3 gap-1 text-xs
+              {{ request()->routeIs('tasks') ? 'text-blue-500' : 'text-gray-500 dark:text-gray-400' }}">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            {{ __('navigation.tasks_link') }}
+        </a>
+
+        <a href="{{ route('projects') }}"
+           class="flex flex-col items-center justify-center flex-1 py-3 gap-1 text-xs
+              {{ request()->routeIs('projects') ? 'text-blue-500' : 'text-gray-500 dark:text-gray-400' }}">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"/>
+            </svg>
+            {{ __('navigation.projects_link') }}
+        </a>
+
+        <a href="{{ route('users') }}"
+           class="flex flex-col items-center justify-center flex-1 py-3 gap-1 text-xs
+              {{ request()->routeIs('users') ? 'text-blue-500' : 'text-gray-500 dark:text-gray-400' }}">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+            {{ __('navigation.users_link') }}
+        </a>
+    </div>
+
+    <div class="h-16 sm:hidden"></div>
 </nav>
