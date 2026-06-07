@@ -6,6 +6,7 @@ use App\Enums\ProjectRole;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ProjectSeeder extends Seeder
 {
@@ -51,6 +52,13 @@ class ProjectSeeder extends Seeder
                 ];
             }
         }
-        $project->users()->attach($pivotData);
+        foreach ($pivotData as $userId => $attributes) {
+            DB::table('project_user')->insert([
+                'user_id'    => $userId,
+                'project_id' => $project->id,
+                'role'       => $attributes['role'],
+                'created_at' => $attributes['created_at'],
+            ]);
+        }
     }
 }
