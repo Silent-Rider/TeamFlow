@@ -22,6 +22,7 @@
             }
         </script>
     </head>
+
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             @include('layouts.navigation')
@@ -53,5 +54,11 @@
                 {{ $slot }}
             </main>
         </div>
+        <script>
+            const nav = document.getElementById('bottom-nav');
+            if (nav) {
+                document.querySelector('main').style.paddingBottom = nav.offsetHeight + 'px';
+            }
+        </script>
     </body>
 </html>

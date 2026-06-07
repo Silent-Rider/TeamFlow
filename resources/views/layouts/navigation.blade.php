@@ -86,7 +86,7 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden absolute left-0 right-0 z-50 bg-white dark:bg-gray-700 shadow-lg ring-1 ring-black ring-opacity-5">
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
@@ -131,7 +131,7 @@
         </div>
     </div>
 
-    <div class="fixed bottom-0 left-0 right-0 z-50 flex sm:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+    <div id="bottom-nav" class="fixed bottom-0 left-0 right-0 z-50 flex sm:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
 
         <a href="{{ route('tasks') }}"
            class="flex flex-col items-center justify-center flex-1 py-3 gap-1 text-xs
@@ -160,6 +160,4 @@
             {{ __('navigation.users_link') }}
         </a>
     </div>
-
-    <div class="h-16 sm:hidden"></div>
 </nav>

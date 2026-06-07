@@ -1,20 +1,23 @@
 <x-app-layout>
-    <div class="py-12">
+    <div class="py-0 sm:py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-
-                    <div class="flex flex-col sm:flex-row items-center sm:justify-between gap-3 mb-6">
-                        <div>
-                            <p class="text-base text-center sm:text-left text-gray-500 dark:text-gray-400">
-                                {{ $tasks->where('is_done', true)->count() }} из {{ $tasks->count() }} выполнено
-                            </p>
-                            <div class="mt-1 h-1 w-48 bg-gray-200 dark:bg-gray-700 rounded">
-                                <div class="h-1 bg-green-500 rounded" style="width: {{ $tasks->count() ? round($tasks->where('is_done', true)->count() / $tasks->count() * 100) : 0 }}%"></div>
+                    <div class="flex flex-col sm:flex-row items-center sm:justify-between gap-3 mb-2 sm:mb-6">
+                        @php $filter = request('filter', 'all'); @endphp
+                        @if($filter === 'all')
+                            <div class="order-2 sm:order-1">
+                                <p class="text-base text-center sm:text-left text-gray-500 dark:text-gray-400">
+                                    {{ $tasks->where('is_done', true)->count() }} из {{ $tasks->count() }} выполнено
+                                </p>
+                                <div class="mt-1 h-1 w-48 bg-gray-200 dark:bg-gray-700 rounded">
+                                    <div class="h-1 bg-green-500 rounded" style="width: {{ $tasks->count() ? round($tasks->where('is_done', true)->count() / $tasks->count() * 100) : 0 }}%"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex flex-wrap sm:flex-nowrap gap-2 justify-end">
-                            @php $filter = request('filter', 'all'); @endphp
+                        @else
+                            <div class="hidden sm:block sm:order-1"></div>
+                        @endif
+                        <div class="order-1 sm:order-2 flex flex-wrap sm:flex-nowrap gap-2 justify-end">
                             <a href="{{ route('tasks') }}"
                                class="text-base px-3 py-1 border rounded-md text-center {{ $filter === 'all' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">
                                 Все
