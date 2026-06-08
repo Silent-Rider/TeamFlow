@@ -13,7 +13,7 @@ use Illuminate\Support\Carbon;
  * @property string $role
  * @property Carbon $created_at
  */
-#[Fillable(['user_id', 'project_id', 'role'])]
+#[Fillable(['user_id', 'project_id', 'role', 'created_at'])]
 class ProjectUser extends Pivot
 {
     protected function casts(): array

@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use App\Enums\TaskPriority;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
+ * @property int|null $creator_id
  * @property int $assignee_id
  * @property string $name
  * @property string $priority
@@ -19,7 +22,6 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property int|null $project_id
  * @property string|null $description
- * @property int|null $creator_id
  */
 #[Fillable(['creator_id', 'project_id', 'assignee_id', 'name', 'description', 'priority', 'is_done', 'due_date'])]
 class Task extends Model
@@ -41,11 +43,17 @@ class Task extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function taskComments(): HasMany
+    {
+        return $this->hasMany(TaskComment::class);
+    }
+
     protected function casts(): array
     {
         return [
             'is_done' => 'boolean',
-            'due_date' => 'date'
+            'due_date' => 'date',
+            'priority' => TaskPriority::class
         ];
     }
 }

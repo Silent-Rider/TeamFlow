@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
- use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
- use Illuminate\Support\Carbon;
+use Illuminate\Support\Carbon;
 
  /**
  * @property int $id
@@ -21,7 +23,7 @@ use Illuminate\Notifications\Notifiable;
  * @property Carbon|null $updated_at
  * @property string|null $avatar
  * @method static find(int $int)
-  * @method static whereNotIn(string $string, int[] $array)
+ * @method static whereNotIn(string $string, int[] $array)
   */
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
@@ -29,6 +31,33 @@ class User extends Authenticatable
 //    implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
+
+     public function createdTasks(): HasMany
+     {
+         return $this->hasMany(Task::class, 'creator_id');
+     }
+
+    public function assignedTasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'assignee_id');
+    }
+
+    public function createdProjects(): HasMany
+    {
+        return $this->hasMany(Project::class, 'creator_id');
+    }
+
+    public function projects(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class, 'project_user')
+            ->using(ProjectUser::class)
+            ->withPivot('role', 'created_at');
+    }
+
+    public function taskComments(): HasMany
+    {
+        return $this->hasMany(TaskComment::class);
+    }
 
      protected function casts(): array
     {
