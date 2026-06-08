@@ -4,8 +4,8 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/версия-1.0.0-blue" alt="Версия">
-  <img src="https://img.shields.io/badge/Laravel-12.x-red" alt="Laravel">
-  <img src="https://img.shields.io/badge/PHP-8.2+-8892BF" alt="PHP">
+  <img src="https://img.shields.io/badge/Laravel-13.x-red" alt="Laravel">
+  <img src="https://img.shields.io/badge/PHP-8.4+-8892BF" alt="PHP">
   <img src="https://img.shields.io/badge/PostgreSQL-15-336791" alt="PostgreSQL">
   <img src="https://img.shields.io/badge/лицензия-MIT-green" alt="Лицензия">
 </p>
@@ -21,7 +21,7 @@
 
 | Слой                | Технология                     |
 |---------------------|--------------------------------|
-| **Backend**         | Laravel 13, PHP 8.4            |
+| **Backend**         | Laravel 13, PHP 8.4+           |
 | **Frontend**        | Blade, Tailwind CSS, Alpine.js |
 | **База данных**     | PostgreSQL 15, , Eloquent ORM  |
 | **Веб-сервер**      | Nginx (Alpine)                 |
