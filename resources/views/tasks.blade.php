@@ -35,6 +35,9 @@
 
                     <ul class="divide-y divide-gray-100 dark:divide-gray-700">
                         @forelse($tasks as $task)
+                            @php
+                                $priority = $task->priority->value;
+                            @endphp
                             <li class="flex items-center gap-3 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg px-2 -mx-2">
                                 <form action="{{ route('tasks.toggle', $task) }}" method="POST" class="flex-shrink-0">
                                     @csrf
@@ -56,12 +59,12 @@
                                     </span>
                                     <div class="flex items-center gap-2 mt-0.5 sm:hidden">
                                         <span class="text-sm text-gray-400">{{ $task->due_date?->format('d M') }}</span>
-                                        @if($task->priority)
+                                        @if($priority)
                                             <span class="text-xs px-2 py-0.5 rounded font-medium
-                                                {{ $task->priority === 'high'   ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : '' }}
-                                                {{ $task->priority === 'medium' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : '' }}
-                                                {{ $task->priority === 'low'    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : '' }}">
-                                                {{ match($task->priority) { 'high' => 'Высокий', 'medium' => 'Средний', 'low' => 'Низкий', default => $task->priority } }}
+                                                {{ $priority === 'high'   ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : '' }}
+                                                {{ $priority === 'medium' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : '' }}
+                                                {{ $priority === 'low'    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : '' }}">
+                                                {{ match($priority) { 'high' => 'Высокий', 'medium' => 'Средний', 'low' => 'Низкий', default => $priority } }}
                                             </span>
                                         @endif
                                     </div>
@@ -69,12 +72,12 @@
 
                                 <div class="hidden sm:flex items-center gap-3 flex-shrink-0">
                                     <span class="text-base text-gray-400">{{ $task->due_date?->format('d M') }}</span>
-                                    @if($task->priority)
+                                    @if($priority)
                                         <span class="text-sm px-2 py-0.5 rounded font-medium
-                                            {{ $task->priority === 'high'   ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : '' }}
-                                            {{ $task->priority === 'medium' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : '' }}
-                                            {{ $task->priority === 'low'    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : '' }}">
-                                            {{ match($task->priority) { 'high' => 'Высокий', 'medium' => 'Средний', 'low' => 'Низкий', default => $task->priority } }}
+                                            {{ $priority === 'high'   ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : '' }}
+                                            {{ $priority === 'medium' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : '' }}
+                                            {{ $priority === 'low'    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : '' }}">
+                                            {{ match($priority) { 'high' => 'Высокий', 'medium' => 'Средний', 'low' => 'Низкий', default => $priority } }}
                                         </span>
                                     @endif
                                 </div>
