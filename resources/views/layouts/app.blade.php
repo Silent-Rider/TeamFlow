@@ -24,7 +24,7 @@
     </head>
 
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div class="min-h-screen bg-lime-100 dark:bg-gray-900">
             @include('layouts.navigation')
             @if (session('status') === 'logged-in' || session('logged_in_message'))
                 <div

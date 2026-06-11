@@ -13,7 +13,7 @@
         @vite(['resources/css/app.css', 'resources/css/pages/welcome.css', 'resources/js/app.js'])
     </head>
 
-    <body>
+    <body class="welcome">
         <nav class="nav">
             <a href="/" class="nav-logo">
                 <img src="{{ asset('images/teamflow_logo.svg') }}" alt="logo" width="28" height="28">

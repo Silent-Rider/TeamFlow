@@ -25,6 +25,10 @@
     gap: 0.5rem;
 }
 
+html:not(.dark) body:not(.welcome) .nav-logo {
+    color: var(--clr-surface);
+}
+
 .nav-logo--large {
     font-size: 1.8rem;
 }

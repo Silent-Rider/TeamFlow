@@ -20,9 +20,16 @@ html {
 
 body {
     background-color: var(--clr-bg);
-    color: var(--clr-text);
     font-family: 'DM Sans', sans-serif;
     font-weight: 300;
     min-height: 100vh;
     overflow-x: hidden;
+}
+
+html.dark body {
+    color: var(--clr-text);
+}
+
+body.welcome {
+    color: var(--clr-text);
 }
