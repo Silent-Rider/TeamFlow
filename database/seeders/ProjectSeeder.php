@@ -53,12 +53,7 @@ class ProjectSeeder extends Seeder
             }
         }
         foreach ($pivotData as $userId => $attributes) {
-            DB::table('project_user')->insert([
-                'user_id'    => $userId,
-                'project_id' => $project->id,
-                'role'       => $attributes['role'],
-                'created_at' => $attributes['created_at'],
-            ]);
+            $project->users()->attach($userId, $attributes);
         }
     }
 }

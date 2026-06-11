@@ -16,6 +16,10 @@ use Illuminate\Support\Carbon;
 #[Fillable(['user_id', 'project_id', 'role', 'created_at'])]
 class ProjectUser extends Pivot
 {
+    public function getUpdatedAtColumn(): ?string
+    {
+        return null;
+    }
     protected function casts(): array
     {
         return ['role' => ProjectRole::class];
