@@ -23,7 +23,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::controller(TaskController::class)->prefix('tasks')->group(function () {
         Route::get('/', 'index')->name('tasks');
+        Route::post('/', 'create')->name('tasks.create');
+        Route::put('/{task}', 'update')->name('tasks.update');
         Route::patch('/{task}/toggle', 'toggle')->name('tasks.toggle');
+        Route::delete('/{task}', 'destroy')->name('tasks.destroy');
     });
 
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects');

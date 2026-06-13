@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Task;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TaskIndexRequest extends FormRequest
@@ -14,9 +13,15 @@ class TaskIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'project_id' => ['nullable', 'exists:projects,id'],
             'filter' => ['nullable', 'string', 'in:all,active,done'],
             'per_page' => ['nullable', 'integer', 'min:5', 'max:100'],
         ];
+    }
+
+    public function getProjectId(): ?int
+    {
+        return $this->validated("project_id");
     }
 
     public function getFilter(): string {
