@@ -2,11 +2,9 @@
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <div class="shrink-0 flex items-center">
-                <a href="{{ route('tasks') }}" class="nav-logo sm:nav-logo--large">
-                    <img src="{{ asset('images/teamflow_logo.svg') }}" alt="logo" width="45" height="45">
-                    {{ config('app.name', 'MyApp') }}<span>.</span>
-                </a>
+            <div class="shrink-0 flex items-center nav-logo sm:nav-logo--large">
+                <img src="{{ asset('images/teamflow_logo.svg') }}" alt="logo" width="45" height="45">
+                {{ config('app.name', 'MyApp') }}<span>.</span>
             </div>
 
             <div class="hidden sm:flex items-center gap-14">

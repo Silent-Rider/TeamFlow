@@ -4,3 +4,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.app-bg {
+    background-image:
+        radial-gradient(ellipse at 80% 10%, rgba(180, 220, 30, 0.3) 0%, transparent 55%),
+        radial-gradient(ellipse at 10% 90%, rgba(240, 122, 42, 0.3) 0%, transparent 55%);
+}
+
+.dark .app-bg {
+    background-image:
+        radial-gradient(ellipse at 80% 10%, rgba(200,240,74,0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 10% 90%, rgba(240,122,42,0.1) 0%, transparent 50%);
+}
