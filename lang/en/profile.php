@@ -3,6 +3,7 @@
 return [
     'profile' => 'Profile',
     'profile_information' => 'Profile information',
+    'profile_avatar' => 'Profile avatar',
 
     'delete_account_title'       => 'Delete Account',
     'delete_account_desc'        => 'Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.',
@@ -18,9 +19,10 @@ return [
     'new_password_label'             => 'New Password',
     'confirm_password_label'         => 'Confirm Password',
     'save_button'                    => 'Save',
-    'saved_status'                   => 'Saved.',
+    'saved_status'                   => 'Saved',
 
     'profile_information_desc'        => "Update your account's profile information and email address.",
+    'profile_avatar_desc'             => "Update your account's profile avatar.",
     'name_label'                      => 'Name',
     'email_label'                     => 'Email',
     'email_unverified'                => 'Your email address is unverified.',

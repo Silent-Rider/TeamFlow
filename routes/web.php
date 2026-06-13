@@ -16,7 +16,8 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(ProfileController::class)->prefix('profile')->group(function () {
         Route::get('/', 'edit')->name('profile.edit');
-        Route::patch('/', 'update')->name('profile.update');
+        Route::patch('/', 'updateNameAndEmail')->name('profile.name_email.update');
+        Route::put('/', 'updateAvatar')->name('profile.avatar.update');
         Route::delete('/', 'destroy')->name('profile.destroy');
     });
 
