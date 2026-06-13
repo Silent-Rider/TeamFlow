@@ -49,7 +49,7 @@
                 {{ __('profile.save_button') }}
             </x-primary-button>
 
-            @if (session('status') === 'profile-updated')
+            @if (session('status') === 'profile-avatar-updated')
             <p
                 x-data="{ show: true }"
                 x-show="show"

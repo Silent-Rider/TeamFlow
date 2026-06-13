@@ -20,7 +20,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function updateNameAndEmail(ProfileUpdateInfoRequest $request): RedirectResponse
+    public function updateInfo(ProfileUpdateInfoRequest $request): RedirectResponse
     {
         $user = $request->user();
         $user->fill($request->validated());
@@ -31,7 +31,7 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('status', 'profile-info-updated');
     }
 
     public function updateAvatar(ProfileUpdateAvatarRequest $request): RedirectResponse
@@ -46,7 +46,7 @@ class ProfileController extends Controller
 
         $user->avatar = $path;
         $user->save();
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('status', 'profile-avatar-updated');
     }
 
     public function destroy(Request $request): RedirectResponse
