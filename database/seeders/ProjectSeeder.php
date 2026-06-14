@@ -6,7 +6,6 @@ use App\Enums\ProjectRole;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class ProjectSeeder extends Seeder
 {

@@ -33,23 +33,19 @@ class TaskController extends Controller
 
     public function update(TaskUpdateRequest $request, Task $task): RedirectResponse
     {
-        // Пока что без Policy
-        abort_if($task->assignee_id !== auth()->id(), 403);
-        $this->taskService->updateTask($task, $request->validated());
+        $this->taskService->updateTask(auth()->id(), $task, $request->validated());
         return back();
     }
 
     public function toggle(Task $task): RedirectResponse
     {
-        abort_if($task->assignee_id !== auth()->id(), 403);
-        $this->taskService->toggleTask($task);
+        $this->taskService->toggleTask(auth()->id(), $task);
         return back();
     }
 
     public function destroy(Task $task): RedirectResponse
     {
-        abort_if($task->assignee_id !== auth()->id(), 403);
-        $this->taskService->deleteTask($task);
+        $this->taskService->deleteTask(auth()->id(), $task);
         return back();
     }
 }

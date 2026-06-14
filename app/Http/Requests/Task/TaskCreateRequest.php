@@ -31,14 +31,4 @@ class TaskCreateRequest extends FormRequest
             'creator_id' => auth()->id(),
         ]);
     }
-
-    public function getProjectId(): ?int
-    {
-        return $this->validated("project_id");
-    }
-
-    public function getAssigneeId(): int
-    {
-        return $this->validated("assignee_id");
-    }
 }

@@ -22,6 +22,17 @@ readonly class TaskRepository
         Task::create($data);
     }
 
+    public function hasTaskAccess(int $userId, Task $task): bool
+    {
+        return Task::query()
+            ->where('id', $task->id)
+            ->where(function ($q) use ($userId) {
+                $q->where('assignee_id', $userId)
+                    ->orWhere('creator_id', $userId);
+            })
+            ->exists();
+    }
+
     private function getTasksByForeignKeyAndFilter(string $foreignKeyName,
                                                    int $foreignKey,
                                                    string $filter,

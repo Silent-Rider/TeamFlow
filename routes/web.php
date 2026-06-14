@@ -29,7 +29,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/{task}', 'destroy')->name('tasks.destroy');
     });
 
-    Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
+    Route::controller(ProjectController::class)->prefix('projects')->group(function () {
+        Route::get('/', 'index')->name('projects');
+        Route::post('/', 'create')->name('projects.create');
+        Route::put('/{project}', 'update')->name('projects.update');
+        Route::delete('/{project}', 'destroy')->name('projects.destroy');
+    });
 
     Route::get('/users', [UserController::class, 'index'])->name('users');
 });
