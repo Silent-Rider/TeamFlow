@@ -35,19 +35,24 @@ readonly class TaskService
 
     public function updateTask(int $userId, Task $task, array $data): void
     {
-        abort_if(!$this->taskRepository->hasTaskAccess($userId, $task), 403);
+        abort_if(!$this->hasTaskAccess($userId, $task), 403);
         $task->update($data);
     }
 
     public function toggleTask(int $userId, Task $task): void
     {
-        abort_if(!$this->taskRepository->hasTaskAccess($userId, $task), 403);
+        abort_if(!$this->hasTaskAccess($userId, $task), 403);
         $task->update(['is_done' => !$task->is_done]);
     }
 
     public function deleteTask(int $userId, Task $task): void
     {
-        abort_if(!$this->taskRepository->hasTaskAccess($userId, $task), 403);
+        abort_if(!$this->hasTaskAccess($userId, $task), 403);
         $task->delete();
+    }
+
+    private function hasTaskAccess(int $userId, Task $task): bool
+    {
+        return $task->assignee_id === $userId || $task->creator_id === $userId;
     }
 }

@@ -31,6 +31,12 @@ readonly class ProjectRepository
 
     public function createProject(array $data): void
     {
-        Project::create($data);
+        $pivotData = [
+            'role' => ProjectRole::OWNER,
+            'created_at' => now()
+        ];
+
+        $project = Project::create($data);
+        $project->users()->attach($project->creator_id, $pivotData);
     }
 }

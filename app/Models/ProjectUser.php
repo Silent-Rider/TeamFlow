@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
  * @property int $project_id
  * @property string $role
  * @property Carbon $created_at
+ * @method static create(array $array)
  */
 #[Fillable(['user_id', 'project_id', 'role', 'created_at'])]
 class ProjectUser extends Pivot
@@ -20,6 +21,7 @@ class ProjectUser extends Pivot
     {
         return null;
     }
+
     protected function casts(): array
     {
         return ['role' => ProjectRole::class];
