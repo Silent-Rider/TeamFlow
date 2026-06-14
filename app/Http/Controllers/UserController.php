@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\UserIndexRequest;
+use App\Services\UserService;
 use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    public function index(Request $request): View
+    public function __construct(readonly UserService $userService)
+    {}
+    public function index(UserIndexRequest $request): View
     {
-        return view('users');
+        $perPage = $request->getPerPage();
+        $users = $this->userService->getUsers(auth()->id(), $perPage);
+        return view('users', compact('users'));
     }
 }

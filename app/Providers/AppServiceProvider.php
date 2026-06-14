@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Repositories\TaskRepository;
+use App\Repositories\ProjectRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -12,6 +12,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->singleton(ProjectRepository::class, function () {
+            return new ProjectRepository();
+        });
     }
 
     /**

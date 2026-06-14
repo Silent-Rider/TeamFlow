@@ -6,7 +6,7 @@ use App\Models\Project;
 use App\Models\ProjectUser;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class ProjectRepository
+readonly class ProjectRepository
 {
     public function getProjectsByUserId(int $userId, int $perPage): LengthAwarePaginator
     {

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateAvatarRequest;
-use App\Http\Requests\ProfileUpdateInfoRequest;
+use App\Http\Requests\Profile\ProfileUpdateAvatarRequest;
+use App\Http\Requests\Profile\ProfileUpdateInfoRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

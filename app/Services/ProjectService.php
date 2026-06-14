@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Repositories\ProjectRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class ProjectService
+readonly class ProjectService
 {
     public function __construct(public ProjectRepository $projectRepository)
     {}
