@@ -24,7 +24,7 @@ readonly class ProjectRepository
             ->whereIn('user_id', $userIds);
 
         if ($accessLevel) {
-            $query->where('access_level', $accessLevel);
+            $query->where('role', $accessLevel);
         }
         return $query->count() === count($userIds);
     }
