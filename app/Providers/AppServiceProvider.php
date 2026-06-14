@@ -12,9 +12,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(ProjectRepository::class, function () {
-            return new ProjectRepository();
-        });
+        $this->app->singleton(ProjectRepository::class, ProjectRepository::class);
     }
 
     /**
