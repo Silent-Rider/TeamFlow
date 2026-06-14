@@ -23,7 +23,7 @@
 |---------------------|--------------------------------|
 | **Backend**         | Laravel 13, PHP 8.4+           |
 | **Frontend**        | Blade, Tailwind CSS, Alpine.js |
-| **База данных**     | PostgreSQL 15, , Eloquent ORM  |
+| **База данных**     | PostgreSQL 15, Eloquent ORM    |
 | **Веб-сервер**      | Nginx (Alpine)                 |
 | **Контейнеризация** | Docker / Docker Compose        |
 | **Отладка**         | Xdebug                         |
@@ -44,7 +44,7 @@
 ### 1. Клонирование репозитория
 
 ```
-git clone <url-репозитория>
+git clone https://github.com/Silent-Rider/TeamFlow.git
 cd teamflow
 ```
 
