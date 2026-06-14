@@ -24,7 +24,7 @@ class ProjectController extends Controller
 
     public function create(ProjectCreateRequest $request): RedirectResponse
     {
-        $this->projectService->createProject(auth()->id(), $request->getProjectData());
+        $this->projectService->createProject($request->getProjectData());
         return back();
     }
 

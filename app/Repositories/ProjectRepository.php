@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\ProjectRole;
 use App\Models\Project;
 use App\Models\ProjectUser;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -16,13 +17,20 @@ readonly class ProjectRepository
             ->paginate($perPage);
     }
 
-    public function hasProjectAccess(int $projectId, array $userIds): bool
+    public function hasProjectAccess(int $projectId, array $userIds, ProjectRole $accessLevel = null): bool
     {
-        $count = ProjectUser::query()
+        $query = ProjectUser::query()
             ->where('project_id', $projectId)
-            ->whereIn('user_id', $userIds)
-            ->count();
+            ->whereIn('user_id', $userIds);
 
-        return $count === count($userIds);
+        if ($accessLevel) {
+            $query->where('access_level', $accessLevel);
+        }
+        return $query->count() === count($userIds);
+    }
+
+    public function createProject(array $data): void
+    {
+        Project::create($data);
     }
 }

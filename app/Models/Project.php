@@ -17,6 +17,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property string|null $description
+ * @method static create(array $data)
  */
 #[Fillable(['creator_id', 'name', 'description'])]
 class Project extends Model
