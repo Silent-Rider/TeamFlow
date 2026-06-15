@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Profile\ProfileUpdateAvatarRequest;
 use App\Http\Requests\Profile\ProfileUpdateInfoRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,10 +40,7 @@ class ProfileController extends Controller
         $user = $request->user();
         $path = $request->file('avatar')->store('avatars', 'public');
 
-        $publicFolder = Storage::disk('public');
-        if ($user->avatar && $publicFolder->exists($user->avatar)) {
-            $publicFolder->delete($user->avatar);
-        }
+        $this->deleteUserAvatar($user);
 
         $user->avatar = $path;
         $user->save();
@@ -56,6 +54,7 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
+        $this->deleteUserAvatar($user);
 
         Auth::logout();
 
@@ -65,5 +64,13 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    private function deleteUserAvatar(User $user): void
+    {
+        $publicFolder = Storage::disk('public');
+        if ($user->avatar && $publicFolder->exists($user->avatar)) {
+            $publicFolder->delete($user->avatar);
+        }
     }
 }
