@@ -10,7 +10,7 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $user_id
  * @property int $project_id
- * @property string $role
+ * @property ProjectRole $role
  * @property Carbon $created_at
  * @method static create(array $array)
  */

@@ -6,7 +6,7 @@ services:
       args:
         UID: ${UID}
         GID: ${GID}
-    container_name: laravel-app
+    container_name: laravel_app
     volumes:
       - .:/var/www/html
       - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini

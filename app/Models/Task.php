@@ -15,7 +15,7 @@ use Illuminate\Support\Carbon;
  * @property int|null $creator_id
  * @property int $assignee_id
  * @property string $name
- * @property string $priority
+ * @property TaskPriority $priority
  * @property bool $is_done
  * @property Carbon|null $due_date
  * @property Carbon|null $created_at
