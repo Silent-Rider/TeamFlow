@@ -100,4 +100,13 @@ class TaskIndexTest extends TestCase
             return $tasks->count() === 1 && $tasks->first()->name === 'Done Task';
         });
     }
+
+    public function test_index_tasks_fails_with_invalid_per_page()
+    {
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get(route('tasks', [
+            'per_page' => 101,
+        ]));
+        $response->assertSessionHasErrors(['per_page']);
+    }
 }

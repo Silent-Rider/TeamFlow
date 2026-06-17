@@ -56,6 +56,19 @@ class TaskCreateTest extends TestCase
         $response->assertSessionHasErrors(['priority']);
     }
 
+    public function test_task_creation_fails_with_invalid_due_date()
+    {
+        $user = User::factory()->create();
+        $project = Project::factory()->create(['creator_id' => $user->id]);
+        $project->users()->attach($user->id, ['role' => ProjectRole::OWNER]);
+
+        $response = $this->actingAs($user)->post(route('tasks.create'),
+            $this->getTaskPayload($user->id, $project->id, ['due_date' => now()->subDay()]));
+
+        $response->assertSessionHasErrors(['due_date']);
+
+    }
+
     private function getTaskPayload(int $userId, int $projectId, array $overrides = []): array
     {
         $taskArray = Task::factory()->raw([
