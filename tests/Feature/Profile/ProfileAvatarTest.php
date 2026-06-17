@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Profile;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,11 +26,11 @@ class ProfileAvatarTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->put('/profile', [
+            ->put(route('profile.avatar.update'), [
                 'avatar' => $file,
             ]);
 
-        $response->assertRedirect('/profile');
+        $response->assertRedirect(route('profile.edit'));
         $response->assertSessionHas('status', 'profile-avatar-updated');
 
         Storage::disk('public')->assertExists('avatars/' . $file->hashName());
@@ -46,13 +46,14 @@ class ProfileAvatarTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->put('/profile', [
+            ->put(route('profile.avatar.update'), [
                 'avatar' => $file,
             ]);
 
         $response->assertSessionHasErrors(['avatar']);
 
-        Storage::disk('public')->assertMissing('avatars/*');
+        // Проверяем, что папка avatars пуста или файла там нет
+        Storage::disk('public')->assertDirectoryEmpty('avatars');
     }
 
     public function test_old_avatar_is_deleted_when_new_one_is_uploaded()
@@ -65,7 +66,7 @@ class ProfileAvatarTest extends TestCase
         $newFile = UploadedFile::fake()->image('new_avatar.png');
 
         $this->actingAs($user)
-            ->put('/profile', [
+            ->put(route('profile.avatar.update'), [
                 'avatar' => $newFile,
             ]);
 
@@ -79,10 +80,13 @@ class ProfileAvatarTest extends TestCase
         $avatarPath = 'avatars/user_to_delete.png';
         Storage::disk('public')->put($avatarPath, 'fake content');
 
-        $user = User::factory()->create(['avatar' => $avatarPath]);
+        $user = User::factory()->create([
+            'avatar' => $avatarPath,
+            'password' => bcrypt('password')
+        ]);
 
         $this->actingAs($user)
-            ->delete('/profile', [
+            ->delete(route('profile.destroy'), [
                 'password' => 'password',
             ]);
 

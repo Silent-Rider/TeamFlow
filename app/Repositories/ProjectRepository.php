@@ -19,6 +19,7 @@ readonly class ProjectRepository
 
     public function hasProjectAccess(int $projectId, array $userIds, ProjectRole $accessLevel = null): bool
     {
+        $userIds = array_unique($userIds);
         $query = ProjectUser::query()
             ->where('project_id', $projectId)
             ->whereIn('user_id', $userIds);
