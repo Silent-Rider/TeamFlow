@@ -52,7 +52,6 @@ class ProfileAvatarTest extends TestCase
 
         $response->assertSessionHasErrors(['avatar']);
 
-        // Проверяем, что папка avatars пуста или файла там нет
         Storage::disk('public')->assertDirectoryEmpty('avatars');
     }
 
