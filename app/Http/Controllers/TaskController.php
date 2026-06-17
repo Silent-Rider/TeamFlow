@@ -33,19 +33,22 @@ class TaskController extends Controller
 
     public function update(TaskUpdateRequest $request, Task $task): RedirectResponse
     {
-        $this->taskService->updateTask(auth()->id(), $task, $request->validated());
+        $this->authorize('update', $task);
+        $this->taskService->updateTask($task, $request->validated());
         return back();
     }
 
     public function toggle(Task $task): RedirectResponse
     {
-        $this->taskService->toggleTask(auth()->id(), $task);
+        $this->authorize('update', $task);
+        $this->taskService->toggleTask($task);
         return back();
     }
 
     public function destroy(Task $task): RedirectResponse
     {
-        $this->taskService->deleteTask(auth()->id(), $task);
+        $this->authorize('delete', $task);
+        $this->taskService->deleteTask($task);
         return back();
     }
 }

@@ -30,13 +30,15 @@ class ProjectController extends Controller
 
     public function update(ProjectUpdateRequest $request, Project $project): RedirectResponse
     {
-        $this->projectService->updateProject(auth()->id(), $project, $request->validated());
+        $this->authorize('update', $project);
+        $this->projectService->updateProject($project, $request->validated());
         return back();
     }
 
     public function destroy(Project $project): RedirectResponse
     {
-        $this->projectService->deleteProject(auth()->id(), $project);
+        $this->authorize('delete', $project);
+        $this->projectService->deleteProject($project);
         return back();
     }
 }

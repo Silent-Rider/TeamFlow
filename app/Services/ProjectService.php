@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Enums\ProjectRole;
 use App\Models\Project;
 use App\Repositories\ProjectRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -22,17 +21,13 @@ readonly class ProjectService
         $this->projectRepository->createProject($data);
     }
 
-    public function updateProject(int $userId, Project $project, array $data): void
+    public function updateProject(Project $project, array $data): void
     {
-        abort_if(!$this->projectRepository
-            ->hasProjectAccess($project->id, [$userId], ProjectRole::OWNER), 403);
         $project->update($data);
     }
 
-    public function deleteProject(int $userId, Project $project): void
+    public function deleteProject(Project $project): void
     {
-        abort_if(!$this->projectRepository
-            ->hasProjectAccess($project->id, [$userId], ProjectRole::OWNER), 403);
         $project->delete();
     }
 }
