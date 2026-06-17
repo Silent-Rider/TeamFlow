@@ -46,6 +46,8 @@ RUN groupadd -g ${GID} appuser && \
 
 USER appuser
 
+RUN echo "alias art='php artisan'" >> /home/appuser/.bashrc
+
 WORKDIR /var/www/html
 
 CMD ["php-fpm"]
