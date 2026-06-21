@@ -1,5 +1,6 @@
 <?php
 
+use App\Logging\TelegramBotHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -61,8 +62,20 @@ return [
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
-            'level' => env('LOG_LEVEL', 'debug'),
+            'level' => env('LOG_LEVEL', 'info'),
             'replace_placeholders' => true,
+        ],
+
+        'telegram' => [
+            'driver' => 'monolog',
+            'level' => 'error',
+            'handler' => TelegramBotHandler::class,
+            'with' => [
+                'apiKey' => env('LOG_TELEGRAM_BOT_TOKEN'),
+                'channel' => env('LOG_TELEGRAM_CHAT_ID'),
+                'parseMode' => 'HTML',
+                'disableWebPagePreview' => true,
+            ],
         ],
 
         'daily' => [
