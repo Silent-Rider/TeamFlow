@@ -3,7 +3,7 @@
 return [
     'badge'         => 'Welcome',
     'hero_title_1'  => 'Your project.',
-    'hero_title_2'  => 'Smarter.',
+    'hero_title_2'  => 'Suppler.',
     'hero_title_3'  => 'Faster.',
     'hero_sub'      => 'A modern platform for task management, team collaboration and progress tracking — all in one place.',
     'btn_register'  => 'Get started free →',

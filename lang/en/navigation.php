@@ -5,5 +5,6 @@ return [
     'log_out_button'    => 'Log Out',
     'tasks_link'    => 'Tasks',
     'projects_link' => 'Projects',
-    'users_link' => 'Users'
+    'users_link' => 'Users',
+    'dark_theme' => 'Dark theme'
 ];

@@ -40,7 +40,7 @@
                         </x-dropdown-link>
 
                         <div class="px-4 py-2 flex items-center justify-between">
-                            <span class="text-sm text-gray-700 dark:text-gray-300">Тёмная тема</span>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">{{ __('navigation.dark_theme') }}</span>
                             <button
                                 x-data="{ on: document.documentElement.classList.contains('dark') }"
                                 x-on:click.stop="
@@ -98,7 +98,7 @@
                 </x-responsive-nav-link>
 
                 <div class="px-4 py-2 flex items-center justify-between">
-                    <span class="text-base font-medium text-gray-600 dark:text-gray-400">Тёмная тема</span>
+                    <span class="text-base font-medium text-gray-600 dark:text-gray-400">{{ __('navigation.dark_theme') }}</span>
                     <button
                         x-data="{ on: document.documentElement.classList.contains('dark') }"
                         x-on:click.stop="

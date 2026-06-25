@@ -5,5 +5,6 @@ return [
     'log_out_button'    => 'Выйти',
     'tasks_link'    => 'Задачи',
     'projects_link' => 'Проекты',
-    'users_link' => 'Пользователи'
+    'users_link' => 'Пользователи',
+    'dark_theme' => 'Тёмная тема'
 ];
