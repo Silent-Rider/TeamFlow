@@ -4,13 +4,17 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     if (auth()->check()) {
         return redirect('/tasks');
     }
-    return view('welcome');
+    $cacheKey = 'welcome_page:' . app()->currentLocale();
+    return Cache::remember($cacheKey, now()->addHours(24), function () {
+        return view('welcome')->render();
+    });
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
