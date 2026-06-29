@@ -27,6 +27,7 @@ readonly class ProjectRepository
     public function hasProjectAccess(int $projectId, array $userIds, ?ProjectRole $accessLevel = null): bool
     {
         $userIds = array_unique($userIds);
+        sort($userIds);
         $key = "project_access:{$projectId}:" . implode(',', $userIds) . ':' . ($accessLevel?->value ?? 'any');
 
         return Cache::tags(['project_access'])->remember($key, self::TTL, function () use ($projectId, $userIds, $accessLevel) {
