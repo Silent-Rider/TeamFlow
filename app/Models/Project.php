@@ -18,6 +18,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property string|null $description
  * @method static create(array $data)
+ * @method static hydrate(mixed $items)
  */
 #[Fillable(['creator_id', 'name', 'description'])]
 class Project extends Model

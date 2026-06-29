@@ -4,16 +4,19 @@ namespace App\Services;
 
 use App\Models\Project;
 use App\Repositories\ProjectRepository;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 readonly class ProjectService
 {
     public function __construct(public ProjectRepository $projectRepository)
     {}
 
-    public function getProjects(int $userId, int $perPage): LengthAwarePaginator
+    public function getProjectsData(int $userId, int $page, int $perPage): array
     {
-        return $this->projectRepository->getProjectsByUserId($userId, $perPage);
+        $projectsData =  $this->projectRepository->getProjectsDataByUserId($userId, $page, $perPage);
+        $projectsData['items'] = $projectsData['items'] ? Project::hydrate($projectsData['items']) : Collection::empty();
+        return $projectsData;
     }
 
     public function createProject(array $data): void
@@ -24,10 +27,12 @@ readonly class ProjectService
     public function updateProject(Project $project, array $data): void
     {
         $project->update($data);
+        Cache::tags(['projects'])->flush();
     }
 
     public function deleteProject(Project $project): void
     {
         $project->delete();
+        Cache::tags(['projects'])->flush();
     }
 }

@@ -17,8 +17,11 @@ class ProjectController extends Controller
 
     public function index(ProjectIndexRequest $request): View
     {
+        $page = $request->getPage();
         $perPage = $request->getPerPage();
-        $projects = $this->projectService->getProjects(auth()->id(), $perPage);
+        $projectsData = $this->projectService->getProjectsData(auth()->id(), $page, $perPage);
+        $projects = $request->getPaginator($projectsData['items'], $projectsData['total']);
+
         return view('projects', compact('projects'));
     }
 
