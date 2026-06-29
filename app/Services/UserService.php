@@ -9,8 +9,8 @@ readonly class UserService
 {
     public function __construct(public UserRepository $userRepository)
     {}
-    public function getUsers(int $userId, int $perPage): LengthAwarePaginator
+    public function getUsers(int $userId, int $page, int $perPage): LengthAwarePaginator
     {
-        return $this->userRepository->getAllUsers($userId, $perPage);
+        return $this->userRepository->getAllUsers($userId, $page, $perPage);
     }
 }

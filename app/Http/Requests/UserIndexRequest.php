@@ -15,11 +15,16 @@ class UserIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'page' => ['nullable', 'integer', 'min:1'],
             'per_page' => ['nullable', 'integer', 'min:5', 'max:100'],
         ];
     }
 
     public function getPerPage(): int {
         return $this->validated('per_page', 50);
+    }
+
+    public function getPage(): int {
+        return $this->validated('page', 1);
     }
 }

@@ -12,8 +12,9 @@ class UserController extends Controller
     {}
     public function index(UserIndexRequest $request): View
     {
+        $page = $request->getPage();
         $perPage = $request->getPerPage();
-        $users = $this->userService->getUsers(auth()->id(), $perPage);
+        $users = $this->userService->getUsers(auth()->id(), $page, $perPage);
         return view('users', compact('users'));
     }
 }
