@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserIndexRequest;
 use App\Services\UserService;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\View;
 
 class UserController extends Controller
@@ -16,13 +15,7 @@ class UserController extends Controller
         $page = $request->getPage();
         $perPage = $request->getPerPage();
         $usersData = $this->userService->getUsersData(auth()->id(), $page, $perPage);
-        $users = new LengthAwarePaginator(
-            $usersData['items'],
-            $usersData['total'],
-            $perPage,
-            $page,
-            ['path' => $request->url(), 'query' => $request->query()]
-        );
+        $users = $request->getPaginator($usersData['items'], $usersData['total']);
 
         return view('users', compact('users'));
     }

@@ -26,7 +26,8 @@ use Illuminate\Support\Carbon;
  * @property UserRole $role
  * @method static find(int $int)
  * @method static whereNotIn(string $string, int[] $array)
-  */
+ * @method static hydrate(mixed $items)
+ */
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
