@@ -38,6 +38,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', 'create')->name('projects.create');
         Route::put('/{project}', 'update')->name('projects.update');
         Route::delete('/{project}', 'destroy')->name('projects.destroy');
+
+        Route::prefix('{project}/members')->group(function () {
+            Route::post('/', 'addMember')->name('projects.members.add');
+            Route::delete('/{user}', 'removeMember')->name('projects.members.remove');
+            Route::patch('/{user}', 'updateMemberRole')->name('projects.members.update');
+        });
     });
 
     Route::get('/users', [UserController::class, 'index'])->name('users');

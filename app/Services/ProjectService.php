@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\ProjectRole;
 use App\Models\Project;
 use App\Repositories\ProjectRepository;
 use Illuminate\Support\Collection;
@@ -14,8 +15,10 @@ readonly class ProjectService
 
     public function getProjectsData(int $userId, int $page, int $perPage): array
     {
-        $projectsData =  $this->projectRepository->getProjectsDataByUserId($userId, $page, $perPage);
-        $projectsData['items'] = $projectsData['items'] ? Project::hydrate($projectsData['items']) : Collection::empty();
+        $projectsData = $this->projectRepository->getProjectsDataByUserId($userId, $page, $perPage);
+        $projectsData['items'] = $projectsData['items']
+            ? Project::hydrate($projectsData['items'])
+            : Collection::empty();
         return $projectsData;
     }
 
@@ -33,6 +36,21 @@ readonly class ProjectService
     public function deleteProject(Project $project): void
     {
         $project->delete();
-        Cache::tags(['projects'])->flush();
+        Cache::tags(['projects', 'project_access'])->flush();
+    }
+
+    public function addMember(Project $project, int $userId, ProjectRole $role): void
+    {
+        $this->projectRepository->addMember($project, $userId, $role);
+    }
+
+    public function removeMember(Project $project, int $userId): void
+    {
+        $this->projectRepository->removeMember($project, $userId);
+    }
+
+    public function updateMemberRole(Project $project, int $userId, ProjectRole $role): void
+    {
+        $this->projectRepository->updateMemberRole($project, $userId, $role);
     }
 }

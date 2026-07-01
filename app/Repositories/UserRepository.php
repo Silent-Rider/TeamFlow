@@ -7,12 +7,11 @@ use Illuminate\Support\Facades\Cache;
 
 readonly class UserRepository
 {
-    private const int TTL = 600;
     public function getAllUsersData(int $userId, int $page, int $perPage): array
     {
         $key = "users:list:exclude:{$userId}:page:{$page}:per:{$perPage}";
 
-        return Cache::tags(['users'])->remember($key, self::TTL, function () use ($userId, $page, $perPage) {
+        return Cache::tags(['users'])->remember($key, config('cache.ttl.users'), function () use ($userId, $page, $perPage) {
             $query = User::query()
                 ->where('id', '!=', $userId)
                 ->orderBy('name');

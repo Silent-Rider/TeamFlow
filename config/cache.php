@@ -127,4 +127,10 @@ return [
 
     'serializable_classes' => false,
 
+    'ttl' => [
+        'users'          => env('CACHE_TTL_USERS', 600),
+        'projects'       => env('CACHE_TTL_PROJECTS', 600),
+        'project_access' => env('CACHE_TTL_PROJECT_ACCESS', 60),
+    ],
+
 ];
