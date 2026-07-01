@@ -17,6 +17,7 @@ class AvatarPlaceholder extends Component
         $this->name = trim($name);
 
         $this->initials = collect(explode(' ', $this->name))
+            ->filter()
             ->map(fn($word) => mb_strtoupper(mb_substr($word, 0, 1)))
             ->take(2)
             ->implode('') ?: '?';
