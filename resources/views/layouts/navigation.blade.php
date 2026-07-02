@@ -115,6 +115,18 @@
                     </button>
                 </div>
 
+                <x-responsive-nav-link :href="route('tasks')">
+                    {{ __('navigation.tasks_link') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('projects')">
+                    {{ __('navigation.projects_link') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('users')">
+                    {{ __('navigation.users_link') }}
+                </x-responsive-nav-link>
+
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -127,35 +139,5 @@
                 </form>
             </div>
         </div>
-    </div>
-
-    <div id="bottom-nav" class="fixed bottom-0 left-0 right-0 z-50 flex sm:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-
-        <a href="{{ route('tasks') }}"
-           class="flex flex-col items-center justify-center flex-1 py-3 gap-1 text-xs
-              {{ request()->routeIs('tasks') ? 'text-blue-500' : 'text-gray-500 dark:text-gray-400' }}">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-            </svg>
-            {{ __('navigation.tasks_link') }}
-        </a>
-
-        <a href="{{ route('projects') }}"
-           class="flex flex-col items-center justify-center flex-1 py-3 gap-1 text-xs
-              {{ request()->routeIs('projects') ? 'text-blue-500' : 'text-gray-500 dark:text-gray-400' }}">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"/>
-            </svg>
-            {{ __('navigation.projects_link') }}
-        </a>
-
-        <a href="{{ route('users') }}"
-           class="flex flex-col items-center justify-center flex-1 py-3 gap-1 text-xs
-              {{ request()->routeIs('users') ? 'text-blue-500' : 'text-gray-500 dark:text-gray-400' }}">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-            </svg>
-            {{ __('navigation.users_link') }}
-        </a>
     </div>
 </nav>

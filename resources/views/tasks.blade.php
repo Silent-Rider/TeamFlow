@@ -16,7 +16,7 @@
 
                             @if($filter === 'all')
                                 <div class="order-2 sm:order-1 w-full sm:w-auto">
-                                    <p class="text-base text-center sm:text-left text-gray-500 dark:text-gray-400">
+                                    <p class="text-sm sm:text-base text-center sm:text-left text-gray-500 dark:text-gray-400">
                                         {{ $tasks->where('is_done', true)->count() }} из {{ $tasks->count() }} выполнено
                                     </p>
                                     <div class="mt-1 h-1 w-48 bg-gray-200 dark:bg-gray-700 rounded mx-auto sm:mx-0">
@@ -29,9 +29,9 @@
                             @endif
 
                             <div class="order-1 sm:order-2 flex flex-wrap sm:flex-nowrap gap-2 justify-end w-full sm:w-auto">
-                                <a href="{{ route('tasks') }}" class="text-base px-3 py-1 border rounded-md text-center {{ $filter === 'all' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">Все</a>
-                                <a href="{{ route('tasks', ['filter' => 'active']) }}" class="text-base px-3 py-1 border rounded-md text-center {{ $filter === 'active' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">Активные</a>
-                                <a href="{{ route('tasks', ['filter' => 'done']) }}" class="text-base px-3 py-1 border rounded-md text-center {{ $filter === 'done' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">Выполнено</a>
+                                <a href="{{ route('tasks') }}" class="text-sm sm:text-base px-3 py-1 border rounded-md text-center {{ $filter === 'all' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">Все</a>
+                                <a href="{{ route('tasks', ['filter' => 'active']) }}" class="text-sm sm:text-base px-3 py-1 border rounded-md text-center {{ $filter === 'active' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">Активные</a>
+                                <a href="{{ route('tasks', ['filter' => 'done']) }}" class="text-sm sm:text-base px-3 py-1 border rounded-md text-center {{ $filter === 'done' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">Выполнено</a>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                                     </button>
 
                                     <div class="flex-1 min-w-0">
-                                        <span class="block text-lg truncate transition-colors"
+                                        <span class="block text-base sm:text-lg truncate transition-colors"
                                               :class="{ 'line-through text-gray-400 dark:text-gray-500': isTaskDone({{ $task->id }}), 'text-gray-900 dark:text-gray-100': !isTaskDone({{ $task->id }}) }">
                                             {{ $task->name }}
                                         </span>
@@ -137,26 +137,41 @@
                 </div>
 
                 <div x-show="detailsOpen"
-                     class="fixed inset-0 z-50 bg-white dark:bg-gray-800 lg:hidden flex flex-col"
+                     class="fixed inset-0 z-[60] bg-white dark:bg-gray-900 lg:hidden flex flex-col h-[100dvh] w-full"
                      style="display: none;"
                      x-transition:enter="transition ease-out duration-300"
-                     x-transition:enter-start="translate-x-full"
-                     x-transition:enter-end="translate-x-0"
+                     x-transition:enter-start="translate-y-full opacity-0"
+                     x-transition:enter-end="translate-y-0 opacity-100"
                      x-transition:leave="transition ease-in duration-200"
-                     x-transition:leave-start="translate-x-0"
-                     x-transition:leave-end="translate-x-full">
+                     x-transition:leave-start="translate-y-0 opacity-100"
+                     x-transition:leave-end="translate-y-full opacity-0">
 
-                    <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-                        <h3 class="font-bold text-lg" x-text="currentTaskName"></h3>
-                        <button @click="detailsOpen = false" class="p-2"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+                    <div class="flex-none p-4 border-b border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm z-10 flex items-center justify-between shrink-0">
+                        <div class="flex items-center gap-3 overflow-hidden">
+                            <button @click="closeTaskDetails()" class="p-2 -ml-2 text-gray-600 dark:text-gray-300 active:bg-gray-100 dark:active:bg-gray-800 rounded-full transition-colors">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                            </button>
+                            <h3 class="font-bold text-lg truncate text-gray-900 dark:text-white" x-text="currentTaskName"></h3>
+                        </div>
                     </div>
-                    <div class="flex-1 overflow-y-auto p-4" x-html="detailsHtml"></div>
-                    <div class="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-                        <form @submit.prevent="addComment(currentTaskId)">
-                            <div class="flex gap-2">
-                                <input x-model="newCommentText" type="text" class="flex-1 border rounded p-2 dark:bg-gray-900 dark:text-white" placeholder="Комментарий...">
-                                <button type="submit" class="bg-blue-600 text-white px-4 rounded">Send</button>
-                            </div>
+
+                    <div class="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-gray-50 dark:bg-gray-900 min-h-0">
+                        <div x-html="detailsHtml" class="space-y-4 pb-2"></div>
+                    </div>
+
+                    <div class="flex-none p-3 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] shrink-0">
+                        <form @submit.prevent="addComment(currentTaskId)" class="flex gap-2 items-end">
+                            <textarea
+                                x-model="newCommentText"
+                                rows="1"
+                                class="flex-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none max-h-32 transition-all"
+                                placeholder="Комментарий..."
+                                @input="$el.style.height = ''; $el.style.height = $el.scrollHeight + 'px'"></textarea>
+                            <button type="submit"
+                                    :disabled="!newCommentText.trim()"
+                                    class="p-3 bg-blue-600 text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition-transform shadow-md shrink-0">
+                                <svg class="w-5 h-5 transform rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                            </button>
                         </form>
                     </div>
                 </div>

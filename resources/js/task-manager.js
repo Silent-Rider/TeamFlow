@@ -7,10 +7,17 @@ export default function () {
         currentTaskName: '',
         newCommentText: '',
         savedScrollTop: 0,
+        bottomNav: document.getElementById('bottom-nav'),
+        mainContent: document.querySelector('main'),
 
         init() {
             document.querySelectorAll('[data-task-id][data-is-done]').forEach(el => {
                 this.tasksStatus[el.dataset.taskId] = el.dataset.isDone === '1';
+            });
+
+            this.$nextTick(() => {
+                this.bottomNav = document.getElementById('bottom-nav');
+                this.mainContent = document.querySelector('main');
             });
         },
 
@@ -47,12 +54,14 @@ export default function () {
             if (this.currentTaskId === id && this.detailsOpen) return;
 
             const scrollContainer = document.getElementById('task-scroll-area');
-            if (scrollContainer) {
-                this.savedScrollTop = scrollContainer.scrollTop;
-            }
+            if (scrollContainer) this.savedScrollTop = scrollContainer.scrollTop;
 
             this.currentTaskId = id;
             this.detailsOpen = true;
+
+            if (this.bottomNav) this.bottomNav.style.display = 'none';
+            document.body.classList.add('overflow-hidden');
+
             this.detailsHtml = '<div class="flex justify-center py-10"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>';
 
             try {
@@ -70,9 +79,7 @@ export default function () {
                 this.detailsHtml = data.html;
 
                 this.$nextTick(() => {
-                    if (scrollContainer) {
-                        scrollContainer.scrollTop = this.savedScrollTop;
-                    }
+                    if (scrollContainer) scrollContainer.scrollTop = this.savedScrollTop;
 
                     const chatContainer = document.querySelector('.custom-scrollbar');
                     if(chatContainer && chatContainer !== scrollContainer) {
@@ -84,6 +91,16 @@ export default function () {
                 console.error('Error loading details:', error);
                 this.detailsHtml = '<div class="p-4 text-red-500 text-center">Ошибка загрузки</div>';
             }
+        },
+
+        closeTaskDetails() {
+            this.detailsOpen = false;
+
+            if (this.bottomNav) this.bottomNav.style.display = 'flex';
+            document.body.classList.remove('overflow-hidden');
+
+            this.currentTaskId = null;
+            this.newCommentText = '';
         },
 
         async addComment(taskId) {
@@ -127,9 +144,8 @@ export default function () {
                 const tempEl = document.getElementById(tempId);
                 if (tempEl) {
                     tempEl.outerHTML = data.comment_html;
-                    tempEl.classList.remove('opacity-70', 'animate-pulse');
-                } else {
-                    if(commentsContainer) commentsContainer.insertAdjacentHTML('beforeend', data.comment_html);
+                } else if(commentsContainer) {
+                    commentsContainer.insertAdjacentHTML('beforeend', data.comment_html);
                 }
 
             } catch (error) {
