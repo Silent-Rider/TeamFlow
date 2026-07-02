@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c94ada83b04aeee3a569729dd7517a7a",
+    "content-hash": "bfad5b78ee81313b80fcc1367c2ac5a9",
     "packages": [
         {
             "name": "brick/math",
@@ -3423,6 +3423,56 @@
                 "source": "https://github.com/ramsey/uuid/tree/4.9.2"
             },
             "time": "2025-12-14T04:43:48+00:00"
+        },
+        {
+            "name": "silent_rider/avatar-placeholder",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Silent-Rider/AvatarPlaceholder.git",
+                "reference": "1add24333c82659ff4479f05f582558e1e297534"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Silent-Rider/AvatarPlaceholder/zipball/1add24333c82659ff4479f05f582558e1e297534",
+                "reference": "1add24333c82659ff4479f05f582558e1e297534",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
+                "php": ">=8.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "SilentRider\\AvatarPlaceholder\\AvatarPlaceholderServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SilentRider\\AvatarPlaceholder\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Silent-Rider",
+                    "email": "silent.30.rider.10@gmail.com"
+                }
+            ],
+            "description": "An avatar placeholder generator with initials and a deterministic background color",
+            "support": {
+                "issues": "https://github.com/Silent-Rider/AvatarPlaceholder/issues",
+                "source": "https://github.com/Silent-Rider/AvatarPlaceholder/tree/v1.0.0"
+            },
+            "time": "2026-07-02T15:48:37+00:00"
         },
         {
             "name": "symfony/clock",
@@ -8947,7 +8997,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.3"
+        "php": "^8.4",
+        "ext-pdo": "*"
     },
     "platform-dev": {},
     "plugin-api-version": "2.9.0"
