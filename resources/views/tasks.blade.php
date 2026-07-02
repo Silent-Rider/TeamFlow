@@ -1,93 +1,166 @@
 <x-app-layout>
-    <div class="py-0 sm:py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <div class="flex flex-col sm:flex-row items-center sm:justify-between gap-3 mb-2 sm:mb-6">
-                        @php $filter = request('filter', 'all'); @endphp
-                        @if($filter === 'all')
-                            <div class="order-2 sm:order-1">
-                                <p class="text-base text-center sm:text-left text-gray-500 dark:text-gray-400">
-                                    {{ $tasks->where('is_done', true)->count() }} {{ __('tasks.of') }} {{ $tasks->count() }} {{ __('tasks.completed_lower') }}
-                                </p>
-                                <div class="mt-1 h-1 w-48 bg-gray-200 dark:bg-gray-700 rounded">
-                                    <div class="h-1 bg-green-500 rounded" style="width: {{ $tasks->count() ? round($tasks->where('is_done', true)->count() / $tasks->count() * 100) : 0 }}%"></div>
+    <div class="py-0 sm:py-12 h-[calc(100vh-4rem)]" x-data="taskManager()">
+        <div class="max-w-[95%] mx-auto sm:px-6 lg:px-8 h-full">
+
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg h-full flex transition-all duration-300 ease-in-out">
+
+                <div id="task-list-wrapper"
+                     class="flex-1 min-w-0 transition-all duration-300 flex flex-col h-full relative"
+                     :class="detailsOpen ? 'lg:w-3/4 w-full' : 'w-full'">
+
+                    <div id="filter-header"
+                         class="sticky top-0 z-20 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700 p-6 pb-4 -mx-0">
+
+                        <div class="flex flex-col sm:flex-row items-center sm:justify-between gap-3">
+                            @php $filter = request('filter', 'all'); @endphp
+
+                            @if($filter === 'all')
+                                <div class="order-2 sm:order-1 w-full sm:w-auto">
+                                    <p class="text-base text-center sm:text-left text-gray-500 dark:text-gray-400">
+                                        {{ $tasks->where('is_done', true)->count() }} из {{ $tasks->count() }} выполнено
+                                    </p>
+                                    <div class="mt-1 h-1 w-48 bg-gray-200 dark:bg-gray-700 rounded mx-auto sm:mx-0">
+                                        <div class="h-1 bg-green-500 rounded transition-all duration-300"
+                                             style="width: {{ $tasks->count() ? round($tasks->where('is_done', true)->count() / $tasks->count() * 100) : 0 }}%"></div>
+                                    </div>
                                 </div>
+                            @else
+                                <div class="hidden sm:block sm:order-1"></div>
+                            @endif
+
+                            <div class="order-1 sm:order-2 flex flex-wrap sm:flex-nowrap gap-2 justify-end w-full sm:w-auto">
+                                <a href="{{ route('tasks') }}" class="text-base px-3 py-1 border rounded-md text-center {{ $filter === 'all' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">Все</a>
+                                <a href="{{ route('tasks', ['filter' => 'active']) }}" class="text-base px-3 py-1 border rounded-md text-center {{ $filter === 'active' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">Активные</a>
+                                <a href="{{ route('tasks', ['filter' => 'done']) }}" class="text-base px-3 py-1 border rounded-md text-center {{ $filter === 'done' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">Выполнено</a>
                             </div>
-                        @else
-                            <div class="hidden sm:block sm:order-1"></div>
-                        @endif
-                        <div class="order-1 sm:order-2 flex flex-wrap sm:flex-nowrap gap-2 justify-end">
-                            <a href="{{ route('tasks') }}"
-                               class="text-base px-3 py-1 border rounded-md text-center {{ $filter === 'all' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">
-                                {{ __('tasks.all') }}
-                            </a>
-                            <a href="{{ route('tasks', ['filter' => 'active']) }}"
-                               class="text-base px-3 py-1 border rounded-md text-center {{ $filter === 'active' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">
-                                {{ __('tasks.active') }}
-                            </a>
-                            <a href="{{ route('tasks', ['filter' => 'done']) }}"
-                               class="text-base px-3 py-1 border rounded-md text-center {{ $filter === 'done' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">
-                                {{ __('tasks.completed_upper') }}
-                            </a>
                         </div>
                     </div>
 
-                    <ul class="divide-y divide-gray-100 dark:divide-gray-700">
-                        @forelse($tasks as $task)
-                            @php
-                                $priority = $task->priority->value;
-                            @endphp
-                            <li class="flex items-center gap-3 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg px-2 -mx-2">
-                                <form action="{{ route('tasks.toggle', $task) }}" method="POST" class="flex-shrink-0">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit"
-                                            class="w-5 h-5 rounded-full border-2 flex items-center justify-center cursor-pointer
-                                                   {{ $task->is_done ? 'bg-green-500 border-green-500' : 'border-gray-400 hover:border-green-400' }}">
-                                        @if($task->is_done)
-                                            <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
-                                            </svg>
-                                        @endif
-                                    </button>
-                                </form>
+                    <div id="task-scroll-area"
+                         class="flex-1 overflow-y-auto p-6 custom-scrollbar"
+                         style="scrollbar-gutter: stable;">
 
-                                <div class="flex-1 min-w-0">
-                                    <span class="block text-lg {{ $task->is_done ? 'line-through text-gray-400 dark:text-gray-500' : 'text-gray-900 dark:text-gray-100' }}">
-                                        {{ $task->name }}
-                                    </span>
-                                    <div class="flex items-center gap-2 mt-0.5 sm:hidden">
-                                        <span class="text-sm text-gray-400">{{ $task->due_date?->format('d M') }}</span>
+                        <ul class="divide-y divide-gray-100 dark:divide-gray-700 pb-6">
+                            @forelse($tasks as $task)
+                                @php $priority = $task->priority->value; @endphp
+                                <li class="flex items-center gap-3 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg px-2 -mx-2 group cursor-pointer"
+                                    @click="openTaskDetails({{ $task->id }})"
+                                    :class="{ 'bg-blue-50 dark:bg-blue-900/20': detailsOpen && currentTaskId === {{ $task->id }} }">
+
+                                    <button type="button" @click.prevent="toggleTask({{ $task->id }}, $event); $event.stopPropagation();"
+                                            data-task-id="{{ $task->id }}" data-is-done="{{ $task->is_done ? '1' : '0' }}"
+                                            :class="{ 'bg-green-500 border-green-500': isTaskDone({{ $task->id }}), 'border-gray-400 hover:border-green-400': !isTaskDone({{ $task->id }}) }"
+                                            class="w-5 h-5 rounded-full border-2 flex items-center justify-center cursor-pointer transition-colors flex-shrink-0 z-10">
+                                        <svg x-show="isTaskDone({{ $task->id }})" class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </button>
+
+                                    <div class="flex-1 min-w-0">
+                                        <span class="block text-lg truncate transition-colors"
+                                              :class="{ 'line-through text-gray-400 dark:text-gray-500': isTaskDone({{ $task->id }}), 'text-gray-900 dark:text-gray-100': !isTaskDone({{ $task->id }}) }">
+                                            {{ $task->name }}
+                                        </span>
+
+                                        <div class="flex items-center gap-2 mt-0.5 sm:hidden">
+                                            <span class="text-sm text-gray-400 whitespace-nowrap">{{ $task->due_date?->format('d M') }}</span>
+                                            @if($priority)
+                                                <span class="text-xs px-2 py-0.5 rounded font-medium truncate max-w-[100px]
+                                                    {{ $priority === 'high' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : '' }}
+                                                    {{ $priority === 'medium' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : '' }}
+                                                    {{ $priority === 'low' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : '' }}">
+                                                    {{ match($priority) { 'high' => 'Высокий', 'medium' => 'Средний', 'low' => 'Низкий', default => $priority } }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="hidden sm:flex items-center gap-3 flex-shrink-0">
+                                        <span class="text-base text-gray-400 whitespace-nowrap">{{ $task->due_date?->format('d M') }}</span>
                                         @if($priority)
-                                            <span class="text-xs px-2 py-0.5 rounded font-medium
-                                                {{ $priority === 'high'   ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : '' }}
+                                            <span class="text-sm px-2 py-0.5 rounded font-medium whitespace-nowrap
+                                                {{ $priority === 'high' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : '' }}
                                                 {{ $priority === 'medium' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : '' }}
-                                                {{ $priority === 'low'    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : '' }}">
-                                                {{ match($priority) { 'high' => __('tasks.high'), 'medium' => __('tasks.medium'), 'low' => __('tasks.low'), default => $priority } }}
+                                                {{ $priority === 'low' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : '' }}">
+                                                {{ match($priority) { 'high' => 'Высокий', 'medium' => 'Средний', 'low' => 'Низкий', default => $priority } }}
                                             </span>
                                         @endif
                                     </div>
-                                </div>
-
-                                <div class="hidden sm:flex items-center gap-3 flex-shrink-0">
-                                    <span class="text-base text-gray-400">{{ $task->due_date?->format('d M') }}</span>
-                                    @if($priority)
-                                        <span class="text-sm px-2 py-0.5 rounded font-medium
-                                            {{ $priority === 'high'   ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : '' }}
-                                            {{ $priority === 'medium' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : '' }}
-                                            {{ $priority === 'low'    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : '' }}">
-                                            {{ match($priority) { 'high' => __('tasks.high'), 'medium' => __('tasks.medium'), 'low' => __('tasks.low'), default => $priority } }}
-                                        </span>
-                                    @endif
-                                </div>
-                            </li>
-                        @empty
-                            <li class="py-8 text-center text-lg text-gray-400">{{ __('tasks.no_tasks') }}</li>
-                        @endforelse
-                    </ul>
-
+                                </li>
+                            @empty
+                                <li class="py-8 text-center text-lg text-gray-400">Нет задач</li>
+                            @endforelse
+                        </ul>
+                    </div>
                 </div>
+
+                <div x-show="detailsOpen"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 translate-x-10"
+                     x-transition:enter-end="opacity-100 translate-x-0"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100 translate-x-0"
+                     x-transition:leave-end="opacity-0 translate-x-10"
+                     class="hidden lg:flex flex-col w-1/4 min-w-[320px] max-w-[400px] border-l border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 h-full relative"
+                     style="display: none;">
+
+                    <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-start bg-white dark:bg-gray-800 shadow-sm z-10">
+                        <div class="pr-4">
+                            <h3 class="font-bold text-lg leading-tight text-gray-900 dark:text-white" x-text="currentTaskName || 'Детали задачи'"></h3>
+                            <span class="text-xs text-gray-500" x-show="currentTaskId">#<span x-text="currentTaskId"></span></span>
+                        </div>
+                        <button @click="detailsOpen = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-1">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+
+                    <div class="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
+                        <div x-html="detailsHtml" class="space-y-4"></div>
+                    </div>
+
+                    <div class="p-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+                        <form @submit.prevent="addComment(currentTaskId)">
+                            <div class="relative">
+                                <textarea
+                                    x-model="newCommentText"
+                                    rows="2"
+                                    class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm resize-none pr-10"
+                                    placeholder="Написать комментарий..."></textarea>
+                                <button type="submit"
+                                        :disabled="!newCommentText.trim()"
+                                        class="absolute right-2 bottom-2 p-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div x-show="detailsOpen"
+                     class="fixed inset-0 z-50 bg-white dark:bg-gray-800 lg:hidden flex flex-col"
+                     style="display: none;"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="translate-x-full"
+                     x-transition:enter-end="translate-x-0"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="translate-x-0"
+                     x-transition:leave-end="translate-x-full">
+
+                    <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                        <h3 class="font-bold text-lg" x-text="currentTaskName"></h3>
+                        <button @click="detailsOpen = false" class="p-2"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+                    </div>
+                    <div class="flex-1 overflow-y-auto p-4" x-html="detailsHtml"></div>
+                    <div class="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+                        <form @submit.prevent="addComment(currentTaskId)">
+                            <div class="flex gap-2">
+                                <input x-model="newCommentText" type="text" class="flex-1 border rounded p-2 dark:bg-gray-900 dark:text-white" placeholder="Комментарий...">
+                                <button type="submit" class="bg-blue-600 text-white px-4 rounded">Send</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

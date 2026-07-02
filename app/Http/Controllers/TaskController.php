@@ -7,6 +7,7 @@ use App\Http\Requests\Task\TaskIndexRequest;
 use App\Http\Requests\Task\TaskUpdateRequest;
 use App\Models\Task;
 use App\Services\TaskService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -38,17 +39,45 @@ class TaskController extends Controller
         return back();
     }
 
-    public function toggle(Task $task): RedirectResponse
-    {
-        $this->authorize('update', $task);
-        $this->taskService->toggleTask($task);
-        return back();
-    }
-
     public function destroy(Task $task): RedirectResponse
     {
         $this->authorize('delete', $task);
         $this->taskService->deleteTask($task);
         return back();
+    }
+
+    public function toggle(Task $task): RedirectResponse|JsonResponse
+    {
+        $this->authorize('update', $task);
+
+        $this->taskService->toggleTask($task);
+
+        if (request()->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'is_done' => $task->is_done,
+                'id' => $task->id
+            ]);
+        }
+
+        return back();
+    }
+
+    public function show(Task $task): JsonResponse|View
+    {
+        $this->authorize('view', $task);
+        $task->load(['taskComments.user']);
+
+        if (request()->wantsJson()) {
+            return response()->json([
+                'task' => [
+                    'id' => $task->id,
+                    'name' => $task->name
+                ],
+                'html' => view('partials.task-details', compact('task'))->render(),
+            ]);
+        }
+
+        return view('tasks.show', compact('task'));
     }
 }

@@ -29,8 +29,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', 'index')->name('tasks');
         Route::post('/', 'create')->name('tasks.create');
         Route::put('/{task}', 'update')->name('tasks.update');
-        Route::patch('/{task}/toggle', 'toggle')->name('tasks.toggle');
         Route::delete('/{task}', 'destroy')->name('tasks.destroy');
+        Route::patch('/{task}/toggle', 'toggle')->name('tasks.toggle');
+        Route::get('/{task}', 'show')->name('tasks.show');
     });
 
     Route::controller(ProjectController::class)->prefix('projects')->group(function () {
