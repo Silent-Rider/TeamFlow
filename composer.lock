@@ -3426,16 +3426,16 @@
         },
         {
             "name": "silent_rider/avatar-placeholder",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Silent-Rider/AvatarPlaceholder.git",
-                "reference": "1add24333c82659ff4479f05f582558e1e297534"
+                "reference": "fb65815e37e5f8810bba739d6b8fa14ab68e494b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Silent-Rider/AvatarPlaceholder/zipball/1add24333c82659ff4479f05f582558e1e297534",
-                "reference": "1add24333c82659ff4479f05f582558e1e297534",
+                "url": "https://api.github.com/repos/Silent-Rider/AvatarPlaceholder/zipball/fb65815e37e5f8810bba739d6b8fa14ab68e494b",
+                "reference": "fb65815e37e5f8810bba739d6b8fa14ab68e494b",
                 "shasum": ""
             },
             "require": {
@@ -3470,9 +3470,9 @@
             "description": "An avatar placeholder generator with initials and a deterministic background color",
             "support": {
                 "issues": "https://github.com/Silent-Rider/AvatarPlaceholder/issues",
-                "source": "https://github.com/Silent-Rider/AvatarPlaceholder/tree/v1.0.0"
+                "source": "https://github.com/Silent-Rider/AvatarPlaceholder/tree/v1.0.1"
             },
-            "time": "2026-07-02T15:48:37+00:00"
+            "time": "2026-07-03T07:51:49+00:00"
         },
         {
             "name": "symfony/clock",
