@@ -17,11 +17,12 @@
                             @if($filter === 'all')
                                 <div class="order-2 sm:order-1 w-full sm:w-auto">
                                     <p class="text-sm sm:text-base text-center sm:text-left text-gray-500 dark:text-gray-400">
-                                        {{ $tasks->where('is_done', true)->count() }} из {{ $tasks->count() }} выполнено
+                                        <span x-text="doneTasks"></span> {{ __('tasks.of') }} <span x-text="totalTasks"></span> {{ __('tasks.completed_lower') }}
                                     </p>
                                     <div class="mt-1 h-1 w-48 bg-gray-200 dark:bg-gray-700 rounded mx-auto sm:mx-0">
                                         <div class="h-1 bg-green-500 rounded transition-all duration-300"
-                                             style="width: {{ $tasks->count() ? round($tasks->where('is_done', true)->count() / $tasks->count() * 100) : 0 }}%"></div>
+                                             :style="`width: ${totalTasks ? Math.round((doneTasks / totalTasks) * 100) : 0}%`">
+                                        </div>
                                     </div>
                                 </div>
                             @else
@@ -29,9 +30,9 @@
                             @endif
 
                             <div class="order-1 sm:order-2 flex flex-wrap sm:flex-nowrap gap-2 justify-end w-full sm:w-auto">
-                                <a href="{{ route('tasks') }}" class="text-sm sm:text-base px-3 py-1 border rounded-md text-center {{ $filter === 'all' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">Все</a>
-                                <a href="{{ route('tasks', ['filter' => 'active']) }}" class="text-sm sm:text-base px-3 py-1 border rounded-md text-center {{ $filter === 'active' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">Активные</a>
-                                <a href="{{ route('tasks', ['filter' => 'done']) }}" class="text-sm sm:text-base px-3 py-1 border rounded-md text-center {{ $filter === 'done' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">Выполнено</a>
+                                <a href="{{ route('tasks') }}" class="text-sm sm:text-base px-3 py-1 border rounded-md text-center {{ $filter === 'all' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">{{ __('tasks.all') }}</a>
+                                <a href="{{ route('tasks', ['filter' => 'active']) }}" class="text-sm sm:text-base px-3 py-1 border rounded-md text-center {{ $filter === 'active' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">{{ __('tasks.active') }}</a>
+                                <a href="{{ route('tasks', ['filter' => 'done']) }}" class="text-sm sm:text-base px-3 py-1 border rounded-md text-center {{ $filter === 'done' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">{{ __('tasks.completed_upper') }}</a>
                             </div>
                         </div>
                     </div>
@@ -69,7 +70,7 @@
                                                     {{ $priority === 'high' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : '' }}
                                                     {{ $priority === 'medium' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : '' }}
                                                     {{ $priority === 'low' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : '' }}">
-                                                    {{ match($priority) { 'high' => 'Высокий', 'medium' => 'Средний', 'low' => 'Низкий', default => $priority } }}
+                                                    {{ match($priority) { 'high' => __('tasks.priority.high'), 'medium' => __('tasks.priority.medium'), 'low' => __('tasks.priority.low'), default => $priority } }}
                                                 </span>
                                             @endif
                                         </div>
@@ -82,13 +83,13 @@
                                                 {{ $priority === 'high' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : '' }}
                                                 {{ $priority === 'medium' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : '' }}
                                                 {{ $priority === 'low' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : '' }}">
-                                                {{ match($priority) { 'high' => 'Высокий', 'medium' => 'Средний', 'low' => 'Низкий', default => $priority } }}
+                                                {{ match($priority) { 'high' => __('tasks.priority.high'), 'medium' => __('tasks.priority.medium'), 'low' => __('tasks.priority.low'), default => $priority } }}
                                             </span>
                                         @endif
                                     </div>
                                 </li>
                             @empty
-                                <li class="py-8 text-center text-lg text-gray-400">Нет задач</li>
+                                <li class="py-8 text-center text-lg text-gray-400">{{ __('tasks.no_tasks') }}</li>
                             @endforelse
                         </ul>
                     </div>
@@ -106,7 +107,7 @@
 
                     <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-start bg-white dark:bg-gray-800 shadow-sm z-10">
                         <div class="pr-4">
-                            <h3 class="font-bold text-lg leading-tight text-gray-900 dark:text-white" x-text="currentTaskName || 'Детали задачи'"></h3>
+                            <h3 class="font-bold text-lg leading-tight text-gray-900 dark:text-white" x-text="currentTaskName || '{{ __('tasks.task_details') }}'"></h3>
                             <span class="text-xs text-gray-500" x-show="currentTaskId">#<span x-text="currentTaskId"></span></span>
                         </div>
                         <button @click="detailsOpen = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-1">
@@ -125,7 +126,7 @@
                                     x-model="newCommentText"
                                     rows="2"
                                     class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm resize-none pr-10"
-                                    placeholder="Написать комментарий..."></textarea>
+                                    placeholder="{{ __('tasks.write_comment_placeholder') }}"></textarea>
                                 <button type="submit"
                                         :disabled="!newCommentText.trim()"
                                         class="absolute right-2 bottom-2 p-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
@@ -165,7 +166,7 @@
                                 x-model="newCommentText"
                                 rows="1"
                                 class="flex-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none max-h-32 transition-all"
-                                placeholder="Комментарий..."
+                                placeholder="{{ __('tasks.comment_placeholder') }}"
                                 @input="$el.style.height = ''; $el.style.height = $el.scrollHeight + 'px'"></textarea>
                             <button type="submit"
                                     :disabled="!newCommentText.trim()"

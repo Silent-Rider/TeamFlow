@@ -2,13 +2,18 @@
 
 return [
     'logged_in_message' => 'Вы вошли в систему!',
-    'no_tasks' => 'Нет задач',
+    'of' => 'из',
+    'completed_lower' => 'выполнено',
+    'completed_upper' => 'Выполнено',
     'all' => 'Все',
     'active' => 'Активные',
-    'completed_upper' => 'Выполнено',
-    'completed_lower' => 'выполнено',
-    'of' => 'из',
-    'high' => 'Высокий',
-    'medium' => 'Средний',
-    'low' => 'Низкий'
+    'priority' => [
+        'high' => 'Высокий',
+        'medium' => 'Средний',
+        'low' => 'Низкий',
+    ],
+    'no_tasks' => 'Нет задач',
+    'task_details' => 'Детали задачи',
+    'write_comment_placeholder' => 'Написать комментарий...',
+    'comment_placeholder' => 'Комментарий...'
 ];

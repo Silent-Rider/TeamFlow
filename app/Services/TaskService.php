@@ -38,9 +38,12 @@ readonly class TaskService
         $task->update($data);
     }
 
-    public function toggleTask(Task $task): void
+    public function toggleTask(Task $task): bool
     {
+        $is_done = $task->is_done;
         $task->update(['is_done' => !$task->is_done]);
+        $freshTask = $task->fresh();
+        return $is_done !== $freshTask->is_done;
     }
 
     public function deleteTask(Task $task): void

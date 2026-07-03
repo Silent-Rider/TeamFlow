@@ -50,7 +50,7 @@ class TaskController extends Controller
     {
         $this->authorize('update', $task);
 
-        $this->taskService->toggleTask($task);
+        $statusChanged = $this->taskService->toggleTask($task);
 
         if (request()->wantsJson()) {
             return response()->json([

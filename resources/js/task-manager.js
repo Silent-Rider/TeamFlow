@@ -3,6 +3,10 @@ export default function () {
         detailsOpen: false,
         detailsHtml: '',
         tasksStatus: {},
+
+        totalTasks: 0,
+        doneTasks: 0,
+
         currentTaskId: null,
         currentTaskName: '',
         newCommentText: '',
@@ -11,14 +15,24 @@ export default function () {
         mainContent: document.querySelector('main'),
 
         init() {
-            document.querySelectorAll('[data-task-id][data-is-done]').forEach(el => {
+            const taskElements = document.querySelectorAll('[data-task-id][data-is-done]');
+
+            taskElements.forEach(el => {
                 this.tasksStatus[el.dataset.taskId] = el.dataset.isDone === '1';
             });
+
+            this.updateStats();
 
             this.$nextTick(() => {
                 this.bottomNav = document.getElementById('bottom-nav');
                 this.mainContent = document.querySelector('main');
             });
+        },
+
+        updateStats() {
+            const statuses = Object.values(this.tasksStatus);
+            this.totalTasks = statuses.length;
+            this.doneTasks = statuses.filter(status => status).length;
         },
 
         isTaskDone(id) {
@@ -28,7 +42,9 @@ export default function () {
         async toggleTask(id, event) {
             if(event) event.preventDefault();
             const previousState = this.tasksStatus[id];
+
             this.tasksStatus[id] = !previousState;
+            this.updateStats();
 
             try {
                 const response = await fetch(`/tasks/${id}/toggle`, {
@@ -43,10 +59,14 @@ export default function () {
 
                 if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
+
                 this.tasksStatus[id] = data.is_done;
+                this.updateStats();
+
             } catch (error) {
                 console.error('Error toggling task:', error);
                 this.tasksStatus[id] = previousState;
+                this.updateStats();
             }
         },
 
