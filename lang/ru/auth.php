@@ -13,6 +13,8 @@ return [
     'email_label'                => 'Email',
     'email_reset_link_button'    => 'Отправить ссылку на сброс пароля',
 
+    'company_code_label'         => 'Код Компании',
+
     'password_label'    => 'Пароль',
     'remember_me'       => 'Запомнить меня',
     'forgot_password'   => 'Забыли пароль?',

@@ -16,6 +16,16 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+        <!-- Company Code -->
+        <div class="mt-4">
+            <x-input-label for="company_code" :value="__('auth.company_code_label')" />
+            <x-text-input
+                id="company_code" class="block mt-1 w-full" type="text" name="company_code" :value="old('company_code')" required
+                maxlength="7" pattern="[A-Z0-9]{7}" title="{{ __('validation.seven_upper_letters_and_digits') }}"
+                x-data="{ value: '' }" x-model="value" x-on:input="value = value.toUpperCase().replace(/[^A-Z0-9]/g, '')"/>
+            <x-input-error :messages="$errors->get('company_code')" class="mt-2" />
+        </div>
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('auth.password_label')" />

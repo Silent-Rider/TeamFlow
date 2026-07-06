@@ -29,6 +29,7 @@ use Illuminate\Support\Carbon;
  * @method static find(int $int)
  * @method static whereNotIn(string $string, int[] $array)
  * @method static hydrate(mixed $items)
+ * @method static create(array $array)
  */
 #[Fillable(['name', 'email', 'password', 'company_id'])]
 #[Hidden(['password', 'remember_token'])]

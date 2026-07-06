@@ -18,20 +18,15 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::middleware(['admin'])->prefix('admin')->group(function () {
+        Route::get('/', fn() => response()->json(['status' => 'ok']))->name('admin.index');
+    });
+
     Route::controller(ProfileController::class)->prefix('profile')->group(function () {
         Route::get('/', 'edit')->name('profile.edit');
         Route::patch('/', 'updateInfo')->name('profile.info.update');
         Route::put('/', 'updateAvatar')->name('profile.avatar.update');
         Route::delete('/', 'destroy')->name('profile.destroy');
-    });
-
-    Route::controller(TaskController::class)->prefix('tasks')->group(function () {
-        Route::get('/', 'index')->name('tasks');
-        Route::post('/', 'create')->name('tasks.create');
-        Route::put('/{task}', 'update')->name('tasks.update');
-        Route::delete('/{task}', 'destroy')->name('tasks.destroy');
-        Route::patch('/{task}/toggle', 'toggle')->name('tasks.toggle');
-        Route::get('/{task}', 'show')->name('tasks.show');
     });
 
     Route::controller(ProjectController::class)->prefix('projects')->group(function () {
@@ -47,11 +42,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
     });
 
-    Route::get('/users', [UserController::class, 'index'])->name('users');
-
-    Route::middleware(['admin'])->prefix('admin')->group(function () {
-        Route::get('/', fn() => response()->json(['status' => 'ok']))->name('admin.index');
+    Route::controller(TaskController::class)->prefix('tasks')->group(function () {
+        Route::get('/', 'index')->name('tasks');
+        Route::post('/', 'create')->name('tasks.create');
+        Route::put('/{task}', 'update')->name('tasks.update');
+        Route::delete('/{task}', 'destroy')->name('tasks.destroy');
+        Route::patch('/{task}/toggle', 'toggle')->name('tasks.toggle');
+        Route::get('/{task}', 'show')->name('tasks.show');
     });
+
+    Route::get('/users', [UserController::class, 'index'])->name('users');
 });
 
 require __DIR__.'/auth.php';

@@ -184,6 +184,9 @@ return [
         ],
     ],
 
+    'company_not_found' => 'No company with this code was found.',
+    'seven_upper_letters_and_digits' => 'Only 7 capital letters or numbers.',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Attributes
