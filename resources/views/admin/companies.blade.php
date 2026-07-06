@@ -3,8 +3,15 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 h-full flex flex-col">
 
             @if (session('status'))
-                <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show"
-                     class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative shrink-0">
+                <div
+                    x-data="{ show: true }"
+                    x-init="setTimeout(() => show = false, 4000)"
+                    x-show="show"
+                    x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 translate-y-0"
+                    x-transition:leave-end="opacity-0 -translate-y-2"
+                    class="fixed top-4 right-4 z-50 bg-green-600 text-white px-5 py-3 rounded-lg shadow-lg text-sm font-medium"
+                >
                     {{ __('admin.success_message') }}
                 </div>
             @endif
