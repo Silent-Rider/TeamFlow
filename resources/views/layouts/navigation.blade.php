@@ -8,15 +8,21 @@
             </div>
 
             <div class="hidden sm:flex items-center gap-14">
-                <x-nav-link :href="route('tasks')" :active="request()->routeIs('tasks')">
-                    {{ __('navigation.tasks_link') }}
-                </x-nav-link>
-                <x-nav-link :href="route('projects')" :active="request()->routeIs('projects')">
-                    {{ __('navigation.projects_link') }}
-                </x-nav-link>
-                <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
-                    {{ __('navigation.users_link') }}
-                </x-nav-link>
+                @if(auth()->user()->role->value === 'admin')
+                    <x-nav-link :href="route('companies')" :active="request()->routeIs('companies')">
+                        {{ __('navigation.companies_link') }}
+                    </x-nav-link>
+                @else
+                    <x-nav-link :href="route('tasks')" :active="request()->routeIs('tasks')">
+                        {{ __('navigation.tasks_link') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('projects')" :active="request()->routeIs('projects')">
+                        {{ __('navigation.projects_link') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
+                        {{ __('navigation.users_link') }}
+                    </x-nav-link>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
@@ -115,17 +121,23 @@
                     </button>
                 </div>
 
-                <x-responsive-nav-link :href="route('tasks')">
-                    {{ __('navigation.tasks_link') }}
-                </x-responsive-nav-link>
+                @if(auth()->user()->role->value === 'admin')
+                    <x-responsive-nav-link :href="route('tasks')">
+                        {{ __('navigation.companies_link') }}
+                    </x-responsive-nav-link>
+                @else
+                    <x-responsive-nav-link :href="route('tasks')">
+                        {{ __('navigation.tasks_link') }}
+                    </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="route('projects')">
-                    {{ __('navigation.projects_link') }}
-                </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('projects')">
+                        {{ __('navigation.projects_link') }}
+                    </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="route('users')">
-                    {{ __('navigation.users_link') }}
-                </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('users')">
+                        {{ __('navigation.users_link') }}
+                    </x-responsive-nav-link>
+                @endif
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

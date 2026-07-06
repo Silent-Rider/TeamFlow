@@ -6,5 +6,6 @@ return [
     'tasks_link'    => 'Задачи',
     'projects_link' => 'Проекты',
     'users_link' => 'Пользователи',
-    'dark_theme' => 'Тёмная тема'
+    'dark_theme' => 'Тёмная тема',
+    'companies_link' => 'Компании'
 ];

@@ -6,5 +6,6 @@ return [
     'tasks_link'    => 'Tasks',
     'projects_link' => 'Projects',
     'users_link' => 'Users',
-    'dark_theme' => 'Dark theme'
+    'dark_theme' => 'Dark theme',
+    'companies_link' => 'Companies'
 ];

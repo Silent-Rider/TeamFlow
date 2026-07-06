@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use App\Enums\UserRole;
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class UserMiddleware
+{
+    public function handle(Request $request, Closure $next): Response
+    {
+        /** @var \App\Models\User $user */
+        $user = $request->user();
+        if ($user->role === UserRole::ADMIN) {
+            return redirect()->route('companies');
+        }
+
+        return $next($request);
+    }
+}

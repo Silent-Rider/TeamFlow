@@ -19,6 +19,7 @@ use Illuminate\Support\Str;
  * @property Carbon|null $updated_at
  * @method static create(array $data)
  * @method static where(string $string, string $code)
+ * @method static hydrate(mixed $items)
  */
 #[Fillable(['name', 'code', 'logo', 'description'])]
 class Company extends Model

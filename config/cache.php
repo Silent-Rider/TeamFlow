@@ -131,6 +131,7 @@ return [
         'users'          => env('CACHE_TTL_USERS', 600),
         'projects'       => env('CACHE_TTL_PROJECTS', 600),
         'project_access' => env('CACHE_TTL_PROJECT_ACCESS', 60),
+        'companies'      => env('CACHE_TTL_COMPANIES', 3600),
     ],
 
 ];
