@@ -17,10 +17,11 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property string|null $description
+ * @property int $company_id
  * @method static create(array $data)
  * @method static hydrate(mixed $items)
  */
-#[Fillable(['creator_id', 'name', 'description'])]
+#[Fillable(['creator_id', 'name', 'description', 'company_id'])]
 class Project extends Model
 {
     use HasFactory;
@@ -39,5 +40,10 @@ class Project extends Model
         return $this->belongsToMany(User::class, 'project_user')
             ->using(ProjectUser::class)
             ->withPivot('role', 'created_at');
+    }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
     }
 }

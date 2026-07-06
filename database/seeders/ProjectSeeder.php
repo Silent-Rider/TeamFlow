@@ -6,6 +6,7 @@ use App\Enums\ProjectRole;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 
 class ProjectSeeder extends Seeder
 {
@@ -21,17 +22,19 @@ class ProjectSeeder extends Seeder
                 $randomUser = $users->random();
                 return [
                     'creator_id' => $randomUser->id,
-                    'created_at' => fake()->dateTimeBetween($randomUser->created_at)
+                    'created_at' => fake()->dateTimeBetween($randomUser->created_at),
+                    'company_id' => $randomUser->company_id,
                 ];
             })
             ->create();
 
         $projects->each(function (Project $project) use ($users) {
-            $this->createProjectUserPivot($users, $project);
+            $companyUsers = $users->where('company_id', $project->company_id);
+            $this->createProjectUserPivot($companyUsers, $project);
         });
     }
 
-    private function createProjectUserPivot($users, $project): void
+    private function createProjectUserPivot(Collection $users, Project $project): void
     {
         $owner = $users->firstWhere('id', $project->creator_id);
         $pivotData = [
