@@ -27,7 +27,7 @@ class CompanyController extends Controller
 
     public function create(CompanyCreateRequest $request): RedirectResponse
     {
-        $this->authorize('create');
+        $this->authorize('create', Company::class);
         $this->companyService->create($request->validated());
         return back()->with('status', 'company-created');
     }
