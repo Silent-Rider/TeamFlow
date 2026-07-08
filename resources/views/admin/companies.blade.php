@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="py-12 h-[calc(100vh-4rem)]" x-data="companyManager()">
+    <div class="sm:py-12 h-[calc(100vh-4rem)]" x-data="companyManager()">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 h-full flex flex-col">
 
             @if (session('status'))
@@ -32,18 +32,24 @@
                                 @click="editCompany({{ $company->id }}, '{{ $company->name }}', '{{ $company->description }}', '{{ $company->logo ? Storage::url($company->logo) : '' }}')">
 
                                 <div class="h-12 w-12 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden shrink-0 border border-gray-200 dark:border-gray-600">
-                                    @if($company->logo)
+                                    @if($company->logo && Storage::disk('public')->exists($company->logo))
                                         <img src="{{ Storage::url($company->logo) }}" class="h-full w-full object-cover">
                                     @else
-                                        <span class="text-xl font-bold text-gray-400">{{ mb_substr($company->name, 0, 1) }}</span>
+                                        <x-avatar-placeholder
+                                            :name="$company->name"
+                                            class="h-full w-full text-2xl border-2 border-white/20 shadow-sm rounded-lg"
+                                        />
                                     @endif
                                 </div>
 
                                 <div class="flex-1 min-w-0">
                                     <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 truncate">{{ $company->name }}</h3>
                                     <div class="flex items-center gap-2 mt-1" x-data="{ copied: false }">
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-sm font-mono font-semibold bg-gray-100 dark:bg-gray-700
-                                            text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 tracking-wider">
+                                        <span
+                                            @click.stop
+                                            @mousedown.stop
+                                            class="inline-flex items-center px-2 py-0.5 rounded text-sm font-mono font-semibold bg-gray-100 dark:bg-gray-700
+                                            text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 tracking-wider cursor-text">
                                             {{ $company->code }}
                                         </span>
                                         <button
@@ -106,7 +112,7 @@
 
                         <div class="mb-6 flex justify-center">
                             <div class="relative h-24 w-24 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-dashed border-gray-300 dark:border-gray-600
-                                flex items-center justify-center overflow-hidden cursor-pointer hover:border-blue-500 transition-colors">
+                                flex items-center justify-center overflow-hidden cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 transition-colors">
                                 <img x-show="previewLogo" :src="previewLogo" class="h-full w-full object-cover">
                                 <div x-show="!previewLogo" class="text-gray-400 flex flex-col items-center">
                                     <svg class="w-8 h-8 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

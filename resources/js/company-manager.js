@@ -78,7 +78,7 @@ export default function () {
         copyCode(code) {
             const markCopied = () => {
                 this.copied = true;
-                setTimeout(() => this.copied = false, 2000);
+                setTimeout(() => this.copied = false, 1000);
             };
 
             if (navigator.clipboard && window.isSecureContext) {
