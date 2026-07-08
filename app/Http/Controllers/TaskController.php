@@ -46,7 +46,7 @@ class TaskController extends Controller
         return back();
     }
 
-    public function toggle(Task $task): RedirectResponse|JsonResponse
+    public function toggle(Task $task): JsonResponse
     {
         $this->authorize('update', $task);
 
@@ -58,12 +58,10 @@ class TaskController extends Controller
                 'is_done' => $task->is_done,
                 'id' => $task->id
             ]);
-        }
-
-        return back();
+        } else abort('404');
     }
 
-    public function show(Task $task): JsonResponse|View
+    public function show(Task $task): JsonResponse
     {
         $this->authorize('view', $task);
         $task->load(['taskComments.user']);
@@ -76,8 +74,6 @@ class TaskController extends Controller
                 ],
                 'html' => view('task.partials.task-details', compact('task'))->render(),
             ]);
-        }
-
-        return view('task.tasks.show', compact('task'));
+        } else abort('404');
     }
 }
