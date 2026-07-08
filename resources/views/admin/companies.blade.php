@@ -42,18 +42,20 @@
                                 <div class="flex-1 min-w-0">
                                     <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 truncate">{{ $company->name }}</h3>
                                     <div class="flex items-center gap-2 mt-1" x-data="{ copied: false }">
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-sm font-mono font-semibold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 tracking-wider">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-sm font-mono font-semibold bg-gray-100 dark:bg-gray-700
+                                            text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 tracking-wider">
                                             {{ $company->code }}
                                         </span>
                                         <button
                                             type="button"
-                                            @click.stop="navigator.clipboard.writeText('{{ $company->code }}').then(() => { copied = true; setTimeout(() => copied = false, 2000); })"
+                                            @click.stop="copyCode('{{ $company->code }}')"
                                             :class="copied ? 'text-green-500' : 'text-gray-400 hover:text-blue-500'"
                                             class="relative w-6 h-6 flex items-center justify-center transition-colors rounded shrink-0 active:scale-95 touch-manipulation"
                                             title="{{ __('admin.copy_code') }}"
                                         >
                                             <svg x-show="!copied" x-transition class="absolute w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0
+                                                    002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                                             </svg>
                                             <svg x-show="copied" x-transition class="absolute w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
@@ -103,10 +105,13 @@
                         </div>
 
                         <div class="mb-6 flex justify-center">
-                            <div class="relative h-24 w-24 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center overflow-hidden cursor-pointer hover:border-blue-500 transition-colors">
+                            <div class="relative h-24 w-24 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-dashed border-gray-300 dark:border-gray-600
+                                flex items-center justify-center overflow-hidden cursor-pointer hover:border-blue-500 transition-colors">
                                 <img x-show="previewLogo" :src="previewLogo" class="h-full w-full object-cover">
                                 <div x-show="!previewLogo" class="text-gray-400 flex flex-col items-center">
-                                    <svg class="w-8 h-8 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                    <svg class="w-8 h-8 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828
+                                            0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                     <span class="text-xs">{{ __('admin.logo_placeholder') }}</span>
                                 </div>
                                 <input type="file" name="logo" accept=".jpg,.jpeg,.png,.webp" class="absolute inset-0 opacity-0 cursor-pointer" @change="handleLogoUpload">

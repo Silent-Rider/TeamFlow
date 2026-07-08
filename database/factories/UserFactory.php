@@ -15,8 +15,11 @@ class UserFactory extends Factory
     protected static ?string $password;
     public function definition(): array
     {
+        $firstName = fake()->firstName();
+        $lastName = fake()->lastName();
+        $name = substr("$firstName $lastName", 0, 32);
         return [
-            'name' => fake()->name(),
+            'name' => $name,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
