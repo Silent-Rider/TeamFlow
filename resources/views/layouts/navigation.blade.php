@@ -1,4 +1,8 @@
+@php use Illuminate\Support\Facades\Auth; @endphp
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+    @php
+    $user = Auth::user()
+    @endphp
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -8,7 +12,7 @@
             </div>
 
             <div class="hidden sm:flex items-center gap-14">
-                @if(auth()->user()->role->value === 'admin')
+                @if($user->role->value === 'admin')
                     <x-nav-link :href="route('companies')" :active="request()->routeIs('companies')">
                         {{ __('navigation.companies_link') }}
                     </x-nav-link>
@@ -29,8 +33,24 @@
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-base leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                            <div class="relative h-11 w-11 shrink-0 group me-3"
+                                 data-user-name="{{ $user->name }}">
+                                @if($user->avatar && Storage::disk('public')->exists($user->avatar))
+                                    <img
+                                        src="{{ Storage::url($user->avatar) }}"
+                                        alt="{{ $user->name }}"
+                                        class="h-full w-full rounded-full object-cover border-2 border-gray-200 dark:border-gray-700 shadow-sm"
+                                    />
+                                @else
+                                    <x-avatar-placeholder
+                                        :name="$user->name"
+                                        class="h-full w-full text-2xl border-2 border-white/20 shadow-sm"
+                                    />
+                                @endif
+                            </div>
+
+                            <div>{{ $user->name }}</div>
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -94,8 +114,8 @@
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ $user->name }}</div>
+                <div class="font-medium text-sm text-gray-500">{{ $user->email }}</div>
             </div>
 
             <div class="mt-3 space-y-1">
@@ -121,7 +141,7 @@
                     </button>
                 </div>
 
-                @if(auth()->user()->role->value === 'admin')
+                @if($user->role->value === 'admin')
                     <x-responsive-nav-link :href="route('tasks')">
                         {{ __('navigation.companies_link') }}
                     </x-responsive-nav-link>
