@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="py-0 sm:py-12 h-[calc(100vh-4rem)]" x-data="taskManager()">
-        <div class="max-w-[95%] mx-auto sm:px-6 lg:px-8 h-full">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 h-full">
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg h-full flex transition-all duration-300 ease-in-out">
 

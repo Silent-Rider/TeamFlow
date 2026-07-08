@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="sm:py-12 h-[calc(100vh-4rem)]" x-data="companyManager()">
+    <div class="py-0 sm:py-12 h-[calc(100vh-4rem)]" x-data="companyManager()">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 h-full flex flex-col">
 
             @if (session('status'))
