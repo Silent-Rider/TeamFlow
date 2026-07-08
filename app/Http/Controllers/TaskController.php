@@ -23,7 +23,7 @@ class TaskController extends Controller
         $tasks = $projectId
             ? $this->taskService->getProjectTasks($projectId, auth()->id(), $filter, $perPage)
             : $this->taskService->getAssigneeTasks(auth()->id(), $filter, $perPage);
-        return view('tasks', compact('tasks'));
+        return view('task.tasks', compact('tasks'));
     }
 
     public function create(TaskCreateRequest $request): RedirectResponse
@@ -74,10 +74,10 @@ class TaskController extends Controller
                     'id' => $task->id,
                     'name' => $task->name
                 ],
-                'html' => view('partials.task-details', compact('task'))->render(),
+                'html' => view('task.partials.task-details', compact('task'))->render(),
             ]);
         }
 
-        return view('tasks.show', compact('task'));
+        return view('task.tasks.show', compact('task'));
     }
 }

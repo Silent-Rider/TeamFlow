@@ -10,7 +10,7 @@
         <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide px-1">Чат задачи</h4>
 
         @forelse($task->taskComments as $comment)
-            @include('partials.task-comment-item', ['comment' => $comment])
+            @include('task.partials.task-comment-item', ['comment' => $comment])
         @empty
             <div class="text-center py-8 text-gray-400 text-sm italic">
                 Пока нет комментариев. Начните обсуждение!
