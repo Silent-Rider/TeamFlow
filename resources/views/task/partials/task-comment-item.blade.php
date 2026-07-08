@@ -1,5 +1,4 @@
 <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 flex gap-3">
-    <!-- Аватар автора -->
     <div class="flex-shrink-0">
         @if($comment->user->avatar)
             <img src="{{ Storage::url($comment->user->avatar) }}" class="w-8 h-8 rounded-full object-cover">

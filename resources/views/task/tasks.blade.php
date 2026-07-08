@@ -102,15 +102,15 @@
                      x-transition:leave="transition ease-in duration-200"
                      x-transition:leave-start="opacity-100 translate-x-0"
                      x-transition:leave-end="opacity-0 translate-x-10"
-                     class="hidden lg:flex flex-col w-1/4 min-w-[320px] max-w-[400px] border-l border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 h-full relative"
+                     class="hidden lg:flex flex-col w-1/3 min-w-[320px] max-w-[400px] border-l border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 h-full relative"
                      style="display: none;">
 
                     <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-start bg-white dark:bg-gray-800 shadow-sm z-10">
-                        <div class="pr-4">
-                            <h3 class="font-bold text-lg leading-tight text-gray-900 dark:text-white" x-text="currentTaskName || '{{ __('tasks.task_details') }}'"></h3>
+                        <div class="pr-4 min-w-0 flex-1">
+                            <h3 class="font-bold text-lg leading-tight text-gray-900 dark:text-white break-words" x-text="currentTaskName || '{{ __('tasks.task_details') }}'"></h3>
                             <span class="text-xs text-gray-500" x-show="currentTaskId">#<span x-text="currentTaskId"></span></span>
                         </div>
-                        <button @click="detailsOpen = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-1">
+                        <button @click="detailsOpen = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-1 shrink-0">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                         </button>
                     </div>
@@ -121,16 +121,20 @@
 
                     <div class="p-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
                         <form @submit.prevent="addComment(currentTaskId)">
-                            <div class="relative">
+                            <div class="relative flex items-center gap-2">
                                 <textarea
                                     x-model="newCommentText"
                                     rows="2"
-                                    class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm resize-none pr-10"
+                                    class="flex-1 border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm resize-none pr-12 min-h-[40px]"
                                     placeholder="{{ __('tasks.write_comment_placeholder') }}"></textarea>
                                 <button type="submit"
                                         :disabled="!newCommentText.trim()"
-                                        class="absolute right-2 bottom-2 p-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                                        class="flex-shrink-0 p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center h-[40px] w-[40px]">
+                                    <svg class="w-5 h-5 transform rotate-90" fill="none" stroke="currentColor"
+                                         viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                                    </svg>
                                 </button>
                             </div>
                         </form>
