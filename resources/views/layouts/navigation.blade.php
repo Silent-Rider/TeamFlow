@@ -45,7 +45,7 @@
                                 @else
                                     <x-avatar-placeholder
                                         :name="$user->name"
-                                        class="h-full w-full text-2xl border-2 border-white/20 shadow-sm"
+                                        class="h-full w-full text-xl border-2 border-white/20 shadow-sm"
                                     />
                                 @endif
                             </div>
