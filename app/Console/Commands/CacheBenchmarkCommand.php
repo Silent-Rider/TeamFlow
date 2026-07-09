@@ -2,6 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Company;
+use App\Models\User;
+use App\Repositories\CompanyRepository;
 use App\Repositories\ProjectRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Console\Attributes\Description;
@@ -15,6 +18,7 @@ use Illuminate\Support\Facades\Cache;
 class CacheBenchmarkCommand extends Command
 {
     public function __construct(
+        private readonly CompanyRepository $companyRepo,
         private readonly UserRepository    $userRepo,
         private readonly ProjectRepository $projectRepo,
     ) {
@@ -23,32 +27,45 @@ class CacheBenchmarkCommand extends Command
 
     public function handle(): int
     {
+        $companyRepo = $this->companyRepo;
         $userRepo = $this->userRepo;
         $projectRepo = $this->projectRepo;
+        $user = User::query()->limit(5)->get()->random();
+
+        $companiesCacheResult = Benchmark::measure([
+            'Замер кэширования компаний. Без кэша (холодный запрос)' => function () use ($companyRepo) {
+                Cache::tags(['companies'])->flush();
+                return $companyRepo->getCompaniesData(1, 50);
+            },
+            'Замер кэширования компаний. С кэшем (тёплый запрос)' => function () use ($companyRepo) {
+                return $companyRepo->getCompaniesData(1, 50);
+            },
+        ], 100);
+        Cache::tags(['companies'])->flush();
 
         $usersCacheResult = Benchmark::measure([
-            'Замер кэширования пользователей. Без кэша (холодный запрос)' => function () use ($userRepo) {
+            'Замер кэширования пользователей. Без кэша (холодный запрос)' => function () use ($user, $userRepo) {
                 Cache::tags(['users'])->flush();
-                return $userRepo->getAllUsersData(1, 1, 50);
+                return $userRepo->getAllUsersData($user, 1, 50);
             },
-            'Замер кэширования пользователей. С кэшем (тёплый запрос)' => function () use ($userRepo) {
-                return $userRepo->getAllUsersData(1, 1, 50);
+            'Замер кэширования пользователей. С кэшем (тёплый запрос)' => function () use ($user, $userRepo) {
+                return $userRepo->getAllUsersData($user, 1, 50);
             },
         ], 100);
         Cache::tags(['users'])->flush();
 
         $projectsCacheResult = Benchmark::measure([
-            'Замер кэширования проектов. Без кэша (холодный запрос)' => function () use ($projectRepo) {
+            'Замер кэширования проектов. Без кэша (холодный запрос)' => function () use ($user, $projectRepo) {
                 Cache::tags(['projects'])->flush();
-                return $projectRepo->getProjectsDataByUserId(1, 1, 50);
+                return $projectRepo->getProjectsDataByUserId($user->id, 1, 50);
             },
-            'Замер кэширования проектов. С кэшем (тёплый запрос)' => function () use ($projectRepo) {
-                return $projectRepo->getProjectsDataByUserId(1, 1, 50);
+            'Замер кэширования проектов. С кэшем (тёплый запрос)' => function () use ($user, $projectRepo) {
+                return $projectRepo->getProjectsDataByUserId($user->id, 1, 50);
             },
         ], 100);
         Cache::tags(['projects'])->flush();
 
-        $results = array_merge($usersCacheResult, $projectsCacheResult);
+        $results = array_merge($companiesCacheResult, $usersCacheResult, $projectsCacheResult);
 
         foreach ($results as $name => $time) {
             $this->line("{$name}: " . number_format($time, 4) . " мс");

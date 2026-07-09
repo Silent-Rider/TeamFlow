@@ -22,13 +22,13 @@ class WarmCacheCommand extends Command
 
     public function handle(): int
     {
-        $userIds = User::query()->pluck('id');
-        $this->withProgressBar($userIds, function (int $userId) {
-            $this->userRepository->getAllUsersData($userId, page: 1, perPage: 50);
-            $this->projectRepository->getProjectsDataByUserId($userId, page: 1, perPage: 20);
+        $users = User::query()->get();
+        $this->withProgressBar($users, function (User $user) {
+            $this->userRepository->getAllUsersData($user, page: 1, perPage: 50);
+            $this->projectRepository->getProjectsDataByUserId($user->id, page: 1, perPage: 20);
         });
         $this->newLine();
-        $this->info('Кэш прогрет для ' . $userIds->count() . ' пользователей.');
+        $this->info('Кэш прогрет для ' . $users->count() . ' пользователей.');
 
         return self::SUCCESS;
     }
