@@ -8,11 +8,12 @@
                      class="flex-1 min-w-0 transition-all duration-300 flex flex-col h-full relative"
                      :class="detailsOpen ? 'lg:w-3/4 w-full' : 'w-full'">
 
+                    @php $filter = request('filter', 'all'); @endphp
+
                     <div id="filter-header"
                          class="sticky top-0 z-20 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700 p-6 pb-4 -mx-0">
 
                         <div class="flex flex-col sm:flex-row items-center sm:justify-between gap-3">
-                            @php $filter = request('filter', 'all'); @endphp
 
                             @if($filter === 'all')
                                 <div class="order-2 sm:order-1 w-full sm:w-auto">
@@ -48,7 +49,7 @@
                                     @click="openTaskDetails({{ $task->id }})"
                                     :class="{ 'bg-blue-50 dark:bg-blue-900/20': detailsOpen && currentTaskId === {{ $task->id }} }">
 
-                                    <button type="button" @click.prevent="toggleTask({{ $task->id }}, $event); $event.stopPropagation();"
+                                    <button type="button" @click.prevent="toggleTask({{ $task->id }}, $event, '{{ $filter }}'); $event.stopPropagation();"
                                             data-task-id="{{ $task->id }}" data-is-done="{{ $task->is_done ? '1' : '0' }}"
                                             :class="{ 'bg-green-500 border-green-500': isTaskDone({{ $task->id }}), 'border-gray-400 hover:border-green-400': !isTaskDone({{ $task->id }}) }"
                                             class="w-5 h-5 rounded-full border-2 flex items-center justify-center cursor-pointer transition-colors flex-shrink-0 z-10">

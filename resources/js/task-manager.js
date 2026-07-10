@@ -39,7 +39,7 @@ export default function () {
             return !!this.tasksStatus[id];
         },
 
-        async toggleTask(id, event) {
+        async toggleTask(id, event, filter) {
             if(event) event.preventDefault();
             const previousState = this.tasksStatus[id];
 
@@ -63,6 +63,18 @@ export default function () {
                 this.tasksStatus[id] = data.is_done;
                 this.updateStats();
 
+                if (filter !== 'all') {
+                    const taskElement = document.querySelector(`button[data-task-id="${id}"]`).closest('li');
+                    if (taskElement) {
+                        taskElement.style.transition = 'opacity 0.3s, transform 0.3s';
+                        taskElement.style.opacity = '0';
+                        taskElement.style.transform = 'translateX(-100%)';
+                        setTimeout(() => taskElement.remove(), 300);
+                    }
+                    if (this.currentTaskId === id) {
+                        this.detailsOpen = false;
+                    }
+                }
             } catch (error) {
                 console.error('Error toggling task:', error);
                 this.tasksStatus[id] = previousState;
