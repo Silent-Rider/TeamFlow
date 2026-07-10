@@ -20,6 +20,7 @@
                     </button>
                 </div>
 
+                @if (isset($labels['logo_placeholder']))
                 <div class="mb-6 flex justify-center">
                     <div class="relative h-24 w-24 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-dashed border-gray-300 dark:border-gray-600
                                 flex items-center justify-center overflow-hidden cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 transition-colors">
@@ -33,6 +34,7 @@
                         <input type="file" name="logo" accept=".jpg,.jpeg,.png,.webp" class="absolute inset-0 opacity-0 cursor-pointer" @change="handleLogoUpload">
                     </div>
                 </div>
+                @endif
 
                 <div class="space-y-4">
                     <div>

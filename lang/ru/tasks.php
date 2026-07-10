@@ -18,5 +18,20 @@ return [
     'comment_placeholder' => 'Комментарий...',
     'description' => 'Описание',
     'task_chat' => 'Чат Задачи',
-    'no_comments' => 'Пока нет комментариев. Начните обсуждение!'
+    'no_comments' => 'Пока нет комментариев. Начните обсуждение!',
+    'add_button' => 'Добавить Задачу',
+    'success_message' => 'Операция выполнена успешно.',
+
+    'create_title' => 'Новая Задача',
+    'edit_title' => 'Редактировать Задачу',
+    'cancel_button' => 'Отменить',
+    'delete_button' => 'Удалить',
+    'save_button' => 'Сохранить',
+    'confirm_delete' => 'Вы уверены? Это действие необратимо.',
+
+    'name_label' => 'Имя',
+    'description_label' => 'Описание',
+    'assignee_label' => 'Исполнитель',
+    'priority_label' => 'Приоритет',
+    'due_date_label' => 'Срок выполнения'
 ];
