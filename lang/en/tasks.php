@@ -15,5 +15,8 @@ return [
     'no_tasks' => 'No tasks',
     'task_details' => 'Task Details',
     'write_comment_placeholder' => 'Write a comment...',
-    'comment_placeholder' => 'Comment...'
+    'comment_placeholder' => 'Comment...',
+    'description' => 'Description',
+    'task_chat' => 'Task Chat',
+    'no_comments' => 'There are no comments yet. Start the discussion!'
 ];

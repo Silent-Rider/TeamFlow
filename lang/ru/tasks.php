@@ -15,5 +15,8 @@ return [
     'no_tasks' => 'Нет задач',
     'task_details' => 'Детали задачи',
     'write_comment_placeholder' => 'Написать комментарий...',
-    'comment_placeholder' => 'Комментарий...'
+    'comment_placeholder' => 'Комментарий...',
+    'description' => 'Описание',
+    'task_chat' => 'Чат Задачи',
+    'no_comments' => 'Пока нет комментариев. Начните обсуждение!'
 ];

@@ -1,6 +1,6 @@
 <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 flex gap-3">
     <div class="flex-shrink-0">
-        @if($comment->user->avatar)
+        @if($comment->user->avatar && Storage::disk('public')->exists($comment->user->avatar))
             <img src="{{ Storage::url($comment->user->avatar) }}" class="w-8 h-8 rounded-full object-cover">
         @else
             <x-avatar-placeholder :name="$comment->user->name" class="w-8 h-8 text-xs" />
