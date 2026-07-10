@@ -16,7 +16,7 @@ class TaskUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'        => ['sometimes', 'string', 'max:255'],
+            'name'        => ['sometimes', 'string', 'max:32'],
             'assignee_id' => ['sometimes', 'integer', 'exists:users,id'],
             'priority'    => ['sometimes', Rule::enum(TaskPriority::class)],
             'description' => ['nullable', 'string', 'max:2000'],

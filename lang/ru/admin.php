@@ -15,5 +15,5 @@ return [
     'delete_button' => 'Удалить',
     'save_button' => 'Сохранить',
     'confirm_delete' => 'Вы уверены? Это действие необратимо.',
-    'success_message' => 'Операция выполнена успешно.',
+    'success_message' => 'Операция выполнена успешно.'
 ];

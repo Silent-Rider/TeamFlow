@@ -15,5 +15,5 @@ return [
     'delete_button' => 'Delete',
     'save_button' => 'Save',
     'confirm_delete' => 'Are you sure? This action cannot be undone.',
-    'success_message' => 'Operation completed successfully.',
+    'success_message' => 'Operation completed successfully.'
 ];

@@ -27,11 +27,11 @@ class TaskPolicy
 
     public function update(User $user, Task $task): bool
     {
-        return $this->view($user, $task);
+        return $user->role === UserRole::ADMIN || $task->creator_id === $user->id;
     }
 
     public function delete(User $user, Task $task): bool
     {
-        return $this->view($user, $task);
+        return $user->role === UserRole::ADMIN || $task->creator_id === $user->id;
     }
 }
