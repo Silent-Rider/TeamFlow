@@ -165,20 +165,20 @@
 
                         <div class="mt-6 flex justify-end gap-3">
                             <button type="button" @click="closeModal()"
-                                    class="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    class="px-3 sm:px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 {{ __('admin.cancel_button') }}
                             </button>
 
                             <template x-if="isEdit">
                                 <button type="button"
                                         @click="confirmDelete(formData.id, '{{ __('admin.confirm_delete') }}')"
-                                        class="px-4 py-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 mr-auto">
+                                        class="px-3 sm:px-4 py-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 mr-auto">
                                     {{ __('admin.delete_button') }}
                                 </button>
                             </template>
 
                             <button type="submit"
-                                    class="px-4 py-2 bg-blue-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-blue-700">
+                                    class="px-3 sm:px-4 py-2 bg-blue-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-blue-700">
                                 {{ __('admin.save_button') }}
                             </button>
                         </div>
