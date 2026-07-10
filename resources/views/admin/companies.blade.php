@@ -126,15 +126,40 @@
 
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('admin.name_label') }}</label>
-                                <input type="text" name="name" x-model="formData.name" required
-                                       class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    {{ __('admin.name_label') }}
+                                </label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    x-model="formData.name"
+                                    maxlength="32"
+                                    required
+                                    class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                >
                             </div>
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('admin.description_label') }}</label>
-                                <textarea name="description" x-model="formData.description" rows="3"
-                                          class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"></textarea>
+                                <textarea
+                                    name="description"
+                                    x-model="formData.description"
+                                    rows="1"
+                                    class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm resize-none min-h-[80px] max-h-40 overflow-y-auto"
+
+                                    @input="$el.style.height = 'auto'; $el.style.height = ($el.scrollHeight + 2) + 'px'"
+
+                                    x-init="$watch('formData.description', value => {
+                                        $nextTick(() => {
+                                            if (value) {
+                                                $el.style.height = 'auto';
+                                                $el.style.height = ($el.scrollHeight + 2) + 'px';
+                                            } else {
+                                                $el.style.height = 'auto';
+                                            }
+                                        });
+                                    })"
+                                ></textarea>
                             </div>
                         </div>
 

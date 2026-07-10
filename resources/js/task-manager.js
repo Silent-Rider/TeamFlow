@@ -10,6 +10,7 @@ export default function () {
         currentTaskId: null,
         currentTaskName: '',
         newCommentText: '',
+        selectedFile: '',
         savedScrollTop: 0,
         bottomNav: document.getElementById('bottom-nav'),
         mainContent: document.querySelector('main'),
@@ -91,6 +92,10 @@ export default function () {
             this.currentTaskId = id;
             this.detailsOpen = true;
 
+            this.newCommentText = '';
+            this.selectedFile = null;
+            if (window.selectedFileName) window.selectedFileName = '';
+
             if (this.bottomNav) this.bottomNav.style.display = 'none';
             document.body.classList.add('overflow-hidden');
 
@@ -133,6 +138,8 @@ export default function () {
 
             this.currentTaskId = null;
             this.newCommentText = '';
+            this.selectedFile = null;
+            if (window.selectedFileName) window.selectedFileName = '';
         },
 
         async addComment(taskId) {
