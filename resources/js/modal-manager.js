@@ -26,12 +26,22 @@ export default function (type = 'company') {
                     url += `?project_id=${projectId}`;
                 }
 
-                const response = await fetch(url);
+                const response = await fetch(url, {
+                    headers: { 'Accept': 'application/json' }
+                });
                 if (!response.ok) throw new Error('Failed to fetch users');
 
                 const data = await response.json();
 
                 this.availableUsers = Array.isArray(data) ? data : (data.data || []);
+
+                this.$nextTick(() => {
+                    const current = this.formData.assignee_id;
+                    this.formData.assignee_id = '';
+                    this.$nextTick(() => {
+                        this.formData.assignee_id = current;
+                    });
+                });
 
             } catch (error) {
                 console.error('Error fetching users:', error);
@@ -54,8 +64,8 @@ export default function (type = 'company') {
                     this.formAction = '/tasks';
                     if (projectId) {
                         this.formData.project_id = projectId;
-                        this.fetchUsers(projectId);
                     }
+                    this.fetchUsers(projectId ?? null);
                     break;
             }
 

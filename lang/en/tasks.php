@@ -21,6 +21,7 @@ return [
     'no_comments' => 'There are no comments yet. Start the discussion!',
     'add_button' => 'Add Task',
     'success_message' => 'Operation completed successfully.',
+    'select_assignee' => 'Select assignee',
 
     'create_title' => 'New Task',
     'edit_title' => 'Edit Task',

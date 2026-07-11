@@ -38,8 +38,7 @@ readonly class UserRepository
         return Cache::tags(['users'])->remember($key, config('cache.ttl.users'),
             function () use ($userId, $projectId, $page, $perPage) {
                 $query = Project::find($projectId)
-                    ->users()
-                    ->get();
+                    ->users();
 
                 return [
                     'total' => $query->count(),
