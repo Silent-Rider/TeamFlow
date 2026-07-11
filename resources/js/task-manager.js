@@ -1,5 +1,9 @@
+import modalManager from './modal-manager';
 export default function () {
+    const manager = modalManager('task');
     return {
+        ...manager,
+
         detailsOpen: false,
         detailsHtml: '',
         tasksStatus: {},
@@ -14,6 +18,10 @@ export default function () {
         savedScrollTop: 0,
         bottomNav: document.getElementById('bottom-nav'),
         mainContent: document.querySelector('main'),
+
+        editTask(id, data) {
+            this.editItem(id, data);
+        },
 
         init() {
             const taskElements = document.querySelectorAll('[data-task-id][data-is-done]');

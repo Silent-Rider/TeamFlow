@@ -3,19 +3,19 @@
 namespace App\View\Components;
 
 use App\View\ModalWindowType;
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class ModalWindow extends Component
 {
     public array $labels;
-    public function __construct(ModalWindowType $type)
+    public function __construct(string $type)
     {
-        $this->labels = $this->getLabels($type);
+        $enumType = ModalWindowType::from($type);
+        $this->labels = $this->getLabels($enumType);
     }
 
-    public function render(): View|Closure|string
+    public function render(): View
     {
         return view('components.modal-window');
     }

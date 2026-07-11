@@ -5,7 +5,6 @@ export default function (type = 'company') {
         formAction: '',
         previewLogo: null,
         availableUsers: [],
-        currentProjectId: null,
 
         formData: {
             id: null,
@@ -16,13 +15,8 @@ export default function (type = 'company') {
             members: [],
             assignee_id: '',
             priority: 'medium',
-            due_date: ''
-        },
-
-        init() {
-            if (type === 'project' || type === 'task') {
-                this.fetchUsers(this.currentProjectId);
-            }
+            due_date: '',
+            project_id: null
         },
 
         async fetchUsers(projectId = null) {
@@ -44,7 +38,7 @@ export default function (type = 'company') {
             }
         },
 
-        openModal() {
+        openModal(projectId = null) {
             this.isEdit = false;
             this.resetForm();
 
@@ -54,9 +48,14 @@ export default function (type = 'company') {
                     break;
                 case 'project':
                     this.formAction = '/projects';
+                    this.fetchUsers();
                     break;
                 case 'task':
                     this.formAction = '/tasks';
+                    if (projectId) {
+                        this.formData.project_id = projectId;
+                        this.fetchUsers(projectId);
+                    }
                     break;
             }
 
@@ -104,6 +103,7 @@ export default function (type = 'company') {
                 due_date: ''
             };
             this.previewLogo = null;
+            this.currentProjectId = null;
         },
 
         handleLogoUpload(event) {
