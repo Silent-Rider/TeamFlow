@@ -22,6 +22,7 @@ return [
     'add_button' => 'Add Task',
     'success_message' => 'Operation completed successfully.',
     'select_assignee' => 'Select assignee',
+    'loading_users' => 'Loading users',
 
     'create_title' => 'New Task',
     'edit_title' => 'Edit Task',

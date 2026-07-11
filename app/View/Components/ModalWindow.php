@@ -9,10 +9,11 @@ use Illuminate\View\Component;
 class ModalWindow extends Component
 {
     public array $labels;
+    public ModalWindowType $type;
     public function __construct(string $type)
     {
-        $enumType = ModalWindowType::from($type);
-        $this->labels = $this->getLabels($enumType);
+        $this->type = ModalWindowType::from($type);
+        $this->labels = $this->getLabels($this->type);
     }
 
     public function render(): View

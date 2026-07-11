@@ -22,6 +22,7 @@ return [
     'add_button' => 'Добавить Задачу',
     'success_message' => 'Операция выполнена успешно.',
     'select_assignee' => 'Выберите исполнителя',
+    'loading_users' => 'Загрузка пользователей',
 
     'create_title' => 'Новая Задача',
     'edit_title' => 'Редактировать Задачу',

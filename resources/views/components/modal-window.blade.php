@@ -1,3 +1,4 @@
+@php use App\Enums\ModalWindowType; @endphp
 <div x-show="modalOpen" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click="closeModal()"></div>
 
@@ -16,7 +17,9 @@
                     <h3 class="text-xl font-bold text-gray-900 dark:text-white"
                         x-text="isEdit ? '{{ $labels['edit_title'] }}' : '{{ $labels['create_title'] }}'"></h3>
                     <button type="button" @click="closeModal()" class="text-gray-400 hover:text-gray-500">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
                     </button>
                 </div>
 
@@ -28,10 +31,12 @@
                             <div x-show="!previewLogo" class="text-gray-400 flex flex-col items-center">
                                 <svg class="w-8 h-8 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828
-                                            0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                            0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
                                 <span class="text-xs">{{ $labels['logo_placeholder'] }}</span>
                             </div>
-                            <input type="file" name="logo" accept=".jpg,.jpeg,.png,.webp" class="absolute inset-0 opacity-0 cursor-pointer" @change="handleLogoUpload">
+                            <input type="file" name="logo" accept=".jpg,.jpeg,.png,.webp"
+                                   class="absolute inset-0 opacity-0 cursor-pointer" @change="handleLogoUpload">
                         </div>
                     </div>
                 @endif
@@ -45,14 +50,16 @@
                             type="text"
                             name="name"
                             x-model="formData.name"
-                            maxlength="32"
+                            maxlength="{{ $type === ModalWindowType::TASK ? 64 : 32 }}"
                             required
                             class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                         >
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ $labels['description_label'] }}</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            {{ $labels['description_label'] }}
+                        </label>
                         <textarea
                             name="description"
                             x-model="formData.description"
@@ -96,15 +103,23 @@
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                 {{ $labels['assignee_label'] }}
                             </label>
+
                             <select
                                 name="assignee_id"
                                 x-model="formData.assignee_id"
                                 required
                                 class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                             >
-                                <option value="" disabled>{{ __('tasks.select_assignee') }}</option>
+                                <template x-if="availableUsers.length === 0">
+                                    <option value="" disabled selected>{{ __('tasks.loading_users') }}</option>
+                                </template>
+
                                 <template x-for="user in availableUsers" :key="user.id">
-                                    <option :value="user.id" x-text="user.name"></option>
+                                    <option
+                                        :value="user.id"
+                                        :selected="Number(user.id) === Number(formData.assignee_id)"
+                                        x-text="user.name"
+                                    ></option>
                                 </template>
                             </select>
                         </div>

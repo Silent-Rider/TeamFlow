@@ -20,6 +20,8 @@ export default function (type = 'company') {
         },
 
         async fetchUsers(projectId = null) {
+            this.availableUsers = [];
+
             try {
                 let url = '/users';
                 if (projectId) {
@@ -32,16 +34,7 @@ export default function (type = 'company') {
                 if (!response.ok) throw new Error('Failed to fetch users');
 
                 const data = await response.json();
-
                 this.availableUsers = Array.isArray(data) ? data : (data.data || []);
-
-                this.$nextTick(() => {
-                    const current = this.formData.assignee_id;
-                    this.formData.assignee_id = '';
-                    this.$nextTick(() => {
-                        this.formData.assignee_id = current;
-                    });
-                });
 
             } catch (error) {
                 console.error('Error fetching users:', error);
@@ -120,6 +113,7 @@ export default function (type = 'company') {
                 due_date: ''
             };
             this.previewLogo = null;
+            this.availableUsers = [];
         },
 
         handleLogoUpload(event) {

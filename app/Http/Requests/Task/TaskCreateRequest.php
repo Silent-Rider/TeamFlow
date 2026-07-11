@@ -16,7 +16,7 @@ class TaskCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'        => ['required', 'string', 'max:32'],
+            'name'        => ['required', 'string', 'max:64'],
             'assignee_id' => ['required', 'integer', 'exists:users,id'],
             'priority'    => ['required', Rule::enum(TaskPriority::class)],
             'description' => ['nullable', 'string', 'max:2000'],

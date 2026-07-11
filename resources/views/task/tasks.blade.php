@@ -173,7 +173,7 @@
                                 </button>
                             </div>
 
-                            <div x-show="selectedFileName" class="mt-1 text-xs text-gray-500 truncate" x-text="'Файл: ' + selectedFileName"></div>
+                            <div x-show="selectedFile" class="mt-1 text-xs text-gray-500 truncate" x-text="'Файл: ' + selectedFile"></div>
                         </form>
                     </div>
                 </div>
