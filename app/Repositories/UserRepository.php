@@ -39,7 +39,6 @@ readonly class UserRepository
             function () use ($userId, $projectId, $page, $perPage) {
                 $query = Project::find($projectId)
                     ->users()
-                    ->where('user_id', '!=', $userId)
                     ->get();
 
                 return [

@@ -30,7 +30,7 @@
                                 <div class="hidden sm:block sm:order-1"></div>
                             @endif
 
-                            <div class="order-1 sm:order-2 flex flex-wrap sm:flex-nowrap gap-2 justify-end w-full sm:w-auto">
+                            <div class="order-1 sm:order-2 flex flex-wrap sm:flex-nowrap gap-2 justify-center sm:justify-end w-full sm:w-auto">
                                 <a href="{{ route('tasks') }}" class="text-sm sm:text-base px-3 py-1 border rounded-md text-center {{ $filter === 'all' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">{{ __('tasks.all') }}</a>
                                 <a href="{{ route('tasks', ['filter' => 'active']) }}" class="text-sm sm:text-base px-3 py-1 border rounded-md text-center {{ $filter === 'active' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">{{ __('tasks.active') }}</a>
                                 <a href="{{ route('tasks', ['filter' => 'done']) }}" class="text-sm sm:text-base px-3 py-1 border rounded-md text-center {{ $filter === 'done' ? 'bg-gray-200 dark:bg-gray-600 border-gray-400 text-gray-900 dark:text-white' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">{{ __('tasks.completed_upper') }}</a>
@@ -86,6 +86,26 @@
                                                 {{ $priority === 'low' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : '' }}">
                                                 {{ match($priority) { 'high' => __('tasks.priority.high'), 'medium' => __('tasks.priority.medium'), 'low' => __('tasks.priority.low'), default => $priority } }}
                                             </span>
+                                        @endif
+                                    </div>
+
+                                    <div class="w-[40px] flex-shrink-0 flex justify-end">
+                                        @if(auth()->id() === $task->creator_id)
+                                            <button type="button"
+                                                    @click.stop="editTask({{ $task->id }}, {
+                                                        name: '{{ addslashes($task->name) }}',
+                                                        description: '{{ addslashes($task->description ?? '') }}',
+                                                        assignee_id: {{ $task->assignee_id }},
+                                                        priority: '{{ $task->priority->value }}',
+                                                        due_date: '{{ $task->due_date?->format('Y-m-d') }}',
+                                                        project_id: {{ $task->project_id ?? 'null' }}
+                                                    })"
+                                                    class="p-2 text-gray-400 hover:text-blue-600 transition-all duration-200 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                                                    title="{{ __('tasks.edit_task') }}">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                </svg>
+                                            </button>
                                         @endif
                                     </div>
                                 </li>
@@ -216,5 +236,7 @@
 
             </div>
         </div>
+
+        <x-modal-window :type="'task'"/>
     </div>
 </x-app-layout>

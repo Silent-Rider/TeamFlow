@@ -13,7 +13,7 @@ return [
     'email_label'                => 'Email',
     'email_reset_link_button'    => 'Email Password Reset Link',
 
-    'company_code_label'         => 'Company Code',
+    'company_code_label'         => 'Company code',
 
     'password_label'    => 'Password',
     'remember_me'       => 'Remember me',

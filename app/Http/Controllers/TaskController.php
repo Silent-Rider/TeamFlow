@@ -48,7 +48,7 @@ class TaskController extends Controller
 
     public function toggle(Task $task): JsonResponse
     {
-        $this->authorize('update', $task);
+        $this->authorize('view', $task);
 
         $this->taskService->toggleTask($task);
 

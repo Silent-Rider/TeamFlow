@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use App\View\ModalWindowType;
+use App\Enums\ModalWindowType;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 

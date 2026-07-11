@@ -81,6 +81,13 @@ export default function (type = 'company') {
                 this.formData.assignee_id = data.assignee_id || '';
                 this.formData.priority = data.priority || 'medium';
                 this.formData.due_date = data.due_date || '';
+
+                if (data.project_id) {
+                    this.formData.project_id = data.project_id;
+                    this.fetchUsers(data.project_id);
+                } else {
+                    this.fetchUsers();
+                }
             }
 
             this.modalOpen = true;
@@ -103,7 +110,6 @@ export default function (type = 'company') {
                 due_date: ''
             };
             this.previewLogo = null;
-            this.currentProjectId = null;
         },
 
         handleLogoUpload(event) {

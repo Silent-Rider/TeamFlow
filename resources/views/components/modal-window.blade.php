@@ -143,7 +143,7 @@
                     @endif
                 </div>
 
-                <div class="mt-6 flex justify-end gap-3">
+                <div class="mt-6 flex justify-end gap-2 sm:gap-3">
                     <button type="button" @click="closeModal()"
                             class="px-3 sm:px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                         {{ $labels['cancel_button'] }}
