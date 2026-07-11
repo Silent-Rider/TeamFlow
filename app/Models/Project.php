@@ -20,6 +20,7 @@ use Illuminate\Support\Carbon;
  * @property int $company_id
  * @method static create(array $data)
  * @method static hydrate(mixed $items)
+ * @method static find(int $projectId)
  */
 #[Fillable(['creator_id', 'name', 'description', 'company_id'])]
 class Project extends Model

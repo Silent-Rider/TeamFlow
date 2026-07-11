@@ -46,10 +46,10 @@ class CacheBenchmarkCommand extends Command
         $usersCacheResult = Benchmark::measure([
             'Замер кэширования пользователей. Без кэша (холодный запрос)' => function () use ($user, $userRepo) {
                 Cache::tags(['users'])->flush();
-                return $userRepo->getAllUsersData($user, 1, 50);
+                return $userRepo->getUsersDataByCompanyId($user, 1, 50);
             },
             'Замер кэширования пользователей. С кэшем (тёплый запрос)' => function () use ($user, $userRepo) {
-                return $userRepo->getAllUsersData($user, 1, 50);
+                return $userRepo->getUsersDataByCompanyId($user, 1, 50);
             },
         ], 100);
         Cache::tags(['users'])->flush();

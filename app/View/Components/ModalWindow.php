@@ -12,7 +12,7 @@ class ModalWindow extends Component
     public array $labels;
     public function __construct(ModalWindowType $type)
     {
-        $labels = $this->getLabels($type);
+        $this->labels = $this->getLabels($type);
     }
 
     public function render(): View|Closure|string

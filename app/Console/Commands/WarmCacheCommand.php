@@ -24,7 +24,7 @@ class WarmCacheCommand extends Command
     {
         $users = User::query()->get();
         $this->withProgressBar($users, function (User $user) {
-            $this->userRepository->getAllUsersData($user, page: 1, perPage: 50);
+            $this->userRepository->getUsersDataByCompanyId($user, page: 1, perPage: 50);
             $this->projectRepository->getProjectsDataByUserId($user->id, page: 1, perPage: 20);
         });
         $this->newLine();
