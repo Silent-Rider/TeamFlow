@@ -92,7 +92,7 @@
                                     <div class="w-[40px] flex-shrink-0 flex justify-end">
                                         @if(auth()->id() === $task->creator_id)
                                             <button type="button"
-                                                    @click.stop="editTask({{ $task->id }}, {
+                                                    @click.stop="openEditModal({{ $task->id }}, {
                                                         name: '{{ addslashes($task->name) }}',
                                                         description: '{{ addslashes($task->description ?? '') }}',
                                                         assignee_id: {{ $task->assignee_id }},

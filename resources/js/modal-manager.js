@@ -41,7 +41,7 @@ export default function (type = 'company') {
             }
         },
 
-        openModal(projectId = null) {
+        openCreateModal(projectId = null) {
             this.isEdit = false;
             this.resetForm();
 
@@ -57,15 +57,15 @@ export default function (type = 'company') {
                     this.formAction = '/tasks';
                     if (projectId) {
                         this.formData.project_id = projectId;
+                        this.fetchUsers(projectId)
                     }
-                    this.fetchUsers(projectId ?? null);
                     break;
             }
 
             this.modalOpen = true;
         },
 
-        editItem(id, data) {
+        openEditModal(id, data) {
             this.isEdit = true;
             this.formData.id = id;
 
@@ -85,12 +85,11 @@ export default function (type = 'company') {
                 this.formData.priority = data.priority || 'medium';
                 this.formData.due_date = data.due_date || '';
 
-                if (data.project_id) {
-                    this.formData.project_id = data.project_id;
-                    this.fetchUsers(data.project_id);
-                } else {
-                    this.fetchUsers();
+                const projectId = data.project_id;
+                if (projectId) {
+                    this.fetchUsers(projectId);
                 }
+                this.formData.project_id = projectId;
             }
 
             this.modalOpen = true;
@@ -110,7 +109,8 @@ export default function (type = 'company') {
                 members: [],
                 assignee_id: '',
                 priority: 'medium',
-                due_date: ''
+                due_date: '',
+                project_id: null
             };
             this.previewLogo = null;
             this.availableUsers = [];

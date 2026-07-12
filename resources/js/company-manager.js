@@ -7,8 +7,8 @@ export default function () {
 
         copied: false,
 
-        editCompany(id, name, description, logoUrl) {
-            this.editItem(id, { name, description, logo: logoUrl });
+        openEditModal(id, name, description, logoUrl) {
+            this.openEditModal(id, { name, description, logo: logoUrl });
         },
 
         copyCode(code) {

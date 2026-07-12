@@ -19,8 +19,8 @@ export default function () {
         bottomNav: document.getElementById('bottom-nav'),
         mainContent: document.querySelector('main'),
 
-        editTask(id, data) {
-            this.editItem(id, data);
+        openEditModal(id, data) {
+            this.openEditModal(id, data);
         },
 
         init() {

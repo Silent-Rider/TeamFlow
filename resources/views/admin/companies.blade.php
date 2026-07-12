@@ -21,7 +21,7 @@
                 <div
                     class="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center bg-white dark:bg-gray-800 z-10 shrink-0">
                     <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">{{ __('admin.title') }}</h2>
-                    <button @click="openModal()" class="btn-primary text-sm py-2 px-4">
+                    <button @click="openCreateModal()" class="btn-primary text-sm py-2 px-4">
                         {{ __('admin.add_button') }}
                     </button>
                 </div>
@@ -30,7 +30,7 @@
                     <ul class="divide-y divide-gray-100 dark:divide-gray-700">
                         @forelse($companies as $company)
                             <li class="flex items-center gap-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg px-4 -mx-4 transition-colors group cursor-pointer"
-                                @click="editCompany({{ $company->id }}, '{{ $company->name }}', '{{ $company->description }}', '{{ $company->logo ? Storage::url($company->logo) : '' }}')">
+                                @click="openEditModal({{ $company->id }}, '{{ $company->name }}', '{{ $company->description }}', '{{ $company->logo ? Storage::url($company->logo) : '' }}')">
 
                                 <div
                                     class="h-12 w-12 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden shrink-0 border border-gray-200 dark:border-gray-600">

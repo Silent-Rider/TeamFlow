@@ -4,8 +4,8 @@ export default function () {
     return {
         ...manager,
 
-        editProject(id, name, description, memberIds) {
-            this.editItem(id, { name, description, member_ids: memberIds });
+        openEditModal(id, name, description, memberIds) {
+            this.openEditModal(id, { name, description, member_ids: memberIds });
         }
     }
 }
