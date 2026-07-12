@@ -84,17 +84,45 @@
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                 {{ $labels['members_label'] }}
                             </label>
-                            <select
-                                name="members[]"
-                                x-model="formData.members"
-                                multiple
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm h-32"
-                            >
-                                <template x-for="user in availableUsers" :key="user.id">
-                                    <option :value="user.id" x-text="user.name"></option>
+
+                            <div class="flex flex-wrap gap-2 mb-2 min-h-[40px] p-2 border border-gray-200 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900">
+                                <template x-for="userId in formData.members" :key="userId">
+                                    <template x-if="userId != {{ auth()->id() }}">
+                                        <div class="inline-flex items-center px-2 py-1 rounded text-sm bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                            <span x-text="availableUsers.find(u => u.id == userId)?.name || '...'"></span>
+                                            <button type="button"
+                                                    @click.stop="formData.members = formData.members.filter(id => id !== Number(userId))"
+                                                    class="ml-1.5 text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100 focus:outline-none">
+                                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </template>
                                 </template>
-                            </select>
-                            <p class="text-xs text-gray-500 mt-1">Удерживайте Ctrl/Cmd для выбора нескольких</p>
+
+                                <template x-if="formData.members.length === 0">
+                                    <span class="text-sm text-gray-400 italic self-center">Участники не выбраны</span>
+                                </template>
+                            </div>
+
+                            <div class="relative">
+                                <select
+                                    @change="$event.target.value && formData.members.push(Number($event.target.value)); $event.target.value = ''"
+                                    class="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                >
+                                    <option value="" disabled selected>+ Добавить участника</option>
+                                    <template x-for="user in availableUsers" :key="user.id">
+                                        <template x-if="!formData.members.includes(user.id)">
+                                            <option :value="user.id" x-text="user.name"></option>
+                                        </template>
+                                    </template>
+                                </select>
+                            </div>
+
+                            <template x-for="memberId in formData.members" :key="'hidden-'+memberId">
+                                <input type="hidden" name="members[]" :value="memberId">
+                            </template>
                         </div>
                     @endif
 
