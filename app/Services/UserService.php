@@ -15,7 +15,7 @@ readonly class UserService
         if (!$projectId) {
             $usersData = $this->userRepository->getUsersDataByCompanyId($user, $page, $perPage);
         } else {
-            $usersData = $this->userRepository->getUsersDataByProjectId($user, $projectId, $page, $perPage);
+            $usersData = $this->userRepository->getUsersDataByProjectId($projectId, $page, $perPage);
         }
         $usersData['items'] = $usersData['items'] ? User::hydrate($usersData['items']) : Collection::empty();
         return $usersData;

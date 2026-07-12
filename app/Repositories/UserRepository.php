@@ -30,13 +30,12 @@ readonly class UserRepository
         );
     }
 
-    public function getUsersDataByProjectId(User $user, int $projectId, int $page, int $perPage): array
+    public function getUsersDataByProjectId(int $projectId, int $page, int $perPage): array
     {
-        $userId = $user->id;
-        $key = "users:project:exclude:{$userId}:page:{$page}:per:{$perPage}";
+        $key = "users:project:{$projectId}:page:{$page}:per:{$perPage}";
 
         return Cache::tags(['users'])->remember($key, config('cache.ttl.users'),
-            function () use ($userId, $projectId, $page, $perPage) {
+            function () use ($projectId, $page, $perPage) {
                 $query = Project::find($projectId)
                     ->users();
 
