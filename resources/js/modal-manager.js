@@ -3,6 +3,8 @@ export default function (type = 'company') {
         modalOpen: false,
         isEdit: false,
         formAction: '',
+
+        //Специфичные поля
         previewLogo: null,
         availableUsers: [],
 
@@ -11,6 +13,7 @@ export default function (type = 'company') {
             name: '',
             description: '',
 
+            //Специфичные поля
             logo: '',
             members: [],
             assignee_id: '',
@@ -55,10 +58,8 @@ export default function (type = 'company') {
                     break;
                 case 'task':
                     this.formAction = '/tasks';
-                    if (projectId) {
-                        this.formData.project_id = projectId;
-                        this.fetchUsers(projectId)
-                    }
+                    this.formData.project_id = projectId;
+                    this.fetchUsers(projectId)
                     break;
             }
 
@@ -68,28 +69,30 @@ export default function (type = 'company') {
         openEditModal(id, data) {
             this.isEdit = true;
             this.formData.id = id;
-
             this.formData.name = data.name || '';
             this.formData.description = data.description || '';
 
-            if (type === 'company') {
-                this.formAction = `/companies/${id}`;
-                this.previewLogo = data.logo || null;
-                this.formData.logo = data.logo || '';
-            } else if (type === 'project') {
-                this.formAction = `/projects/${id}`;
-                this.formData.members = data.member_ids || [];
-            } else if (type === 'task') {
-                this.formAction = `/tasks/${id}`;
-                this.formData.assignee_id = data.assignee_id || '';
-                this.formData.priority = data.priority || 'medium';
-                this.formData.due_date = data.due_date || '';
+            switch (type) {
+                case 'company':
+                    this.formAction = `/companies/${id}`;
+                    this.previewLogo = data.logo || null;
+                    this.formData.logo = data.logo || '';
+                    break
+                case 'project':
+                    this.formAction = `/projects/${id}`;
+                    this.formData.members = data.member_ids || [];
+                    this.fetchUsers();
+                    break;
+                case 'task':
+                    this.formAction = `/tasks/${id}`;
+                    this.formData.assignee_id = data.assignee_id || '';
+                    this.formData.priority = data.priority || 'medium';
+                    this.formData.due_date = data.due_date || '';
 
-                const projectId = data.project_id;
-                if (projectId) {
+                    const projectId = data.project_id;
+                    this.formData.project_id = projectId;
                     this.fetchUsers(projectId);
-                }
-                this.formData.project_id = projectId;
+                    break;
             }
 
             this.modalOpen = true;
@@ -105,6 +108,7 @@ export default function (type = 'company') {
                 id: null,
                 name: '',
                 description: '',
+                //Специфичные поля
                 logo: '',
                 members: [],
                 assignee_id: '',

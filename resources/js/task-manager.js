@@ -1,8 +1,8 @@
 import modalManager from './modal-manager';
 export default function () {
-    const manager = modalManager('task');
+    const modal = modalManager('task');
     return {
-        ...manager,
+        ...modal,
 
         detailsOpen: false,
         detailsHtml: '',
@@ -18,10 +18,6 @@ export default function () {
         savedScrollTop: 0,
         bottomNav: document.getElementById('bottom-nav'),
         mainContent: document.querySelector('main'),
-
-        openEditModal(id, data) {
-            this.openEditModal(id, data);
-        },
 
         init() {
             const taskElements = document.querySelectorAll('[data-task-id][data-is-done]');

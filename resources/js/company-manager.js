@@ -1,15 +1,10 @@
 import modalManager from './modal-manager';
 export default function () {
-    const manager = modalManager('company');
-
+    const modal = modalManager('company');
     return {
-        ...manager,
+        ...modal,
 
         copied: false,
-
-        openEditModal(id, name, description, logoUrl) {
-            this.openEditModal(id, { name, description, logo: logoUrl });
-        },
 
         copyCode(code) {
             const markCopied = () => {
