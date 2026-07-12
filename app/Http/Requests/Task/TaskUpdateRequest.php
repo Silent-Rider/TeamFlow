@@ -20,7 +20,7 @@ class TaskUpdateRequest extends FormRequest
             'assignee_id' => ['sometimes', 'integer', 'exists:users,id'],
             'priority'    => ['sometimes', Rule::enum(TaskPriority::class)],
             'description' => ['nullable', 'string', 'max:2000'],
-            'due_date'    => ['nullable', 'date', 'after_or_equal:today']
+            'due_date'    => ['nullable', 'date']
         ];
     }
 }
