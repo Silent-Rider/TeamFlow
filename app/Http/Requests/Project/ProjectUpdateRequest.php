@@ -17,6 +17,8 @@ class ProjectUpdateRequest extends FormRequest
         return [
             'name'        => ['sometimes', 'string', 'max:32'],
             'description' => ['nullable', 'string', 'max:2000'],
+            'members'     => ['nullable', 'array'],
+            'members.*'   => ['integer', 'exists:users,id']
         ];
     }
 }

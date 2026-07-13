@@ -16,6 +16,8 @@ class ProjectCreateRequest extends FormRequest
         return [
             'name'        => ['required', 'string', 'max:32'],
             'description' => ['nullable', 'string', 'max:2000'],
+            'members'     => ['nullable', 'array'],
+            'members.*'   => ['integer', 'exists:users,id']
         ];
     }
 

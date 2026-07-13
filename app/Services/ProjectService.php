@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Enums\ProjectRole;
 use App\Models\Project;
 use App\Repositories\ProjectRepository;
 use Illuminate\Support\Collection;
@@ -29,28 +28,12 @@ readonly class ProjectService
 
     public function updateProject(Project $project, array $data): void
     {
-        $project->update($data);
-        Cache::tags(['projects'])->flush();
+        $this->projectRepository->updateProject($project, $data);
     }
 
     public function deleteProject(Project $project): void
     {
         $project->delete();
         Cache::tags(['projects', 'project_access'])->flush();
-    }
-
-    public function addMember(Project $project, int $userId, ProjectRole $role): void
-    {
-        $this->projectRepository->addMember($project, $userId, $role);
-    }
-
-    public function removeMember(Project $project, int $userId): void
-    {
-        $this->projectRepository->removeMember($project, $userId);
-    }
-
-    public function updateMemberRole(Project $project, int $userId, ProjectRole $role): void
-    {
-        $this->projectRepository->updateMemberRole($project, $userId, $role);
     }
 }

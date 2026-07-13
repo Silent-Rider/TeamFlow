@@ -5,7 +5,9 @@ namespace App\Repositories;
 use App\Enums\ProjectRole;
 use App\Models\Project;
 use App\Models\ProjectUser;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 readonly class ProjectRepository
 {
@@ -43,35 +45,40 @@ readonly class ProjectRepository
 
     public function createProject(array $data): void
     {
-        $pivotData = [
-            'role' => ProjectRole::OWNER,
-            'created_at' => now()
-        ];
+        $memberIds = $data['members'] ?? [];
+        $projectData = Arr::except($data, ['members']);
 
-        $project = Project::create($data);
-        $project->users()->attach($project->creator_id, $pivotData);
+        DB::transaction(function () use ($projectData, $memberIds) {
+            $pivotData = [
+                'role' => ProjectRole::OWNER,
+                'created_at' => now()
+            ];
 
+            $project = Project::create($projectData);
+            $project->users()->attach($project->creator_id, $pivotData);
+            $this->updateMembersList($project, $memberIds);
+        });
         Cache::tags(['projects', 'project_access'])->flush();
     }
 
-    public function addMember(Project $project, int $userId, ProjectRole $role): void
+    public function updateProject(Project $project, array $data): void
     {
-        $project->users()->attach($userId, [
-            'role'       => $role,
+        $memberIds = $data['members'] ?? [];
+        $projectData = Arr::except($data, ['members']);
+
+        DB::transaction(function () use ($project, $projectData, $memberIds) {
+            $project->update($projectData);
+            $this->updateMembersList($project, $memberIds);
+        });
+        Cache::tags(['projects', 'project_access'])->flush();
+    }
+
+    private function updateMembersList(Project $project, array $userIds): void
+    {
+        $project->users()->wherePivot('role', ProjectRole::MEMBER)->detach();
+        $project->users()->attach($userIds, [
+            'role' => ProjectRole::MEMBER,
             'created_at' => now(),
         ]);
-        Cache::tags(['projects', 'project_access'])->flush();
-    }
-
-    public function removeMember(Project $project, int $userId): void
-    {
-        $project->users()->detach($userId);
-        Cache::tags(['projects', 'project_access'])->flush();
-    }
-
-    public function updateMemberRole(Project $project, int $userId, ProjectRole $role): void
-    {
-        $project->users()->updateExistingPivot($userId, ['role' => $role]);
-        Cache::tags(['project_access'])->flush();
     }
 }
