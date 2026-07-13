@@ -5,7 +5,7 @@
      x-transition:leave="transition ease-in duration-200"
      x-transition:leave-start="opacity-100 translate-x-0"
      x-transition:leave-end="opacity-0 translate-x-10"
-     class="hidden lg:flex flex-col w-1/3 min-w-[320px] max-w-[400px] border-l border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 h-full relative"
+     class="hidden lg:flex flex-col w-[350px] shrink-0 border-l border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 h-full relative"
      style="display: none;">
 
     <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-start bg-white dark:bg-gray-800 shadow-sm z-10">

@@ -5,7 +5,7 @@
 
                 <div x-data="projectManager()"
                      class="min-w-0 transition-all duration-300 flex flex-col h-full relative border-r border-gray-200 dark:border-gray-700"
-                     :class="$store.projectPanel.open ? 'hidden lg:flex lg:w-[300px]' : 'flex w-full'">
+                     :class="$store.projectPanel.open ? 'hidden lg:flex lg:w-[250px]' : 'flex w-full'">
 
                     <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center shrink-0">
                         <h2
@@ -61,9 +61,8 @@
                      class="flex-1 min-w-0 flex h-full"
                      style="display: none;">
 
-                    <div class="min-w-0 flex flex-col h-full relative border-r border-gray-200 dark:border-gray-700"
-                         :class="detailsOpen ? 'hidden lg:flex lg:w-1/2' : 'flex w-full'">
-
+                    <div class="min-w-0 flex flex-col h-full relative border-r border-gray-200 dark:border-gray-700 transition-all duration-300"
+                         :class="detailsOpen ? 'hidden lg:flex lg:flex-1' : 'flex w-full'">
                         <div class="flex items-center gap-3 p-4 border-b border-gray-200 dark:border-gray-700 shrink-0">
                             <button @click="$store.projectPanel.close()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-1 lg:hidden">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
