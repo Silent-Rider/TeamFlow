@@ -43,14 +43,8 @@ readonly class ProjectRepository
         });
     }
 
-    public function createProject(array $data): void
+    public function createProject(array $projectData, array $memberIds): void
     {
-        $memberIds = collect($data['members'] ?? [])
-            ->reject(fn ($id) => (int) $id === (int) $data['creator_id'])
-            ->values()
-            ->all();
-        $projectData = Arr::except($data, ['members']);
-
         DB::transaction(function () use ($projectData, $memberIds) {
             $pivotData = [
                 'role' => ProjectRole::OWNER,
@@ -59,27 +53,21 @@ readonly class ProjectRepository
 
             $project = Project::create($projectData);
             $project->users()->attach($project->creator_id, $pivotData);
-            $this->updateMembersList($project, $memberIds);
+            $this->syncMembers($project, $memberIds);
         });
         Cache::tags(['projects', 'project_access'])->flush();
     }
 
-    public function updateProject(Project $project, array $data): void
+    public function updateProject(Project $project, array $projectData, array $memberIds): void
     {
-        $memberIds = collect($data['members'] ?? [])
-            ->reject(fn ($id) => (int) $id === (int) $project->creator_id)
-            ->values()
-            ->all();
-        $projectData = Arr::except($data, ['members']);
-
         DB::transaction(function () use ($project, $projectData, $memberIds) {
             $project->update($projectData);
-            $this->updateMembersList($project, $memberIds);
+            $this->syncMembers($project, $memberIds);
         });
         Cache::tags(['projects', 'project_access'])->flush();
     }
 
-    private function updateMembersList(Project $project, array $userIds): void
+    private function syncMembers(Project $project, array $userIds): void
     {
         $project->users()->wherePivot('role', ProjectRole::MEMBER)->detach();
         $project->users()->attach($userIds, [

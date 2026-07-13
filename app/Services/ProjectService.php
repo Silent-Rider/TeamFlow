@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Project;
 use App\Repositories\ProjectRepository;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
@@ -23,12 +24,22 @@ readonly class ProjectService
 
     public function createProject(array $data): void
     {
-        $this->projectRepository->createProject($data);
+        $memberIds = collect($data['members'] ?? [])
+            ->reject(fn ($id) => (int) $id === (int) $data['creator_id'])
+            ->values()
+            ->all();
+        $projectData = Arr::except($data, ['members']);
+        $this->projectRepository->createProject(projectData: $projectData, memberIds:  $memberIds);
     }
 
     public function updateProject(Project $project, array $data): void
     {
-        $this->projectRepository->updateProject($project, $data);
+        $memberIds = collect($data['members'] ?? [])
+            ->reject(fn ($id) => (int) $id === (int) $project->creator_id)
+            ->values()
+            ->all();
+        $projectData = Arr::except($data, ['members']);
+        $this->projectRepository->updateProject($project, projectData: $projectData, memberIds:  $memberIds);
     }
 
     public function deleteProject(Project $project): void
