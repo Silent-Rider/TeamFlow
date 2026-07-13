@@ -1,12 +1,13 @@
 <?php
 
 return [
+    'title' => 'Project management',
     'no_projects' => 'No projects found',
-    'add_button' => 'Add Project',
+    'add_button' => 'Add project',
     'success_message' => 'Operation completed successfully.',
 
-    'create_title' => 'New Project',
-    'edit_title' => 'Edit Project',
+    'create_title' => 'New project',
+    'edit_title' => 'Edit project',
     'cancel_button' => 'Cancel',
     'delete_button' => 'Delete',
     'save_button' => 'Save',

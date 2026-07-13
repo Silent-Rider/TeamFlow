@@ -15,7 +15,7 @@ class TaskController extends Controller
 {
     public function __construct(readonly TaskService $taskService)
     {}
-    public function index(TaskIndexRequest $request): View
+    public function index(TaskIndexRequest $request): View|JsonResponse
     {
         $filter = $request->getFilter();
         $perPage = $request->getPerPage();
@@ -23,6 +23,18 @@ class TaskController extends Controller
         $tasks = $projectId
             ? $this->taskService->getProjectTasks($projectId, auth()->id(), $filter, $perPage)
             : $this->taskService->getAssigneeTasks(auth()->id(), $filter, $perPage);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'html' => view('task.partials.task-list', [
+                    'tasks' => $tasks,
+                    'filter' => $filter,
+                    'projectId' => $projectId,
+                    'embedded' => true,
+                ])->render(),
+            ]);
+        }
+
         return view('task.tasks', compact('tasks'));
     }
 

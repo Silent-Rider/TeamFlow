@@ -1,4 +1,5 @@
 import modalManager from './modal-manager';
+
 export default function () {
     const modal = modalManager('task');
     return {
@@ -20,17 +21,32 @@ export default function () {
         mainContent: document.querySelector('main'),
 
         init() {
-            const taskElements = document.querySelectorAll('[data-task-id][data-is-done]');
-
-            taskElements.forEach(el => {
-                this.tasksStatus[el.dataset.taskId] = el.dataset.isDone === '1';
-            });
-
+            this.scanTasks(this.$refs.taskListContainer || this.$el);
             this.updateStats();
 
             this.$nextTick(() => {
                 this.bottomNav = document.getElementById('bottom-nav');
                 this.mainContent = document.querySelector('main');
+            });
+
+            this.$watch('$store.projectPanel.html', () => {
+                this.detailsOpen = false;
+                this.tasksStatus = {};
+
+                this.$nextTick(() => {
+                    if (this.$refs.taskListContainer) {
+                        window.Alpine.initTree(this.$refs.taskListContainer);
+                        this.scanTasks(this.$refs.taskListContainer);
+                    }
+                    this.updateStats();
+                });
+            });
+        },
+
+        scanTasks(container) {
+            if (!container) return;
+            container.querySelectorAll('[data-task-id][data-is-done]').forEach(el => {
+                this.tasksStatus[el.dataset.taskId] = el.dataset.isDone === '1';
             });
         },
 
@@ -45,7 +61,7 @@ export default function () {
         },
 
         async toggleTask(id, event, filter) {
-            if(event) event.preventDefault();
+            if (event) event.preventDefault();
             const previousState = this.tasksStatus[id];
 
             this.tasksStatus[id] = !previousState;
@@ -90,7 +106,7 @@ export default function () {
         async openTaskDetails(id) {
             if (this.currentTaskId === id && this.detailsOpen) return;
 
-            const scrollContainer = document.getElementById('task-scroll-area');
+            const scrollContainer = document.getElementById('task-scroll-area') || this.$refs.taskListContainer;
             if (scrollContainer) this.savedScrollTop = scrollContainer.scrollTop;
 
             this.currentTaskId = id;
@@ -123,7 +139,7 @@ export default function () {
                     if (scrollContainer) scrollContainer.scrollTop = this.savedScrollTop;
 
                     const chatContainer = document.querySelector('.custom-scrollbar');
-                    if(chatContainer && chatContainer !== scrollContainer) {
+                    if (chatContainer && chatContainer !== scrollContainer) {
                         chatContainer.scrollTop = chatContainer.scrollHeight;
                     }
                 });
@@ -161,7 +177,7 @@ export default function () {
             `;
 
             const commentsContainer = this.$el.querySelector('.space-y-4');
-            if(commentsContainer) {
+            if (commentsContainer) {
                 commentsContainer.insertAdjacentHTML('beforeend', optimisticHtml);
                 commentsContainer.scrollTop = commentsContainer.scrollHeight;
             }
@@ -187,7 +203,7 @@ export default function () {
                 const tempEl = document.getElementById(tempId);
                 if (tempEl) {
                     tempEl.outerHTML = data.comment_html;
-                } else if(commentsContainer) {
+                } else if (commentsContainer) {
                     commentsContainer.insertAdjacentHTML('beforeend', data.comment_html);
                 }
 
@@ -196,5 +212,5 @@ export default function () {
                 alert('Не удалось отправить комментарий');
             }
         }
-    }
+    };
 }
