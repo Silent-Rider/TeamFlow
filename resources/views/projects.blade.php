@@ -8,7 +8,12 @@
                      :class="$store.projectPanel.open ? 'hidden lg:flex lg:w-1/3' : 'flex w-full'">
 
                     <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center shrink-0">
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">{{ __('projects.title') }}</h2>
+                        <h2
+                            :class="$store.projectPanel.open ? 'hidden' : ''"
+                            class="font-semibold text-gray-800 dark:text-gray-200 text-xl"
+                        >
+                            {{ __('projects.title') }}
+                        </h2>
                         <button @click="openCreateModal()" class="btn-primary text-sm py-2 px-4">
                             {{ __('projects.add_button') }}
                         </button>
