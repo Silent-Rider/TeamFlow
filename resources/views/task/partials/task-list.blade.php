@@ -6,7 +6,7 @@
 
 <div class="sticky top-0 z-20 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700 p-6 pb-4">
     @if($embedded)
-        <div class="flex justify-end mb-4">
+        <div class="flex justify-center sm:justify-end mb-4">
             <button type="button"
                     @click="openCreateModal({{ $projectId ?? 'null' }})"
                     class="btn-primary text-sm py-2 px-4">
