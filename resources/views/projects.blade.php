@@ -5,7 +5,7 @@
 
                 <div x-data="projectManager()"
                      class="min-w-0 transition-all duration-300 flex flex-col h-full relative border-r border-gray-200 dark:border-gray-700"
-                     :class="$store.projectPanel.open ? 'hidden lg:flex lg:w-1/3' : 'flex w-full'">
+                     :class="$store.projectPanel.open ? 'hidden lg:flex lg:w-[380px]' : 'flex w-full'">
 
                     <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center shrink-0">
                         <h2

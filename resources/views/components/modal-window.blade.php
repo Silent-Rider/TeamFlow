@@ -7,7 +7,7 @@
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
              x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-             class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-gray-200 dark:border-gray-700">
+             class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg border border-gray-200 dark:border-gray-700">
 
             <form :action="formAction" method="POST" enctype="multipart/form-data" class="p-6">
                 @csrf
@@ -192,7 +192,8 @@
                     @endif
                 </div>
 
-                <div class="mt-6 flex justify-end gap-2 sm:gap-3">
+                <div class="mt-6 flex gap-2 sm:gap-3"
+                     :class="isEdit ? 'justify-end' : 'justify-between'">
                     <button type="button" @click="closeModal()"
                             class="px-3 sm:px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                         {{ $labels['cancel_button'] }}
