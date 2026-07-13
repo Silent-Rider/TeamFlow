@@ -13,6 +13,12 @@
                 @csrf
                 <input type="hidden" name="_method" :value="isEdit ? 'PUT' : 'POST'">
 
+                @if ($type === ModalWindowType::TASK)
+                    <template x-if="!isEdit && formData.project_id">
+                        <input type="hidden" name="project_id" :value="formData.project_id">
+                    </template>
+                @endif
+
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-xl font-bold text-gray-900 dark:text-white"
                         x-text="isEdit ? '{{ $labels['edit_title'] }}' : '{{ $labels['create_title'] }}'"></h3>
@@ -102,7 +108,7 @@
                                 </template>
 
                                 <template x-if="formData.members.length === 0">
-                                    <span class="text-sm text-gray-400 italic self-center">Участники не выбраны</span>
+                                    <span class="text-sm text-gray-400 italic self-center">{{ __('projects.members_not_selected') }}</span>
                                 </template>
                             </div>
 
@@ -111,7 +117,7 @@
                                     @change="$event.target.value && formData.members.push(Number($event.target.value)); $event.target.value = ''"
                                     class="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                                 >
-                                    <option value="" disabled selected>+ Добавить участника</option>
+                                    <option value="" disabled selected>{{ __('projects.add_member') }}</option>
                                     <template x-for="user in availableUsers" :key="user.id">
                                         <template x-if="!formData.members.includes(user.id)">
                                             <option :value="user.id" x-text="user.name"></option>

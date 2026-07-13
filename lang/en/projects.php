@@ -5,6 +5,8 @@ return [
     'no_projects' => 'No projects found',
     'add_button' => 'Add project',
     'success_message' => 'Operation completed successfully.',
+    'add_member' => '+ Add member',
+    'members_not_selected' => 'Members not selected',
 
     'create_title' => 'New project',
     'edit_title' => 'Edit project',

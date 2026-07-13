@@ -5,6 +5,8 @@ return [
     'no_projects' => 'Не найдено проектов',
     'add_button' => 'Добавить проект',
     'success_message' => 'Операция выполнена успешно.',
+    'add_member' => '+ Добавить участника',
+    'members_not_selected' => 'Участники не выбраны',
 
     'create_title' => 'Новый проект',
     'edit_title' => 'Редактировать проект',

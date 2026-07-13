@@ -27,7 +27,7 @@ return new class extends Migration {
         });
 
         Schema::table('tasks', function (Blueprint $table) {
-            $table->foreignId('project_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('project_id')->constrained()->cascadeOnDelete();
         });
     }
 

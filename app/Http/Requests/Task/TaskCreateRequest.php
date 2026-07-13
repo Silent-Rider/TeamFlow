@@ -21,7 +21,7 @@ class TaskCreateRequest extends FormRequest
             'priority'    => ['required', Rule::enum(TaskPriority::class)],
             'description' => ['nullable', 'string', 'max:2000'],
             'due_date'    => ['nullable', 'date'],
-            'project_id'  => ['nullable', 'integer', 'exists:projects,id'],
+            'project_id'  => ['integer', 'exists:projects,id'],
         ];
     }
 
