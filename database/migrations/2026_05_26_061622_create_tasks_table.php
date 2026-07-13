@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('creator_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('assignee_id')->constrained('users')->cascadeOnDelete();
             $table->string('name');
+            $table->text('description')->nullable();
             $table->string('priority')->default('medium');
             $table->boolean('is_done')->default(false);
             $table->date('due_date')->nullable();
