@@ -22,6 +22,7 @@ return [
     'add_button' => 'Добавить задачу',
     'success_message' => 'Операция выполнена успешно.',
     'select_assignee' => 'Выберите исполнителя',
+    'no_assignee' => 'Нет исполнителя',
 
     'create_title' => 'Новая задача',
     'edit_title' => 'Редактировать задачу',

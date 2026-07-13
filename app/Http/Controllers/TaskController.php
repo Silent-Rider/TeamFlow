@@ -76,7 +76,7 @@ class TaskController extends Controller
     public function show(Task $task): JsonResponse
     {
         $this->authorize('view', $task);
-        $task->load(['taskComments.user']);
+        $task->load(['taskComments.user', 'assignee']);
 
         if (request()->wantsJson()) {
             return response()->json([
