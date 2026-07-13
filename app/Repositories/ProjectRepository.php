@@ -45,7 +45,10 @@ readonly class ProjectRepository
 
     public function createProject(array $data): void
     {
-        $memberIds = $data['members'] ?? [];
+        $memberIds = collect($data['members'] ?? [])
+            ->reject(fn ($id) => (int) $id === (int) $data['creator_id'])
+            ->values()
+            ->all();
         $projectData = Arr::except($data, ['members']);
 
         DB::transaction(function () use ($projectData, $memberIds) {
@@ -63,7 +66,10 @@ readonly class ProjectRepository
 
     public function updateProject(Project $project, array $data): void
     {
-        $memberIds = $data['members'] ?? [];
+        $memberIds = collect($data['members'] ?? [])
+            ->reject(fn ($id) => (int) $id === (int) $project->creator_id)
+            ->values()
+            ->all();
         $projectData = Arr::except($data, ['members']);
 
         DB::transaction(function () use ($project, $projectData, $memberIds) {

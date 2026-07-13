@@ -48,33 +48,4 @@ class ProjectController extends Controller
         $this->projectService->deleteProject($project);
         return back();
     }
-
-    public function addMember(ProjectAddMemberRequest $request, Project $project): RedirectResponse
-    {
-        $this->authorize('update', $project);
-        $this->projectService->addMember(
-            $project,
-            $request->validated('user_id'),
-            ProjectRole::from($request->validated('role'))
-        );
-        return back();
-    }
-
-    public function removeMember(Project $project, User $user): RedirectResponse
-    {
-        $this->authorize('update', $project);
-        $this->projectService->removeMember($project, $user->id);
-        return back();
-    }
-
-    public function updateMemberRole(ProjectUpdateMemberRoleRequest $request, Project $project, User $user): RedirectResponse
-    {
-        $this->authorize('update', $project);
-        $this->projectService->updateMemberRole(
-            $project,
-            $user->id,
-            ProjectRole::from($request->validated('role'))
-        );
-        return back();
-    }
 }
