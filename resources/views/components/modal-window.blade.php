@@ -144,9 +144,7 @@
                                 required
                                 class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                             >
-                                <template x-if="availableUsers.length === 0">
-                                    <option value="" disabled selected>{{ __('tasks.loading_users') }}</option>
-                                </template>
+                                <option value="" disabled selected>{{ __('tasks.select_assignee') }}</option>
 
                                 <template x-for="user in availableUsers" :key="user.id">
                                     <option
