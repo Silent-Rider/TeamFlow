@@ -10,7 +10,9 @@
     <div class="flex-1 min-w-0">
         <div class="flex justify-between items-baseline mb-1">
             <span class="font-semibold text-sm text-gray-900 dark:text-white">{{ $comment->user->name }}</span>
-            <span class="text-xs text-gray-400">{{ $comment->created_at->diffForHumans() }}</span>
+            <span class="text-xs text-gray-400">
+                {{ $comment->created_at->translatedFormat('d F, H:i') }}
+            </span>
         </div>
         <p class="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words">{{ $comment->content }}</p>
     </div>

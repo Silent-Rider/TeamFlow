@@ -18,7 +18,7 @@
         </button>
     </div>
 
-    <div class="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
+    <div id="task-chat-container" class="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar" >
         <div x-html="detailsHtml" class="space-y-4"></div>
     </div>
 

@@ -74,7 +74,7 @@
                     </span>
 
                     <div class="flex items-center gap-2 mt-0.5 sm:hidden">
-                        <span class="text-sm text-gray-400 whitespace-nowrap">{{ $task->due_date?->format('d M') }}</span>
+                        <span class="text-sm text-gray-400 whitespace-nowrap">{{ $task->due_date?->translatedFormat('d M') }}</span>
                         @if($priority)
                             <span class="text-xs px-2 py-0.5 rounded font-medium truncate max-w-[100px]
                                 {{ $priority === 'high' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : '' }}
@@ -87,7 +87,7 @@
                 </div>
 
                 <div class="hidden sm:flex items-center gap-3 flex-shrink-0">
-                    <span class="text-base text-gray-400 whitespace-nowrap">{{ $task->due_date?->format('d M') }}</span>
+                    <span class="text-base text-gray-400 whitespace-nowrap">{{ $task->due_date?->translatedFormat('d M') }}</span>
                     @if($priority)
                         <span class="text-sm px-2 py-0.5 rounded font-medium whitespace-nowrap
                             {{ $priority === 'high' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : '' }}

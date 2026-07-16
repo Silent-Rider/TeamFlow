@@ -197,8 +197,13 @@ export default function () {
                 .listen('.comment.created', (e) => {
                     this.detailsHtml += e.html;
                     this.$nextTick(() => {
-                        const chatContainer = document.querySelector('.custom-scrollbar');
-                        if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
+                        const chatContainer = document.getElementById('task-chat-container');
+
+                        if (chatContainer) {
+                            setTimeout(() => {
+                                chatContainer.scrollTop = chatContainer.scrollHeight;
+                            }, 50);
+                        }
                     });
                 });
         },
