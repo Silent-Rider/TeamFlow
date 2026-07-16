@@ -55,6 +55,24 @@ services:
     networks:
       - laravel
 
+  reverb:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+      args:
+        UID: ${UID}
+        GID: ${GID}
+    container_name: laravel-reverb
+    command: php artisan reverb:start --host=0.0.0.0 --port=8080
+    volumes:
+      - .:/var/www/html
+    networks:
+      - laravel
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+
 networks:
   laravel:
     driver: bridge

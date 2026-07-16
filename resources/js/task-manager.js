@@ -30,7 +30,8 @@ export default function () {
             });
 
             this.$watch('$store.projectPanel.html', () => {
-                this.detailsOpen = false;
+                this.closeTaskDetails();
+
                 this.tasksStatus = {};
 
                 this.$nextTick(() => {
@@ -111,6 +112,7 @@ export default function () {
 
             this.currentTaskId = id;
             this.detailsOpen = true;
+            this.subscribeToTask(this.currentTaskId);
 
             this.newCommentText = '';
             this.selectedFile = null;
@@ -151,6 +153,7 @@ export default function () {
         },
 
         closeTaskDetails() {
+            this.unsubscribeFromTask();
             this.detailsOpen = false;
 
             if (this.bottomNav) this.bottomNav.style.display = 'flex';
@@ -168,19 +171,6 @@ export default function () {
             const textToSend = this.newCommentText;
             this.newCommentText = '';
 
-            const tempId = 'temp-' + Date.now();
-            const optimisticHtml = `
-                <div id="${tempId}" class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg opacity-70 animate-pulse">
-                    <div class="flex justify-between text-xs text-gray-500 mb-1">
-                        <span>Вы (только что)</span>
-                        <span>Отправка...</span>
-                    </div>
-                    <p>${textToSend.replace(/\n/g, '<br>')}</p>
-                </div>
-            `;
-
-            this.detailsHtml += optimisticHtml;
-
             try {
                 const response = await fetch(`/tasks/${taskId}/comments`, {
                     method: 'POST',
@@ -194,15 +184,28 @@ export default function () {
                 });
 
                 if (!response.ok) throw new Error('Failed to send comment');
-                const data = await response.json();
-
-                this.detailsHtml = this.detailsHtml.replace(optimisticHtml, '') + data.comment_html;
-
             } catch (error) {
                 console.error('Error sending comment:', error);
                 alert('Не удалось отправить комментарий');
-                this.detailsHtml = this.detailsHtml.replace(optimisticHtml, '');
                 this.newCommentText = textToSend;
+            }
+        },
+
+        subscribeToTask(taskId) {
+            this.unsubscribeFromTask();
+            window.Echo.private(`task.${taskId}`)
+                .listen('.comment.created', (e) => {
+                    this.detailsHtml += e.html;
+                    this.$nextTick(() => {
+                        const chatContainer = document.querySelector('.custom-scrollbar');
+                        if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
+                    });
+                });
+        },
+
+        unsubscribeFromTask() {
+            if (this.currentTaskId) {
+                window.Echo.leave(`task.${this.currentTaskId}`);
             }
         }
     };

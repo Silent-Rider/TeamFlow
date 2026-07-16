@@ -23,6 +23,7 @@ use Illuminate\Support\Carbon;
  * @property int|null $project_id
  * @property string|null $description
  * @method static create(array $data)
+ * @method static find($taskId)
  */
 #[Fillable(['creator_id', 'project_id', 'assignee_id', 'name', 'description', 'priority', 'is_done', 'due_date'])]
 class Task extends Model

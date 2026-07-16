@@ -92,15 +92,10 @@ class TaskController extends Controller
 
     public function addComment(TaskAddCommentRequest $request, Task $task): JsonResponse
     {
-        $comment = $this->taskService->addComment($task, auth()->id(), $request->validated('content'));
+        $this->taskService->addComment($task, auth()->id(), $request->validated('content'));
 
         if ($request->wantsJson()) {
-            return response()->json([
-                'success'      => true,
-                'comment_html' => view('task.partials.task-comment-item', [
-                    'comment' => $comment,
-                ])->render(),
-            ]);
+            return response()->json(['success' => true]);
         }
 
         abort(404);

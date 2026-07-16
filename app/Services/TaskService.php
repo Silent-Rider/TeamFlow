@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
+use App\Events\TaskCommentCreated;
 use App\Models\Task;
-use App\Models\TaskComment;
 use App\Repositories\ProjectRepository;
 use App\Repositories\TaskRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -49,13 +49,14 @@ readonly class TaskService
         $task->delete();
     }
 
-    public function addComment(Task $task, int $userId, string $content): TaskComment
+    public function addComment(Task $task, int $userId, string $content): void
     {
-        /** @var TaskComment $comment */
-        $comment = $task->taskComments()->create([
+        $taskComment = $task->taskComments()->create([
             'user_id' => $userId,
             'content' => $content,
         ]);
-        return $comment->load('user');
+        $taskComment->load('user');
+
+        broadcast(new TaskCommentCreated($taskComment));
     }
 }
