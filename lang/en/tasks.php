@@ -35,5 +35,7 @@ return [
     'description_label' => 'Description',
     'assignee_label' => 'Assignee',
     'priority_label' => 'Priority',
-    'due_date_label' => 'Due Date'
+    'due_date_label' => 'Due Date',
+
+    'file' => 'File: '
 ];

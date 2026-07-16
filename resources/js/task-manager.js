@@ -165,30 +165,40 @@ export default function () {
             if (window.selectedFileName) window.selectedFileName = '';
         },
 
-        async addComment(taskId) {
-            if (!this.newCommentText.trim() || !taskId) return;
+        handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.selectedFile = file;
+                window.selectedFileName = file.name;
+            } else {
+                this.selectedFile = null;
+                window.selectedFileName = '';
+            }
+        },
 
-            const textToSend = this.newCommentText;
-            this.newCommentText = '';
+        async addComment(taskId) {
+            if (!this.newCommentText.trim() && !this.selectedFile) return;
+
+            const formData = new FormData();
+            if (this.newCommentText.trim()) formData.append('content', this.newCommentText);
+            if (this.selectedFile) formData.append('attachment', this.selectedFile);
 
             try {
-                const response = await fetch(`/tasks/${taskId}/comments`, {
+                await fetch(`/tasks/${taskId}/comments`, {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
                     },
-                    body: JSON.stringify({ content: textToSend })
+                    body: formData
                 });
 
-                if (!response.ok) throw new Error('Failed to send comment');
-            } catch (error) {
-                console.error('Error sending comment:', error);
-                alert('Не удалось отправить комментарий');
-                this.newCommentText = textToSend;
-            }
+                this.newCommentText = '';
+                this.selectedFile = null;
+                const fileInput = document.querySelector('input[type="file"]');
+                if (fileInput) fileInput.value = '';
+
+            } catch (error) { console.error(error); }
         },
 
         subscribeToTask(taskId) {

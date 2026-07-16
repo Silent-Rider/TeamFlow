@@ -35,5 +35,7 @@ return [
     'description_label' => 'Описание',
     'assignee_label' => 'Исполнитель',
     'priority_label' => 'Приоритет',
-    'due_date_label' => 'Срок выполнения'
+    'due_date_label' => 'Срок выполнения',
+
+    'file' => 'Файл: '
 ];

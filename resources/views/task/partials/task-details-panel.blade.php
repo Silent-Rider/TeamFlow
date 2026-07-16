@@ -23,13 +23,13 @@
     </div>
 
     <div class="p-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-        <form @submit.prevent="addComment(currentTaskId)">
+        <form @submit.prevent="addComment(currentTaskId)" enctype="multipart/form-data">
             <div class="relative flex items-center gap-2">
                 <label class="flex-shrink-0 p-2 text-gray-400 hover:text-blue-600 cursor-pointer transition-colors flex items-center justify-center h-[40px] w-[40px] rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
                     </svg>
-                    <input type="file" class="hidden" @change="handleFileSelect($event)">
+                    <input type="file" class="hidden" accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.docx,.xlsx,.zip" @change="handleFileSelect($event)">
                 </label>
 
                 <textarea
@@ -53,7 +53,7 @@
                 </button>
             </div>
 
-            <div x-show="selectedFile" class="mt-1 text-xs text-gray-500 truncate" x-text="'Файл: ' + selectedFile"></div>
+            <div x-show="selectedFile" class="mt-1 text-xs text-gray-500 truncate" x-text="'{{ __('tasks.file') }}' + selectedFile?.name"></div>
         </form>
     </div>
 </div>
@@ -82,12 +82,12 @@
     </div>
 
     <div class="flex-none p-3 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] shrink-0">
-        <form @submit.prevent="addComment(currentTaskId)" class="flex gap-2 items-center">
+        <form @submit.prevent="addComment(currentTaskId)" enctype="multipart/form-data" class="flex gap-2 items-center">
             <label class="flex-shrink-0 p-3 text-gray-400 hover:text-blue-600 cursor-pointer transition-colors rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 active:scale-95">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
                 </svg>
-                <input type="file" class="hidden" @change="handleFileSelect($event)">
+                <input type="file" class="hidden" accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.docx,.xlsx,.zip" @change="handleFileSelect($event)">
             </label>
 
             <textarea
@@ -109,6 +109,6 @@
             </button>
         </form>
 
-        <div x-show="selectedFileName" class="mt-1 ml-2 text-xs text-gray-500 truncate" x-text="'Файл: ' + selectedFileName"></div>
+        <div x-show="selectedFile" class="mt-1 ml-2 text-xs text-gray-500 truncate" x-text="'{{ __('tasks.file') }}' + selectedFile?.name"></div>
     </div>
 </div>
