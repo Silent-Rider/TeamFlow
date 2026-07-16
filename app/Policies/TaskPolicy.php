@@ -32,4 +32,11 @@ class TaskPolicy
     {
         return $user->role === UserRole::ADMIN || $task->creator_id === $user->id;
     }
+
+    public function toggle(User $user, Task $task): bool
+    {
+        return $user->role === UserRole::ADMIN
+            || $task->creator_id === $user->id
+            || $task->assignee_id === $user->id;
+    }
 }

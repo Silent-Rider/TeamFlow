@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Task\TaskAddCommentRequest;
 use App\Http\Requests\Task\TaskCreateRequest;
 use App\Http\Requests\Task\TaskIndexRequest;
 use App\Http\Requests\Task\TaskUpdateRequest;
@@ -9,6 +10,7 @@ use App\Models\Task;
 use App\Services\TaskService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class TaskController extends Controller
@@ -60,7 +62,7 @@ class TaskController extends Controller
 
     public function toggle(Task $task): JsonResponse
     {
-        $this->authorize('view', $task);
+        $this->authorize('toggle', $task);
 
         $this->taskService->toggleTask($task);
 
@@ -75,7 +77,6 @@ class TaskController extends Controller
 
     public function show(Task $task): JsonResponse
     {
-        $this->authorize('view', $task);
         $task->load(['taskComments.user', 'assignee']);
 
         if (request()->wantsJson()) {
@@ -87,5 +88,21 @@ class TaskController extends Controller
                 'html' => view('task.partials.task-details', compact('task'))->render(),
             ]);
         } else abort('404');
+    }
+
+    public function addComment(TaskAddCommentRequest $request, Task $task): JsonResponse
+    {
+        $comment = $this->taskService->addComment($task, auth()->id(), $request->validated('content'));
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success'      => true,
+                'comment_html' => view('task.partials.task-comment-item', [
+                    'comment' => $comment,
+                ])->render(),
+            ]);
+        }
+
+        abort(404);
     }
 }

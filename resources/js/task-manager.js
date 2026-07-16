@@ -165,6 +165,9 @@ export default function () {
         async addComment(taskId) {
             if (!this.newCommentText.trim() || !taskId) return;
 
+            const textToSend = this.newCommentText;
+            this.newCommentText = '';
+
             const tempId = 'temp-' + Date.now();
             const optimisticHtml = `
                 <div id="${tempId}" class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg opacity-70 animate-pulse">
@@ -172,18 +175,11 @@ export default function () {
                         <span>Вы (только что)</span>
                         <span>Отправка...</span>
                     </div>
-                    <p>${this.newCommentText.replace(/\n/g, '<br>')}</p>
+                    <p>${textToSend.replace(/\n/g, '<br>')}</p>
                 </div>
             `;
 
-            const commentsContainer = this.$el.querySelector('.space-y-4');
-            if (commentsContainer) {
-                commentsContainer.insertAdjacentHTML('beforeend', optimisticHtml);
-                commentsContainer.scrollTop = commentsContainer.scrollHeight;
-            }
-
-            const textToSend = this.newCommentText;
-            this.newCommentText = '';
+            this.detailsHtml += optimisticHtml;
 
             try {
                 const response = await fetch(`/tasks/${taskId}/comments`, {
@@ -191,25 +187,22 @@ export default function () {
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
                     },
                     body: JSON.stringify({ content: textToSend })
                 });
 
                 if (!response.ok) throw new Error('Failed to send comment');
-
                 const data = await response.json();
 
-                const tempEl = document.getElementById(tempId);
-                if (tempEl) {
-                    tempEl.outerHTML = data.comment_html;
-                } else if (commentsContainer) {
-                    commentsContainer.insertAdjacentHTML('beforeend', data.comment_html);
-                }
+                this.detailsHtml = this.detailsHtml.replace(optimisticHtml, '') + data.comment_html;
 
             } catch (error) {
                 console.error('Error sending comment:', error);
                 alert('Не удалось отправить комментарий');
+                this.detailsHtml = this.detailsHtml.replace(optimisticHtml, '');
+                this.newCommentText = textToSend;
             }
         }
     };
