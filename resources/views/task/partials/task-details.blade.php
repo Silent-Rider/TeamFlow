@@ -29,7 +29,7 @@
         @forelse($task->taskComments as $comment)
             @include('task.partials.task-comment-item', ['comment' => $comment])
         @empty
-            <div class="text-center py-8 text-gray-400 text-sm italic">
+            <div id="task_no_comments" class="text-center py-8 text-gray-400 text-sm italic">
                 {{ __('tasks.no_comments') }}
             </div>
         @endforelse

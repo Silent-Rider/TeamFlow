@@ -197,6 +197,10 @@ export default function () {
                 .listen('.comment.created', (e) => {
                     this.detailsHtml += e.html;
                     this.$nextTick(() => {
+                        const noComments = document.getElementById('task_no_comments');
+                        if (noComments) {
+                            noComments.remove();
+                        }
                         const chatContainer = document.getElementById('task-chat-container');
 
                         if (chatContainer) {
