@@ -202,10 +202,12 @@ export default function () {
                             noComments.remove();
                         }
                         const chatContainer = document.getElementById('task-chat-container');
+                        const mobileChatContainer = document.getElementById('mobile-task-chat-container');
 
-                        if (chatContainer) {
+                        if (chatContainer && mobileChatContainer) {
                             setTimeout(() => {
                                 chatContainer.scrollTop = chatContainer.scrollHeight;
+                                mobileChatContainer.scrollTop = mobileChatContainer.scrollHeight;
                             }, 50);
                         }
                     });

@@ -77,7 +77,7 @@
         </div>
     </div>
 
-    <div class="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-gray-50 dark:bg-gray-900 min-h-0">
+    <div id="mobile-task-chat-container" class="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-gray-50 dark:bg-gray-900 min-h-0">
         <div x-html="detailsHtml" class="space-y-4 pb-2"></div>
     </div>
 
