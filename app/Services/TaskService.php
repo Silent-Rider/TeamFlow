@@ -9,6 +9,7 @@ use App\Repositories\ProjectRepository;
 use App\Repositories\TaskRepository;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Storage;
 
 readonly class TaskService
 {
@@ -48,6 +49,11 @@ readonly class TaskService
 
     public function deleteTask(Task $task): void
     {
+        $attachmentDir = 'attachments/' . $task->id;
+
+        if (Storage::disk('public')->exists($attachmentDir)) {
+            Storage::disk('public')->deleteDirectory($attachmentDir);
+        }
         $task->delete();
     }
 
