@@ -34,7 +34,7 @@ class TaskCommentCreated implements ShouldBroadcastNow
     {
         return [
             'html' => view('task.partials.task-comment-item', [
-                'comment' => $this->taskComment->load('attachments'),
+                'comment' => $this->taskComment
             ])->render(),
         ];
     }

@@ -70,6 +70,6 @@ readonly class TaskService
         }
 
         $comment->load(['user', 'attachments']);
-        broadcast(new TaskCommentCreated($comment))->toOthers();
+        broadcast(new TaskCommentCreated($comment));
     }
 }
