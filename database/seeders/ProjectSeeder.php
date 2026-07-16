@@ -16,8 +16,17 @@ class ProjectSeeder extends Seeder
         if ($users->isEmpty()) {
             return;
         }
+
+        $firstUser = $users->first();
+        $firstProject = Project::factory()
+            ->create([
+                'creator_id' => $firstUser->id,
+                'created_at' => fake()->dateTimeBetween($firstUser->created_at),
+                'company_id' => $firstUser->company_id,
+            ]);
+
         $projects = Project::factory()
-            ->count(7)
+            ->count(6)
             ->state(function () use ($users) {
                 $randomUser = $users->random();
                 return [
@@ -27,6 +36,7 @@ class ProjectSeeder extends Seeder
                 ];
             })
             ->create();
+        $projects->prepend($firstProject);
 
         $projects->each(function (Project $project) use ($users) {
             $companyUsers = $users->where('company_id', $project->company_id);
