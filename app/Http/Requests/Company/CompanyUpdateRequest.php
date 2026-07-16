@@ -17,7 +17,7 @@ class CompanyUpdateRequest extends FormRequest
         return [
             'name' => ['sometimes', 'string', 'max:32'],
             'description' => ['nullable', 'string', 'max:2000'],
-            'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
         ];
     }
 }
