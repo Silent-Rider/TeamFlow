@@ -42,6 +42,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::patch('/{task}/toggle', 'toggle')->name('tasks.toggle');
             Route::get('/{task}', 'show')->name('tasks.show');
             Route::post('/{task}/comments', 'addComment')->name('tasks.comments');
+            Route::get('/attachments/{attachment}/download', [TaskController::class, 'downloadAttachment'])->name('tasks.attachments.download');
         });
 
         Route::controller(ProjectController::class)->prefix('projects')->group(function () {

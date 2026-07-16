@@ -27,7 +27,7 @@ class AttachmentSeeder extends Seeder
 
             if (File::exists($fullPath)) {
                 $comment = $taskComments->get($i);
-                $destinationPath = 'attachments/' . $fileName;
+                $destinationPath = 'attachments/' . "{$comment->task_id}/" . $fileName;
                 $fileContent = File::get($fullPath);
 
                 Storage::disk('public')->put($destinationPath, $fileContent);

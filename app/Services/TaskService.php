@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\Events\TaskCommentCreated;
+use App\Models\Attachment;
 use App\Models\Task;
 use App\Repositories\ProjectRepository;
 use App\Repositories\TaskRepository;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 readonly class TaskService
@@ -49,14 +51,25 @@ readonly class TaskService
         $task->delete();
     }
 
-    public function addComment(Task $task, int $userId, string $content): void
+    public function addComment(Task $task, int $userId, string $content, ?UploadedFile $file = null): void
     {
-        $taskComment = $task->taskComments()->create([
+        $comment = $task->taskComments()->create([
             'user_id' => $userId,
             'content' => $content,
         ]);
-        $taskComment->load('user');
 
-        broadcast(new TaskCommentCreated($taskComment));
+        if ($file) {
+            $path = $file->store('attachments/' . $task->id, 'public');
+
+            Attachment::create([
+                'task_comment_id' => $comment->id,
+                'name' => $file->getClientOriginalName(),
+                'extension' => $file->getClientOriginalExtension(),
+                'filepath' => $path,
+            ]);
+        }
+
+        $comment->load(['user', 'attachments']);
+        broadcast(new TaskCommentCreated($comment))->toOthers();
     }
 }

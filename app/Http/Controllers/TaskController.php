@@ -6,12 +6,15 @@ use App\Http\Requests\Task\TaskAddCommentRequest;
 use App\Http\Requests\Task\TaskCreateRequest;
 use App\Http\Requests\Task\TaskIndexRequest;
 use App\Http\Requests\Task\TaskUpdateRequest;
+use App\Models\Attachment;
 use App\Models\Task;
 use App\Services\TaskService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class TaskController extends Controller
 {
@@ -92,12 +95,21 @@ class TaskController extends Controller
 
     public function addComment(TaskAddCommentRequest $request, Task $task): JsonResponse
     {
-        $this->taskService->addComment($task, auth()->id(), $request->validated('content'));
+        $this->taskService->addComment(
+            $task,
+            auth()->id(),
+            $request->validated('content'),
+            $request->file('attachment'));
 
         if ($request->wantsJson()) {
             return response()->json(['success' => true]);
         }
 
         abort(404);
+    }
+
+    public function downloadAttachment(Attachment $attachment): StreamedResponse|RedirectResponse
+    {
+        return Storage::disk('public')->download($attachment->filepath, $attachment->name);
     }
 }
