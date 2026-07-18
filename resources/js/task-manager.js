@@ -167,6 +167,13 @@ export default function () {
 
         handleFileSelect(event) {
             const file = event.target.files[0];
+            const maxSize = 30720 * 1024;
+
+            if (file && file.size > maxSize) {
+                event.target.value = '';
+                return;
+            }
+
             if (file) {
                 this.selectedFile = file;
                 window.selectedFileName = file.name;

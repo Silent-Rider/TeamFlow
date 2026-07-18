@@ -16,7 +16,7 @@ class TaskAddCommentRequest extends FormRequest
     {
         return [
             'content' => ['required', 'string', 'max:2000'],
-            'attachment' => ['nullable', 'file', 'mimes:jpg,jpeg,png,gif,webp,pdf,docx,xlsx,zip', 'max:5120']
+            'attachment' => ['nullable', 'file', 'mimes:jpg,jpeg,png,gif,webp,pdf,docx,xlsx,zip', 'max:30720']
         ];
     }
 }
