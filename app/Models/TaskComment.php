@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
  * @property string $content
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @method static where(string $string, string $string1)
  */
 #[Fillable(['task_id', 'user_id', 'content'])]
 class TaskComment extends Model
