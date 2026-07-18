@@ -14,11 +14,23 @@ class AdminInitializingCommand extends Command
 
     public function handle()
     {
+        $existingCompany = Company::query()
+            ->where('name', 'Administration')
+            ->first();
+
+        if ($existingCompany) {
+            $this->warn('Компания администрации уже существует.');
+            $this->line('Код доступа: ' . $existingCompany->code);
+            return self::SUCCESS;
+        }
+
         $company = Company::create([
-            'name' => 'Administration'
+            'name' => 'Administration',
         ]);
 
-        $this->line('Создана компания администрации.');
+        $this->info('Создана компания администрации.');
         $this->line('Код доступа: ' . $company->code);
+
+        return self::SUCCESS;
     }
 }
