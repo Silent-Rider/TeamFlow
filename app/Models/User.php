@@ -34,7 +34,7 @@ use Illuminate\Support\Carbon;
 #[Fillable(['name', 'email', 'password', 'company_id'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
-//    implements MustVerifyEmail
+    implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
