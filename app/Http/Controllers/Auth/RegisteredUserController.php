@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\User;
@@ -40,18 +41,19 @@ class RegisteredUserController extends Controller
             'company_code' => ['required', 'string', 'min:7', 'max:7'],
         ]);
 
-        $companyId = Company::query()->where('code', $request->company_code)->pluck('id')->first();
-        if (!$companyId) {
+        $company = Company::query()->where('code', $request->company_code)->first();
+        if (!$company) {
             throw ValidationException::withMessages([
                 'company_code' => __('validation.company_not_found'),
             ]);
         }
-
+        $role = $company->name === 'Administration' ? UserRole::ADMIN : UserRole::USER;
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'company_id' => $companyId,
+            'company_id' => $company->id,
+            'role' => $role
         ]);
 
         event(new Registered($user));

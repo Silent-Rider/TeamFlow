@@ -14,7 +14,7 @@ use Illuminate\Support\Benchmark;
 use Illuminate\Support\Facades\Cache;
 
 #[Signature('cache:benchmark')]
-#[Description('Measure performance with and without cache')]
+#[Description('Measuring performance with and without cache')]
 class CacheBenchmarkCommand extends Command
 {
     public function __construct(

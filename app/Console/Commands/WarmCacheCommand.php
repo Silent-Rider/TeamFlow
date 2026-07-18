@@ -12,7 +12,7 @@ use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
 #[Signature('cache:warm')]
-#[Description('Warming up the cache of user and project lists')]
+#[Description('Warming up the cache of user, project and company lists')]
 class WarmCacheCommand extends Command
 {
     public function __construct(

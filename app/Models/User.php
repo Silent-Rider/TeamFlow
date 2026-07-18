@@ -31,7 +31,7 @@ use Illuminate\Support\Carbon;
  * @method static hydrate(mixed $items)
  * @method static create(array $array)
  */
-#[Fillable(['name', 'email', 'password', 'company_id'])]
+#[Fillable(['name', 'email', 'password', 'company_id', 'role'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
     implements MustVerifyEmail
