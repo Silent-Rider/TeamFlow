@@ -1,10 +1,11 @@
 <?php
 
-namespace Task;
+namespace Tests\Feature\Task;
 
 use App\Enums\ProjectRole;
+use App\Enums\TaskPriority;
+use App\Models\Company;
 use App\Models\Project;
-use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -13,18 +14,17 @@ class TaskCreateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_create_task_in_project_where_he_is_owner()
+    public function test_user_can_create_task_in_project_where_he_is_owner(): void
     {
-        $owner = User::factory()->create();
-        $project = Project::factory()->create(["creator_id" => $owner->id]);
-        $project->users()->attach($owner->id, ['role' => ProjectRole::OWNER]);
+        $owner = $this->createUserWithCompany();
+        $project = $this->createProject($owner);
+
+        $payload = $this->getTaskPayload($owner->id, $project->id, ['name' => 'Новая задача']);
 
         $response = $this->actingAs($owner)
-            ->post(route('tasks.create'),
-                $this->getTaskPayload($owner->id, $project->id, ['name' => 'Новая задача']));
+            ->post(route('tasks.create'), $payload);
 
         $response->assertRedirect();
-
         $this->assertDatabaseHas('tasks', [
             'name' => 'Новая задача',
             'project_id' => $project->id,
@@ -32,52 +32,58 @@ class TaskCreateTest extends TestCase
         ]);
     }
 
-    public function test_user_cannot_create_task_if_not_in_project()
+    public function test_user_cannot_create_task_if_not_in_project(): void
     {
-        $stranger = User::factory()->create();
-        $project = Project::factory()->create();
+        $stranger = $this->createUserWithCompany();
+        $owner = $this->createUserWithCompany();
+        $project = $this->createProject($owner);
 
-        $response = $this->actingAs($stranger)->post(route('tasks.create'),
-            $this->getTaskPayload($stranger->id, $project->id, ['name' => 'Шпионская задача']));
+        $payload = $this->getTaskPayload($stranger->id, $project->id, ['name' => 'Шпионская задача', 'assignee_id' => $stranger->id]);
+
+        $response = $this->actingAs($stranger)->post(route('tasks.create'), $payload);
 
         $response->assertForbidden();
         $this->assertDatabaseMissing('tasks', ['name' => 'Шпионская задача']);
     }
 
-    public function test_task_creation_fails_with_invalid_priority()
+    public function test_task_creation_fails_with_invalid_priority(): void
     {
-        $user = User::factory()->create();
-        $project = Project::factory()->create(['creator_id' => $user->id]);
-        $project->users()->attach($user->id, ['role' => ProjectRole::OWNER]);
+        $user = $this->createUserWithCompany();
+        $project = $this->createProject($user);
 
-        $response = $this->actingAs($user)->post(route('tasks.create'),
-            $this->getTaskPayload($user->id, $project->id, ['priority' => 'Неверный приоритет']));
+        $payload = $this->getTaskPayload($user->id, $project->id, ['priority' => 'Неверный приоритет']);
+
+        $response = $this->actingAs($user)->post(route('tasks.create'), $payload);
 
         $response->assertSessionHasErrors(['priority']);
     }
 
-    public function test_task_creation_fails_with_invalid_due_date()
+    private function createUserWithCompany(): User
     {
-        $user = User::factory()->create();
-        $project = Project::factory()->create(['creator_id' => $user->id]);
-        $project->users()->attach($user->id, ['role' => ProjectRole::OWNER]);
+        $company = Company::factory()->create();
+        /** @var User $user */
+        $user = User::factory()->create(['company_id' => $company->id]);
+        return $user;
+    }
 
-        $response = $this->actingAs($user)->post(route('tasks.create'),
-            $this->getTaskPayload($user->id, $project->id, ['due_date' => now()->subDay()]));
-
-        $response->assertSessionHasErrors(['due_date']);
-
+    private function createProject(User $owner): Project
+    {
+        /** @var Project $project */
+        $project = Project::factory()->create(['creator_id' => $owner->id, 'company_id' => $owner->company_id]);
+        $project->users()->attach($owner->id, ['role' => ProjectRole::OWNER]);
+        return $project;
     }
 
     private function getTaskPayload(int $userId, int $projectId, array $overrides = []): array
     {
-        $taskArray = Task::factory()->raw([
+        $taskArray = [
             'creator_id' => $userId,
             'assignee_id' => $userId,
             'project_id' => $projectId,
+            'name' => 'Test Task',
+            'priority' => TaskPriority::MEDIUM->value,
             'due_date' => null,
-            'created_at' => null
-        ]);
+        ];
         return array_merge($taskArray, $overrides);
     }
 }

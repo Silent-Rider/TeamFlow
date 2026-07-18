@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,7 +16,7 @@ class EmailVerificationTest extends TestCase
 
     public function test_email_verification_screen_can_be_rendered(): void
     {
-        $user = User::factory()->unverified()->create();
+        $user = $this->createUnverifiedUser();
 
         $response = $this->actingAs($user)->get('/verify-email');
 
@@ -24,8 +25,7 @@ class EmailVerificationTest extends TestCase
 
     public function test_email_can_be_verified(): void
     {
-        $user = User::factory()->unverified()->create();
-
+        $user = $this->createUnverifiedUser();
         Event::fake();
 
         $verificationUrl = URL::temporarySignedRoute(
@@ -43,7 +43,7 @@ class EmailVerificationTest extends TestCase
 
     public function test_email_is_not_verified_with_invalid_hash(): void
     {
-        $user = User::factory()->unverified()->create();
+        $user = $this->createUnverifiedUser();
 
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
@@ -54,5 +54,13 @@ class EmailVerificationTest extends TestCase
         $this->actingAs($user)->get($verificationUrl);
 
         $this->assertFalse($user->fresh()->hasVerifiedEmail());
+    }
+
+    private function createUnverifiedUser(): User
+    {
+        $company = Company::factory()->create();
+        /** @var User $user */
+        $user = User::factory()->unverified()->create(['company_id' => $company->id]);
+        return $user;
     }
 }

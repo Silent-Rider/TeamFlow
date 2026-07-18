@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Project;
+use App\Models\User;
 use App\Repositories\ProjectRepository;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -24,11 +25,13 @@ readonly class ProjectService
 
     public function createProject(array $data): void
     {
+        $company_id = User::find($data['creator_id'])->company_id;
         $memberIds = collect($data['members'] ?? [])
             ->reject(fn ($id) => (int) $id === (int) $data['creator_id'])
             ->values()
             ->all();
         $projectData = Arr::except($data, ['members']);
+        $projectData['company_id'] = $company_id;
         $this->projectRepository->createProject(projectData: $projectData, memberIds:  $memberIds);
     }
 

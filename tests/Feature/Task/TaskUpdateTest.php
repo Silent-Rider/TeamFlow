@@ -1,13 +1,13 @@
 <?php
 
-namespace Task;
+namespace Tests\Feature\Task;
 
 use App\Enums\ProjectRole;
 use App\Enums\TaskPriority;
+use App\Models\Company;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,9 +15,9 @@ class TaskUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_update_task_details()
+    public function test_user_can_update_task_details(): void
     {
-        $user = User::factory()->create();
+        $user = $this->createUserWithCompany();
         $task = $this->createTask($user);
 
         $response = $this->actingAs($user)
@@ -28,7 +28,6 @@ class TaskUpdateTest extends TestCase
             ]);
 
         $response->assertRedirect();
-
         $this->assertDatabaseHas('tasks', [
             'id' => $task->id,
             'name' => 'Обновленное название',
@@ -37,11 +36,10 @@ class TaskUpdateTest extends TestCase
         ]);
     }
 
-    public function test_user_cannot_update_task_if_they_do_not_have_access()
+    public function test_user_cannot_update_task_if_they_do_not_have_access(): void
     {
-        $owner = User::factory()->create();
-        $stranger = User::factory()->create();
-
+        $owner = $this->createUserWithCompany();
+        $stranger = $this->createUserWithCompany();
         $task = $this->createTask($owner);
 
         $response = $this->actingAs($stranger)
@@ -50,13 +48,12 @@ class TaskUpdateTest extends TestCase
             ]);
 
         $response->assertForbidden();
-
         $this->assertDatabaseMissing('tasks', ['name' => 'Попытка взлома']);
     }
 
-    public function test_update_fails_with_invalid_priority()
+    public function test_update_fails_with_invalid_priority(): void
     {
-        $user = User::factory()->create();
+        $user = $this->createUserWithCompany();
         $task = $this->createTask($user);
 
         $response = $this->actingAs($user)
@@ -67,17 +64,31 @@ class TaskUpdateTest extends TestCase
         $response->assertSessionHasErrors(['priority']);
     }
 
-    private function createTask(User $user): Model
+    private function createUserWithCompany(): User
     {
-        $project = Project::factory()->create(['creator_id' => $user->id]);
-        $project->users()->attach($user->id, ['role' => ProjectRole::OWNER]);
+        $company = Company::factory()->create();
+        /** @var User $user */
+        $user = User::factory()->create(['company_id' => $company->id]);
+        return $user;
+    }
 
-        return Task::factory()->create([
+    private function createTask(User $user): Task
+    {
+        $project = $this->createProject($user);
+        /** @var Task $task */
+        $task = Task::factory()->create([
             'project_id' => $project->id,
             'assignee_id' => $user->id,
-            'creator_id' => $user->id,
-            'is_done' => false,
-            'priority' => TaskPriority::LOW->value
+            'creator_id' => $user->id
         ]);
+        return $task;
+    }
+
+    private function createProject(User $owner): Project
+    {
+        /** @var Project $project */
+        $project = Project::factory()->create(['creator_id' => $owner->id, 'company_id' => $owner->company_id]);
+        $project->users()->attach($owner->id, ['role' => ProjectRole::OWNER]);
+        return $project;
     }
 }

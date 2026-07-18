@@ -1,8 +1,9 @@
 <?php
 
-namespace Project;
+namespace Tests\Feature\Project;
 
 use App\Enums\ProjectRole;
+use App\Models\Company;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -12,9 +13,9 @@ class ProjectCreateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_create_project()
+    public function test_user_can_create_project(): void
     {
-        $user = User::factory()->create();
+        $user = $this->createUserWithCompany();
 
         $response = $this->actingAs($user)->post(route('projects.create'), [
             'name' => 'Новый проект',
@@ -22,7 +23,6 @@ class ProjectCreateTest extends TestCase
         ]);
 
         $response->assertRedirect();
-
         $this->assertDatabaseHas('projects', [
             'name' => 'Новый проект',
             'creator_id' => $user->id,
@@ -38,9 +38,9 @@ class ProjectCreateTest extends TestCase
         );
     }
 
-    public function test_project_creation_fails_without_name()
+    public function test_project_creation_fails_without_name(): void
     {
-        $user = User::factory()->create();
+        $user = $this->createUserWithCompany();
 
         $response = $this->actingAs($user)->post(route('projects.create'), [
             'name' => '',
@@ -49,14 +49,23 @@ class ProjectCreateTest extends TestCase
         $response->assertSessionHasErrors(['name']);
     }
 
-    public function test_project_creation_fails_with_too_long_description()
+    public function test_project_creation_fails_with_too_long_description(): void
     {
-        $user = User::factory()->create();
+        $user = $this->createUserWithCompany();
 
         $response = $this->actingAs($user)->post(route('projects.create'), [
+            'name' => 'Valid Name',
             'description' => str()->random(2001),
         ]);
 
         $response->assertSessionHasErrors(['description']);
+    }
+
+    private function createUserWithCompany(): User
+    {
+        $company = Company::factory()->create();
+        /** @var User $user */
+        $user = User::factory()->create(['company_id' => $company->id]);
+        return $user;
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
-namespace Project;
+namespace Tests\Feature\Project;
 
 use App\Enums\ProjectRole;
+use App\Models\Company;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -12,11 +13,10 @@ class ProjectUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_owner_can_update_project()
+    public function test_owner_can_update_project(): void
     {
-        $owner = User::factory()->create();
-        $project = Project::factory()->create(['creator_id' => $owner->id]);
-        $project->users()->attach($owner->id, ['role' => ProjectRole::OWNER]);
+        $owner = $this->createUserWithCompany();
+        $project = $this->createProject($owner);
 
         $response = $this->actingAs($owner)->put(route('projects.update', $project), [
             'name' => 'Обновленное название',
@@ -26,13 +26,12 @@ class ProjectUpdateTest extends TestCase
         $this->assertDatabaseHas('projects', ['id' => $project->id, 'name' => 'Обновленное название']);
     }
 
-    public function test_member_cannot_update_project()
+    public function test_member_cannot_update_project(): void
     {
-        $owner = User::factory()->create();
-        $member = User::factory()->create();
+        $owner = $this->createUserWithCompany();
+        $member = $this->createUserWithCompany();
+        $project = $this->createProject($owner);
 
-        $project = Project::factory()->create(['creator_id' => $owner->id]);
-        $project->users()->attach($owner->id, ['role' => ProjectRole::OWNER]);
         $project->users()->attach($member->id, ['role' => ProjectRole::MEMBER]);
 
         $response = $this->actingAs($member)->put(route('projects.update', $project), [
@@ -40,5 +39,21 @@ class ProjectUpdateTest extends TestCase
         ]);
 
         $response->assertForbidden();
+    }
+
+    private function createUserWithCompany(): User
+    {
+        $company = Company::factory()->create();
+        /** @var User $user */
+        $user = User::factory()->create(['company_id' => $company->id]);
+        return $user;
+    }
+
+    private function createProject(User $owner): Project
+    {
+        /** @var Project $project */
+        $project = Project::factory()->create(['creator_id' => $owner->id, 'company_id' => $owner->company_id]);
+        $project->users()->attach($owner->id, ['role' => ProjectRole::OWNER]);
+        return $project;
     }
 }

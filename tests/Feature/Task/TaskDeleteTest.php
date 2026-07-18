@@ -1,12 +1,12 @@
 <?php
 
-namespace Task;
+namespace Tests\Feature\Task;
 
 use App\Enums\ProjectRole;
+use App\Models\Company;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,9 +14,9 @@ class TaskDeleteTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_delete_task()
+    public function test_user_can_delete_task(): void
     {
-        $user = User::factory()->create();
+        $user = $this->createUserWithCompany();
         $task = $this->createTask($user);
 
         $response = $this->actingAs($user)
@@ -26,11 +26,10 @@ class TaskDeleteTest extends TestCase
         $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
     }
 
-    public function test_user_cannot_delete_task_if_they_do_not_have_access()
+    public function test_user_cannot_delete_task_if_they_do_not_have_access(): void
     {
-        $owner = User::factory()->create();
-        $stranger = User::factory()->create();
-
+        $owner = $this->createUserWithCompany();
+        $stranger = $this->createUserWithCompany();
         $task = $this->createTask($owner);
 
         $response = $this->actingAs($stranger)
@@ -40,15 +39,31 @@ class TaskDeleteTest extends TestCase
         $this->assertDatabaseHas('tasks', ['id' => $task->id]);
     }
 
-    private function createTask(User $user): Model
+    private function createUserWithCompany(): User
     {
-        $project = Project::factory()->create(['creator_id' => $user->id]);
-        $project->users()->attach($user->id, ['role' => ProjectRole::OWNER]);
+        $company = Company::factory()->create();
+        /** @var User $user */
+        $user = User::factory()->create(['company_id' => $company->id]);
+        return $user;
+    }
 
-        return Task::factory()->create([
+    private function createTask(User $user): Task
+    {
+        $project = $this->createProject($user);
+        /** @var Task $task */
+        $task = Task::factory()->create([
             'project_id' => $project->id,
             'assignee_id' => $user->id,
             'creator_id' => $user->id
         ]);
+        return $task;
+    }
+
+    private function createProject(User $owner): Project
+    {
+        /** @var Project $project */
+        $project = Project::factory()->create(['creator_id' => $owner->id, 'company_id' => $owner->company_id]);
+        $project->users()->attach($owner->id, ['role' => ProjectRole::OWNER]);
+        return $project;
     }
 }
