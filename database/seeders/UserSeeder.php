@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         User::factory()->create(array_merge([
             'name' => 'Silent Rider',
             'email' => 'silent.30.rider.10@gmail.com',
-            'role' => UserRole::ADMIN],
+            'role' => UserRole::USER],
             $this->getCompanyAttributes($companies->random())));
 
         foreach ($companies as $company) {
