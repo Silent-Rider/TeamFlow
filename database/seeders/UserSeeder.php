@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             $this->getCompanyAttributes($companies->random())));
 
         foreach ($companies as $company) {
-            User::factory()->count(3)->create($this->getCompanyAttributes($company));
+            User::factory()->count(5)->create($this->getCompanyAttributes($company));
             User::factory()->unverified()->count(1)->create($this->getCompanyAttributes($company));
         }
     }
