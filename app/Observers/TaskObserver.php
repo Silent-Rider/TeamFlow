@@ -11,13 +11,17 @@ class TaskObserver
 {
     public function created(Task $task): void
     {
-        if ($task->assignee_id) {
-            $task->assignee->notify(new TaskAssignedNotification($task));
+        if ($task->assignee_id === $task->creator_id) {
+            return;
         }
+        $task->assignee->notify(new TaskAssignedNotification($task));
     }
 
     public function updated(Task $task): void
     {
+        if ($task->assignee_id === $task->creator_id) {
+            return;
+        }
         if ($task->wasChanged('assignee_id') && $task->assignee_id) {
             $task->assignee->notify(new TaskAssignedNotification($task));
         }
