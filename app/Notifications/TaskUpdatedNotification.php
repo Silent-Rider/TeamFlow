@@ -4,10 +4,11 @@ namespace App\Notifications;
 
 use App\Models\Task;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TaskUpdatedNotification extends Notification
+class TaskUpdatedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -23,7 +24,8 @@ class TaskUpdatedNotification extends Notification
 
     public function toMail(object $notifiable): MailMessage
     {
-        $taskName = "#{$this->task->id} {$this->task->name}";
+        sleep(30);
+        $taskName = "\"#{$this->task->id} {$this->task->name}\"";
         return (new MailMessage)
             ->subject(__('tasks.updated_task') . ": " . $taskName)
             ->line(__('tasks.updated_task_info') . " " . $taskName . ".")
