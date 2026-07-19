@@ -37,5 +37,18 @@ return [
     'priority_label' => 'Приоритет',
     'due_date_label' => 'Срок выполнения',
 
-    'file' => 'Файл: '
+    'file' => 'Файл: ',
+
+    'new_task' => 'Новая задача',
+    'you_assigned_to_task' => 'Вы назначены исполнителем задачи',
+    'go_to_task' => 'Перейти к задаче',
+    'good_luck' => 'Удачи в работе!',
+
+    'updated_task' => 'Обновлена задача',
+    'updated_task_info' => 'Обновлена информация по задаче',
+
+    'status_changed' => 'Изменен статус задачи',
+    'completion_status_changed' => 'Изменен статус выполнения задачи',
+    'to' => 'на',
+    'uncompleted' => 'Не выполнено'
 ];

@@ -37,5 +37,18 @@ return [
     'priority_label' => 'Priority',
     'due_date_label' => 'Due Date',
 
-    'file' => 'File: '
+    'file' => 'File: ',
+
+    'new_task' => 'New task',
+    'you_assigned_to_task' => 'You have been assigned to the task',
+    'go_to_task' => 'Go to the task',
+    'good_luck' => 'Good luck with your work!',
+
+    'updated_task' => 'Updated task',
+    'updated_task_info' => 'Information has been updated for the task',
+
+    'status_changed' => 'Status changed for the task',
+    'completion_status_changed' => 'Completion status has been changed for the task',
+    'to' => 'to',
+    'uncompleted' => "Uncompleted",
 ];
