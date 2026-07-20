@@ -23,7 +23,6 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::middleware(['admin'])->group(function () {
-
         Route::controller(CompanyController::class)->prefix('companies')->group(function () {
             Route::get('/', 'index')->name('companies');
             Route::post('/', 'create')->name('companies.create');
@@ -33,16 +32,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::middleware(['user'])->group(function () {
-
         Route::controller(TaskController::class)->prefix('tasks')->group(function () {
             Route::get('/', 'index')->name('tasks');
             Route::post('/', 'create')->name('tasks.create');
             Route::put('/{task}', 'update')->name('tasks.update');
             Route::delete('/{task}', 'destroy')->name('tasks.destroy');
+
             Route::patch('/{task}/toggle', 'toggle')->name('tasks.toggle');
             Route::get('/{task}', 'show')->name('tasks.show');
             Route::post('/{task}/comments', 'addComment')->name('tasks.comments');
-            Route::get('/attachments/{attachment}/download', [TaskController::class, 'downloadAttachment'])->name('tasks.attachments.download');
+            Route::get('/attachments/{attachment}/download', 'downloadAttachment')
+                ->name('tasks.attachments.download');
         });
 
         Route::controller(ProjectController::class)->prefix('projects')->group(function () {
