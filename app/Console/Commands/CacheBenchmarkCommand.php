@@ -42,8 +42,17 @@ class CacheBenchmarkCommand extends Command
             $isUsers = true;
             $isProjects = true;
         }
+        $user = null;
         if ($isUsers || $isProjects) {
-            $user = User::query()->limit(5)->get()->random();
+            $users = User::query()->limit(5)->get();
+
+            if ($users->isEmpty()) {
+                $this->error('Ошибка: В базе данных отсутствуют пользователи.');
+                $this->line('Пожалуйста, выполните регистрацию или запустите сидеры перед запуском бенчмарка.');
+                return self::FAILURE;
+            }
+
+            $user = $users->random();
         }
 
         $companiesCacheResult = $isCompanies ? $this->companiesBenchmark($iterations) : [];
