@@ -24,7 +24,6 @@ class TaskUpdatedNotification extends Notification implements ShouldQueue
 
     public function toMail(object $notifiable): MailMessage
     {
-        sleep(30);
         $taskName = "\"#{$this->task->id} {$this->task->name}\"";
         return (new MailMessage)
             ->subject(__('tasks.updated_task') . ": " . $taskName)
